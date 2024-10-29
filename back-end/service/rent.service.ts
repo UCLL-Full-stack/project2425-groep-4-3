@@ -5,7 +5,7 @@ const getAllRents = (): Rent[] => rentDb.getAllrents();
 
 const getRentById = (id: number): Rent => {
     const rent = rentDb.getRentById({ id });
-    if (!rent) throw new Error(`rent with id ${id} does not exist.`);
+    if (!rent) throw new Error(`rent with id: ${id} does not exist.`);
     return rent;
 };
 
