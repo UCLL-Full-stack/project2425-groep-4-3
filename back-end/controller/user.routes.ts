@@ -50,7 +50,7 @@ const userRouter = express.Router();
  *               items:
  *                  $ref: '#/components/schemas/User'
  */
-userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await userService.getAllUsers();
         res.status(200).json(users);
@@ -79,7 +79,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *            schema:
  *              $ref: '#/components/schemas/User'
  */
-userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const idParam: string = req.params.id;
         const user = await userService.getUserById(parseInt(idParam, 10));

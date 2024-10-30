@@ -3,6 +3,7 @@ import { User } from '@types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import UserService from '@services/UserService';
+import UserOverviewTable from '@components/users/UserOverviewTable';
 
 
 const Users: React.FC = () => {
@@ -27,7 +28,7 @@ const Users: React.FC = () => {
         <section>
           <h2>User overview</h2>
           {users &&(
-            // <BikeOverviewTable bikes={bikes}></BikeOverviewTable>
+            <UserOverviewTable users={users}></UserOverviewTable>
           )}
         </section>
       </main>

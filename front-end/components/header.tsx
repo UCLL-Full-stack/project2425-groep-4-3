@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <Link href="/Rent" className="nav-link px-4 fs-5 text-white">
           Rent
         </Link>
-        <Link href="/Users" className="nav-link px-4 fs-5 text-white">
+        <Link href="/users" className="nav-link px-4 fs-5 text-white">
           Users
         </Link>
       </nav>
