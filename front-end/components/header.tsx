@@ -11,9 +11,10 @@ const Header: React.FC = () => {
           Home
         </Link>
 
-        <Link href="/Rent" className="nav-link px-4 fs-5 text-white">
+        {/* pas met relatie */}
+        {/* <Link href="/Rent" className="nav-link px-4 fs-5 text-white">   
           Rent
-        </Link>
+        </Link> */}
 
         <Link href="/bikes" className="nav-link px-4 fs-5 text-white">
           Bikes
