@@ -1,13 +1,15 @@
+import {Size} from "../types"
 export class Bike{
     private bikeId?: number;
     private brand: String;
     private model: String;
     private location: String;
-    private size: "S" | "M" | "L" | "XL";
+    private size: Size;
     private cost: number;
 
 
-    constructor(bike: {bikeId?: number; brand: string,model: string,location: string,size: "S" | "M" | "L" | "XL",cost: number}) {
+
+    constructor(bike: {bikeId?: number; brand: string,model: string,location: string,size: Size,cost: number}) {
         this.validate(bike);
         this.bikeId = bike.bikeId;
         this.brand = bike.brand;
@@ -17,7 +19,7 @@ export class Bike{
         this.cost = bike.cost;
     }
     
-    validate(bike: {brand: string; model: string;location: string;size: "S" | "M" | "L" | "XL";cost: number;}) {
+    validate(bike: {brand: string; model: string;location: string;size: Size;cost: number;}) {
         if (!bike.brand) {
           throw new Error("Brand is required.");
         }
@@ -66,11 +68,11 @@ export class Bike{
         this.location = location;
     }
 
-    public getSize(): "S" | "M" | "L" | "XL" {
+    public getSize(): Size {
         return this.size;
     }
 
-    public setSize(size: "S" | "M" | "L" | "XL"): void {
+    public setSize(size: Size): void {
         this.size = size;
     }
 
@@ -81,6 +83,8 @@ export class Bike{
     public setCost(cost: number): void {
         this.cost = cost;
     }
+
+
     equals(bike: Bike): boolean {
         return (
           this.bikeId === bike.getId() &&

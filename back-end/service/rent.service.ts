@@ -1,4 +1,5 @@
 import { Rent } from "../model/Rent";
+import bikeDb from "../repository/bike.db";
 import rentDb from "../repository/rent.db";
 
 const getAllRents = (): Rent[] => rentDb.getAllrents();
@@ -9,4 +10,16 @@ const getRentById = (id: number): Rent => {
     return rent;
 };
 
-export default { getAllRents, getRentById };
+const rentABike = (bikeId: number,rentId: number): Rent =>{
+    const bike = bikeDb.getBikeById({id: bikeId});
+    const rent = getRentById(rentId);
+    if(rent.getBike() == undefined && bike ){
+        rent.setBike(bike);
+    }
+    else{
+        throw new Error(`Bike is already in use.`)
+    }
+    return rent;
+}
+
+export default { getAllRents, getRentById, rentABike };

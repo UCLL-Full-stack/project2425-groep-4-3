@@ -1,15 +1,20 @@
+import { Bike } from "./Bike";
+
 export class Rent{
     private rentId?: number;
     private startDate:Date;
     private endDate: Date;
     private cost:number;
+    private bike?: Bike;
 
-    constructor(rent:{rentId?: number, startDate: Date;endDate: Date;cost: number} ){
+
+    constructor(rent:{rentId?: number, startDate: Date;endDate: Date;cost: number; bike?:Bike} ){
         this.validate(rent);
         this.rentId = rent.rentId;
         this.startDate = rent.startDate;
         this.endDate = rent.endDate;
         this.cost = rent.cost;
+        this.bike = rent.bike;
     }
 
     validate(rent:{startDate: Date;endDate: Date;cost: number}){
@@ -55,7 +60,15 @@ export class Rent{
     setCost(cost: number): void {
         this.cost = cost;
     }
+    
+    public getBike(): Bike | undefined {
+        return this.bike;
+    }
 
+    public setBike(bike: Bike): void {
+        this.bike = bike;
+    }
+   
     equals(rent:Rent):boolean{
         return(
             this.rentId === rent.getId() &&

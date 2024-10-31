@@ -21,6 +21,9 @@
  *              type: string
  *              format: date-time
  *              description: End date Bike
+ *            size:
+ *              type: string
+ *              enum: [S | M | L | XL]
  *            cost:
  *              type: number
  *              description: Cost of the bike.

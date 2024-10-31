@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bike } from '@types';
+import RentService from '@services/RentService';
 
 type Props = {
   bikes: Array<Bike>;
@@ -18,6 +19,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
               <th scope="col">Location</th>
               <th scope="col">Size</th>
               <th scope="col">Cost</th>
+              <th scope="col">Rent</th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +30,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
                 <td>{bike.location}</td>
                 <td>{bike.size}</td>
                 <td>{bike.cost}</td>
+                <td><button onClick={RentService.rentABike(bike.id,)}></button></td>
               </tr>
             ))}
           </tbody>

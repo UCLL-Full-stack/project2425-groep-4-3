@@ -1,3 +1,4 @@
+import { run } from "node:test";
 import { Bike } from "../model/Bike";
 
 const bikes = [
@@ -32,7 +33,17 @@ const getBikeById = ({ id }: { id: number }): Bike | null => {
     return bikes.find((Bike) => Bike.getId() === id) || null;
 };
 
+// const updateBike = (bike: Bike): Bike | null =>{
+//   const index = bikes.findIndex((bike) => bike.getId() === bike.getId());
+//   if(index){
+//     bikes[index]=bike;
+//     return bike
+//   }
+//   return null
+// }
+
 export default {
     getAllbikes,
     getBikeById,
+    // updateBike
 };
