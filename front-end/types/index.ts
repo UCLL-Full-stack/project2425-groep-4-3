@@ -1,3 +1,12 @@
+export type User = {
+    userId?: number;
+    name: string;
+    email: string;
+    age: number;
+    password: string;
+    role: string;
+};
+
 export type Bike = {
     id?: number;
     brand: string;

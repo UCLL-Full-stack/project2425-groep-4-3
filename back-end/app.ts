@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { rentRouter } from './controller/rent.routes';
+import userRouter from './controller/user.routes';
 import { bikeRouter } from './controller/bike.routes';
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use('/rents', rentRouter);
 app.use('/bikes', bikeRouter);
+app.use('/users', userRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
