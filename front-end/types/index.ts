@@ -23,4 +23,11 @@ export type Rent = {
     cost: number;
     bike: Bike;
 };
+
+export type Accessory = {
+    accessoryId?: number;
+    name: string;
+    amount: number;
+    cost: number;
+};
   
