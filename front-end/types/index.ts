@@ -24,6 +24,10 @@ export type Rent = {
     bike: Bike;
 };
 
+export type StatusMessage = {
+    message : String,
+    type: "error" | "success"
+}
 export type Accessory = {
     accessoryId?: number;
     name: string;

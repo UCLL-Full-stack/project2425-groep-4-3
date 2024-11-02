@@ -2,7 +2,7 @@ import { User } from "../model/User";
 
 const users = [
     new User({
-        userId: 0,
+        id: 0,
         name: 'John Doe',
         email: 'jhondoe@gmail.com',
         age: 25,
@@ -10,7 +10,7 @@ const users = [
         role: 'admin'
     }),
     new User({
-        userId: 1,
+        id: 1,
         name: 'Jane Doe',
         email: 'janedoe@gmail.com',
         age: 30,
@@ -18,7 +18,7 @@ const users = [
         role: 'user'
     }),
     new User({
-        userId: 2,
+        id: 2,
         name: 'Sander',
         email: 'sander@gmail.com',
         age: 35,

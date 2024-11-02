@@ -1,8 +1,9 @@
+import { run } from "node:test";
 import { Bike } from "../model/Bike";
 
 const bikes = [
     new Bike({
-        bikeId: 0,
+        id: 0,
         brand: "Trek",
         model: "Domane AL 2",
         location: "Brussels",
@@ -10,7 +11,7 @@ const bikes = [
         cost: 25,
       }),
       new Bike({
-        bikeId: 1,
+        id: 1,
         brand: "Giant",
         model: "Escape 3",
         location: "Antwerp",
@@ -18,7 +19,7 @@ const bikes = [
         cost: 30,
       }),
       new Bike({
-        bikeId: 2,
+        id: 2,
         brand: "Cannondale",
         model: "Quick 2 Disc",
         location: "Ghent",
@@ -32,7 +33,17 @@ const getBikeById = ({ id }: { id: number }): Bike | null => {
     return bikes.find((Bike) => Bike.getId() === id) || null;
 };
 
+// const updateBike = (bike: Bike): Bike | null =>{
+//   const index = bikes.findIndex((bike) => bike.getId() === bike.getId());
+//   if(index){
+//     bikes[index]=bike;
+//     return bike
+//   }
+//   return null
+// }
+
 export default {
     getAllbikes,
     getBikeById,
+    // updateBike
 };
