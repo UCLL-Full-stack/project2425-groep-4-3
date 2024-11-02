@@ -27,14 +27,15 @@
  *            id:
  *              type: number
  *              format: int64
- *            startDate:
+ *            brand:
  *              type: string
- *              format: date-time
- *              description: Start date Bike
- *            endDate:
+ *              description: Brand Bike
+ *            model:
  *              type: string
- *              format: date-time
- *              description: End date Bike
+ *              description: Model Bike
+ *            location:
+ *              type: string
+ *              description: location Bike
  *            size:
  *              type: string
  *              enum: [S | M | L | XL]
@@ -45,6 +46,8 @@
 
 import express, { NextFunction, Request, Response } from 'express';
 import rentService from '../service/rent.service';
+import { Rent } from '../model/Rent';
+import { RentInput } from '../types';
 
 const rentRouter = express.Router();
 
@@ -104,34 +107,28 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
 
 /**
  * @swagger
- * paths:
- *  /rents/rentAbike/{bikeId}/{rentId}:
- *     put:
- *         summary: rent a bike
- *         parameters: 
- *              - name: bikeId
- *                in: path 
- *                required: true
- *                schema: 
- *                  type: integer
- *                  format: int64
- *              - name: rentId
- *                in: path 
- *                required: true
- *                schema: 
- *                  type: integer
- *                  format: int64
- * 
- *         responses:
- *              '200':
- *                  description: Bike is added to a rent
- */ 
-rentRouter.put("/rentAbike/:bikeId/:rentId", (req: Request, res: Response, next: NextFunction) => {
+ * /rents/rentAbike:
+ *   post:
+ *      summary: rent a bike
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Rent'
+ *      responses:
+ *         200:
+ *            description: The created schedule.
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/Rent'
+ */
+rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) => {
     try {
-        const bikeId : string = req.params.bikeId;
-        const rentId : string = req.params.rentId;
-        const rent = rentService.rentABike(parseInt(bikeId, 10),parseInt(rentId, 10));
-        res.status(200).json(rent)
+        const rent = <RentInput>req.body;
+        const result = rentService.rentAbike(rent);
+        res.status(200).json(result)
     } catch (error) {
         next(error);
     };

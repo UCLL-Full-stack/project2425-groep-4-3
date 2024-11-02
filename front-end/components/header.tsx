@@ -12,7 +12,7 @@ const Header: React.FC = () => {
         </Link>
 
         <Link href="/rents" className="nav-link px-4 fs-5 text-white">   
-          Rent
+          Rents
         </Link>
 
         <Link href="/bikes" className="nav-link px-4 fs-5 text-white">

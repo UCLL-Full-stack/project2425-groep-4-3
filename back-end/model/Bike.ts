@@ -1,6 +1,7 @@
 import {Size} from "../types"
+import { Rent } from "./Rent";
 export class Bike{
-    private bikeId?: number;
+    private id?: number;
     private brand: String;
     private model: String;
     private location: String;
@@ -8,10 +9,9 @@ export class Bike{
     private cost: number;
 
 
-
-    constructor(bike: {bikeId?: number; brand: string,model: string,location: string,size: Size,cost: number}) {
+    constructor(bike: {id?: number; brand: string,model: string,location: string,size: Size,cost: number}) {
         this.validate(bike);
-        this.bikeId = bike.bikeId;
+        this.id = bike.id;
         this.brand = bike.brand;
         this.model = bike.model;
         this.location = bike.location;
@@ -37,11 +37,11 @@ export class Bike{
         }
     }
     public getId(): number | undefined {
-        return this.bikeId;
+        return this.id;
     }
 
     public setId(id: number): void {
-        this.bikeId = id;
+        this.id = id;
     }
 
     public getBrand(): String {
@@ -84,10 +84,9 @@ export class Bike{
         this.cost = cost;
     }
 
-
     equals(bike: Bike): boolean {
         return (
-          this.bikeId === bike.getId() &&
+        //   this.id === bike.getId() &&
           this.brand === bike.getBrand() &&
           this.model === bike.getModel() &&
           this.location === bike.getLocation() &&

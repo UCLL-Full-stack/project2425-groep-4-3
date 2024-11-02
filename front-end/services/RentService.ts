@@ -1,3 +1,5 @@
+import { Rent } from "@types";
+
     const getAllRents = async () => {
         return fetch(process.env.NEXT_PUBLIC_API_URL + `/rents`, 
             { 
@@ -7,13 +9,15 @@
                 }
         });
     };
-    const rentABike = (bikeId: number,rentId : number) => {
-        fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/${bikeId}/${rentId}`,
+    const rentABike = (rent : Rent) => {
+        console.log(rent)
+        fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/rentAbike`,
         {
-            method: "PUT",
+            method: "POST",
             headers:{
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify(rent)
         });
     }
 
