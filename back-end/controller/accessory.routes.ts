@@ -1,11 +1,6 @@
 /**
  * @swagger
  *   components:
- *    securitySchemes:
- *     bearerAuth:
- *      type: http
- *      scheme: bearer
- *      bearerFormat: JWT
  *    schemas:
  *      Accessory:
  *          type: object
@@ -19,9 +14,11 @@
  *            amount:
  *              type: number
  *              description: Amount of the accessory
+ *              format: int64
  *            cost:
  *              type: number
  *              description: Cost of the accessory.
+ *              format: int64
  */
 import express, { NextFunction, Request, Response } from 'express';
 import accessoryService from '../service/accessory.service';
