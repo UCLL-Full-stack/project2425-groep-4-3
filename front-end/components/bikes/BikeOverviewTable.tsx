@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bike } from '@types';
+import RentForm from '@components/rents/AddRentForm';
 
 type Props = {
   bikes: Array<Bike>;
-//   setSelectedBike: (bike: Bike) => void
 };
 
 const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
+  const [showForm, setShowForm] = useState(false);
+  const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
+
+  const addButton = (bike: Bike) => {
+    setSelectedBike(bike);
+    setShowForm(true);
+  };
+
+  const submitForm = (formData: any) => {
+    setShowForm(false); 
+    setSelectedBike(null);
+  };
+
   return (
     <>
       {bikes && (
@@ -18,6 +31,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
               <th scope="col">Location</th>
               <th scope="col">Size</th>
               <th scope="col">Cost</th>
+              <th scope="col">Rent</th>
             </tr>
           </thead>
           <tbody>
@@ -28,10 +42,20 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
                 <td>{bike.location}</td>
                 <td>{bike.size}</td>
                 <td>{bike.cost}</td>
+                <td>
+                  <button onClick={() => addButton(bike)}>Rent</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      )}
+      {showForm && selectedBike && (
+        <RentForm
+          onSubmit={submitForm}
+          onCancel={() => setShowForm(false)}
+          selectedBike={selectedBike}
+        />
       )}
     </>
   );

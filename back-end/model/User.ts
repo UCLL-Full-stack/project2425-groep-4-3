@@ -1,14 +1,14 @@
 export class User{
-    private userId?: number;
+    private id?: number;
     private name: string;
     private email: string;
     private age: number;
     private role: string;
     private password: string;
 
-    constructor(user:{userId?: number, name: string, email: string, age: number, role: string, password: string} ){
+    constructor(user:{id?: number, name: string, email: string, age: number, role: string, password: string} ){
         this.validate(user);
-        this.userId = user.userId;
+        this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.age = user.age;
@@ -35,7 +35,7 @@ export class User{
     }
 
     getId(): number | undefined{
-        return this.userId;
+        return this.id;
     }
 
     getName():string{
@@ -58,8 +58,8 @@ export class User{
         return this.password;
     }
 
-    setId(userId: number | undefined): void {
-        this.userId = userId;
+    setId(id: number | undefined): void {
+        this.id = id;
     }
 
     setName(name: string): void {
@@ -84,7 +84,6 @@ export class User{
 
     equals(user:User):boolean{
         return(
-            this.userId === user.getId() &&
             this.name === user.getName() &&
             this.email === user.getEmail() &&
             this.age === user.getAge() &&

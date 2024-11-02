@@ -1,11 +1,6 @@
 /**
  * @swagger
  *   components:
- *    securitySchemes:
- *     bearerAuth:
- *      type: http
- *      scheme: bearer
- *      bearerFormat: JWT
  *    schemas:
  *      Bike:
  *          type: object
@@ -13,14 +8,18 @@
  *            id:
  *              type: number
  *              format: int64
- *            startDate:
+ *            brand:
  *              type: string
- *              format: date-time
- *              description: Start date Bike
- *            endDate:
+ *              description: Brand Bike
+ *            model:
  *              type: string
- *              format: date-time
- *              description: End date Bike
+ *              description: Model Bike
+ *            location:
+ *              type: string
+ *              description: location Bike
+ *            size:
+ *              type: string
+ *              enum: [S | M | L | XL]
  *            cost:
  *              type: number
  *              description: Cost of the bike.
