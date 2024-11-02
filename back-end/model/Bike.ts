@@ -20,19 +20,11 @@ export class Bike{
     }
     
     validate(bike: {brand: string; model: string;location: string;size: Size;cost: number;}) {
-        if (!bike.brand) {
-          throw new Error("Brand is required.");
+        const validSizes = ['S', 'M', 'L', 'XL'];
+        if (!bike.size || !validSizes.includes(bike.size)) {
+            throw new Error("Size is required and must be one of: S, M, L, XL.");
         }
-        if (!bike.model) {
-          throw new Error("Model is required.");
-        }
-        if (!bike.location) {
-          throw new Error("Location is required.");
-        }
-        if (!bike.size) {
-          throw new Error("Size is required.");
-        }
-        if (!bike.cost) {
+        if (bike.cost < 0) {
           throw new Error("Cost is required.");
         }
     }

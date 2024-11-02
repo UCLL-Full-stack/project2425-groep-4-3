@@ -11,12 +11,12 @@ const Header: React.FC = () => {
           Home
         </Link>
 
-        <Link href="/rents" className="nav-link px-4 fs-5 text-white">   
-          Rents
-        </Link>
-
         <Link href="/bikes" className="nav-link px-4 fs-5 text-white">
           Bikes
+        </Link>
+
+        <Link href="/rents" className="nav-link px-4 fs-5 text-white">   
+          Rents
         </Link>
         
         <Link href="/users" className="nav-link px-4 fs-5 text-white">

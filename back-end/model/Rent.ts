@@ -18,14 +18,15 @@ export class Rent{
     }
 
     validate(rent:{startDate: Date;endDate: Date;cost: number}){
-        if(!rent.startDate){
-            throw new Error('Start date is required.');
+        const todaysDate = new Date();
+        if(rent.startDate < todaysDate){
+            throw new Error('Start date cannot be in the past.');
         }
-        if(!rent.endDate){
-            throw new Error('End date is required.');
+        if(rent.endDate < rent.startDate){
+            throw new Error('End date cannot be before the start date.');
         }
-        if(!rent.cost){
-            throw new Error('Cost is required.');
+        if(rent.cost < 0){
+            throw new Error('Cost cannot go under 0.');
         }
     }
 

@@ -6,11 +6,17 @@ type Props = {
 };
 
 const RentOverviewTable: React.FC<Props> = ({ rents }: Props) => {
-    const rentsWithBike = rents.filter(rent => rent.bike !== undefined);
-
+  const [check, setcheck] = useState<boolean>(false);
+  // useEffect(() => {
+  //   if (rents.length > 0) {
+  //     setCheck(true);
+  //   } else {
+  //     setCheck(false); // Optional: Reset to false if rents are empty
+  //   }
+  // }, [rents]); // Only run
   return (
     <>
-      {rentsWithBike && (
+      {
         <table className="table table-hover">
           <thead>
             <tr>
@@ -31,7 +37,7 @@ const RentOverviewTable: React.FC<Props> = ({ rents }: Props) => {
             ))}
           </tbody>
         </table>
-      )}
+      }
     </>
   );
 };

@@ -7,7 +7,7 @@ export class User{
     private password: string;
 
     constructor(user:{id?: number, name: string, email: string, age: number, role: string, password: string} ){
-        this.validate(user);
+        // this.validate(user);
         this.id = user.id;
         this.name = user.name;
         this.email = user.email;
@@ -16,23 +16,23 @@ export class User{
         this.password = user.password;
     }
 
-    validate(user:{name: string, email: string, age: number, role: string, password: string}){
-        if(!user.name){
-            throw new Error('Name is required.');
-        }
-        if(!user.email){
-            throw new Error('Email is required.');
-        }
-        if(!user.age){
-            throw new Error('Age is required.');
-        }
-        if(!user.role){
-            throw new Error('Role is required.');
-        }
-        if(!user.password){
-            throw new Error('Password is required.');
-        }
-    }
+    // validate(user:{name: string, email: string, age: number, role: string, password: string}){
+    //     if(!user.name){
+    //         throw new Error('Name is required.');
+    //     }
+    //     if(!user.email){
+    //         throw new Error('Email is required.');
+    //     }
+    //     if(!user.age){
+    //         throw new Error('Age is required.');
+    //     }
+    //     if(!user.role){
+    //         throw new Error('Role is required.');
+    //     }
+    //     if(!user.password){
+    //         throw new Error('Password is required.');
+    //     }
+    // }
 
     getId(): number | undefined{
         return this.id;
