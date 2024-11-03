@@ -15,7 +15,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
     setShowForm(true);
   };
 
-  const submitForm = (formData: any) => {
+  const submitForm = () => {
     setShowForm(false); 
     setSelectedBike(null);
   };
@@ -30,7 +30,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
               <th scope="col">Model</th>
               <th scope="col">Location</th>
               <th scope="col">Size</th>
-              <th scope="col">Cost</th>
+              <th scope="col">Cost/day</th>
               <th scope="col">Rent</th>
             </tr>
           </thead>

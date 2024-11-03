@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
         <div className={styles.description}>
           <p>
-            whohooo
+            PedaLenen is a Bike renting application
           </p>
         </div>
       </main>
