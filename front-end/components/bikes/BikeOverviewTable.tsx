@@ -43,7 +43,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
                 <td>{bike.size}</td>
                 <td>{bike.cost}</td>
                 <td>
-                  <button onClick={() => addButton(bike)}>Rent</button>
+                  <button className='bg-green py-2 px-4 rounded' onClick={() => addButton(bike)}>Rent</button>
                 </td>
               </tr>
             ))}
