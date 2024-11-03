@@ -7,7 +7,7 @@ export class User{
     private password: string;
 
     constructor(user:{id?: number, name: string, email: string, age: number, role: string, password: string} ){
-        // this.validate(user);
+        this.validate(user);
         this.id = user.id;
         this.name = user.name;
         this.email = user.email;
@@ -16,23 +16,27 @@ export class User{
         this.password = user.password;
     }
 
-    // validate(user:{name: string, email: string, age: number, role: string, password: string}){
-    //     if(!user.name){
-    //         throw new Error('Name is required.');
-    //     }
-    //     if(!user.email){
-    //         throw new Error('Email is required.');
-    //     }
-    //     if(!user.age){
-    //         throw new Error('Age is required.');
-    //     }
-    //     if(!user.role){
-    //         throw new Error('Role is required.');
-    //     }
-    //     if(!user.password){
-    //         throw new Error('Password is required.');
-    //     }
-    // }
+    validate(user:{name: string, email: string, age: number, role: string, password: string}){
+        if(!user.name?.trim()){
+            throw new Error('Name is required.');
+        }
+        if(!user.email?.trim()){
+            throw new Error('Email is required.');
+        }
+        if(user.email.indexOf('@') === -1){
+            throw new Error('Email must contain an @.');
+        }
+        if(user.age < 16){
+            throw new Error('Minimum age is 16 years.');
+        }
+        if(!user.role?.trim()){
+            throw new Error('Role is required.');
+        }
+
+        if(user.password.length < 6){
+            throw new Error('Password must be at least 6 characters long.');
+        }
+    }
 
     getId(): number | undefined{
         return this.id;

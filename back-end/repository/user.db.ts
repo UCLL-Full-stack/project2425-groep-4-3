@@ -6,7 +6,7 @@ const users = [
         name: 'John Doe',
         email: 'jhondoe@gmail.com',
         age: 25,
-        password: 't',
+        password: 'joDoe123',
         role: 'admin'
     }),
     new User({
@@ -14,7 +14,7 @@ const users = [
         name: 'Jane Doe',
         email: 'janedoe@gmail.com',
         age: 30,
-        password: 't',
+        password: 'jaDoe123',
         role: 'user'
     }),
     new User({
@@ -22,7 +22,7 @@ const users = [
         name: 'Sander',
         email: 'sander@gmail.com',
         age: 35,
-        password: 't',
+        password: 'sDeb123',
         role: 'user'
     })
 ];
