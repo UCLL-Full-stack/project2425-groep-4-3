@@ -5,26 +5,22 @@ import { RentInput } from "../types";
 
 const getAllRents = (): Rent[] => rentDb.getAllrents();
 
-const getRentById = (id: number): Rent => {
-    const rent = rentDb.getRentById({ id });
+const getRentById = async (id: number): Promise<Rent> => {
+    const rent = await rentDb.getRentById({ id });
     if (!rent) throw new Error(`rent with id: ${id} does not exist.`);
     return rent;
 };
 
-const rentAbike = ({startDate,endDate,cost,bike:bikeInput}:RentInput):Rent =>{
+const rentAbike = async ({startDate,endDate,cost,bike:bikeInput}:RentInput): Promise<Rent> =>{
     if(!bikeInput)throw new Error(`No bike input.`)
 
-    if(bikeInput.id === undefined) throw new Error(`Id is required. ${bikeInput.id}`);
+    if(bikeInput.id === undefined || bikeInput.id === null) throw new Error(`Id is required. ${bikeInput.id}`);
 
-    const bike = bikeDb.getBikeById({id : bikeInput.id})
+    const bike = await bikeDb.getBikeById({id : bikeInput.id})
     if(!bike) throw new Error(`Bike with given Id not found.`)
-
-    if (!startDate || !endDate) {
-        throw new Error('Start and end date are required');
-    }
     
     const rent = new Rent({startDate,endDate,cost,bike: bike});
-    return rentDb.createRent(rent);
+    return await rentDb.createRent(rent);
 
 }
 

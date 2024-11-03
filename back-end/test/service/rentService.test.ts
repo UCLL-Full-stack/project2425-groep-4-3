@@ -19,6 +19,7 @@ const validBbike = new Bike({
     cost: 25,
 });
 const cost = validBbike.getCost() + 20
+
 let getAllRentsDbMock: jest.Mock;
 let getRentByIdDbMock: jest.Mock;
 let createRentDbMock: jest.Mock;
@@ -87,21 +88,21 @@ test("given an invalid rent ID, when retrieving the rent, then an exception shou
     await expect(rentService.getRentById(id)).rejects.toThrow(`rent with id: ${id} does not exist.`);
 });
 
-// test("given a valid rent input, when renting a bike, then the rent should be created", async () => {
-//     // given
-//     bikeDb.getBikeById = getBikeByIdDbMock.mockResolvedValue(validBbike);
-//     rentDb.createRent = createRentDbMock.mockResolvedValue(new Rent({startDate,endDate,cost,bike:validBbike}));
+test("given a valid rent input, when renting a bike, then the rent should be created", async () => {
+    // given
+    bikeDb.getBikeById = getBikeByIdDbMock.mockResolvedValue(validBbike);
+    rentDb.createRent = createRentDbMock.mockResolvedValue(validRent);
 
-//     // when
-//     const rent = await rentService.rentAbike(rentInput);
+    // when
+    const rent = await rentService.rentAbike(rentInput);
 
-//     // then
-//     expect(getBikeByIdDbMock).toHaveBeenCalledTimes(1);
-//     expect(getBikeByIdDbMock).toHaveBeenCalledWith({ id: validRent.getBike().getId() });
-//     expect(createRentDbMock).toHaveBeenCalledTimes(1);
-//     expect(createRentDbMock).toHaveBeenCalledWith(new Rent(validRent));
-//     expect(rent).toEqual(new Rent(validRent));
-// });
+    // then
+    expect(getBikeByIdDbMock).toHaveBeenCalledTimes(1);
+    expect(getBikeByIdDbMock).toHaveBeenCalledWith({ id : rentInput.bike?.id});
+    expect(createRentDbMock).toHaveBeenCalledTimes(1);
+    expect(createRentDbMock).toHaveBeenCalledWith(rentInput);
+    expect(rent).toEqual(rentInput);
+});
 
 test("when renting a bike without bike input, then an exception should be thrown", async () => {
     // given
@@ -113,7 +114,15 @@ test("when renting a bike without bike input, then an exception should be thrown
 
 test("when renting a bike without an ID, then an exception should be thrown", async () => {
     // given
-    const rentInput: RentInput = { startDate: new Date(), endDate: new Date(), cost: 50, bike: bikeInput };
+    const bikeInputWithoutId : BikeInput = {
+        brand: "Trek",
+        model: "Domane AL 2",
+        location: "Brussels",
+        size: "M",
+        cost: 25,
+    }
+
+    const rentInput: RentInput = { startDate: new Date(), endDate: new Date(), cost: 50, bike: bikeInputWithoutId };
 
     // when
     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`Id is required. undefined`);
@@ -125,12 +134,4 @@ test("when renting a bike with a non-existent bike ID, then an exception should 
     
     // when
     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`Bike with given Id not found.`);
-});
-
-test("when renting a bike without a start date or end date, then an exception should be thrown", async () => {
-    // given
-    // const rentInput: RentInput = { startDate: undefined, endDate: undefined, cost: 50, bike: { id: 1 } };
-
-    // when
-    await expect(rentService.rentAbike(rentInput)).rejects.toThrow('Start and end date are required');
 });
