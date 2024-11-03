@@ -1,3 +1,14 @@
+/* niet zeker wat we moeten gebruiken */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    * {
+        font-family: 'Times New Roman', 'Times', 'serif';
+    }
+}
+
 html,
 body {
     padding: 0;

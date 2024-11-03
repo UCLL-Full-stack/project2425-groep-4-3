@@ -1,31 +1,37 @@
+import { Bike } from "./Bike";
+
 export class Rent{
-    private rentId?: number;
+    private id?: number;
     private startDate:Date;
     private endDate: Date;
     private cost:number;
+    private bike: Bike;
 
-    constructor(rent:{rentId?: number, startDate: Date;endDate: Date;cost: number} ){
+
+    constructor(rent:{id?: number, startDate: Date;endDate: Date;cost: number; bike:Bike} ){
         this.validate(rent);
-        this.rentId = rent.rentId;
+        this.id = rent.id;
         this.startDate = rent.startDate;
         this.endDate = rent.endDate;
         this.cost = rent.cost;
+        this.bike = rent.bike;
     }
 
     validate(rent:{startDate: Date;endDate: Date;cost: number}){
-        if(!rent.startDate){
-            throw new Error('Start date is required.');
+        const todaysDate = new Date();
+        if(rent.startDate < todaysDate){
+            throw new Error('Start date cannot be in the past.');
         }
-        if(!rent.endDate){
-            throw new Error('End date is required.');
+        if(rent.endDate < rent.startDate){
+            throw new Error('End date cannot be before the start date.');
         }
-        if(!rent.cost){
-            throw new Error('Cost is required.');
+        if(rent.cost < 0){
+            throw new Error('Cost cannot go under 0.');
         }
     }
 
     getId(): number | undefined{
-        return this.rentId;
+        return this.id;
     }
     
     getStartDate():Date{
@@ -40,8 +46,8 @@ export class Rent{
         return this.cost;
     }
 
-    setId(rentId: number | undefined): void {
-        this.rentId = rentId;
+    setId(id: number | undefined): void {
+        this.id = id;
     }
 
     setStartDate(startDate: Date): void {
@@ -55,10 +61,17 @@ export class Rent{
     setCost(cost: number): void {
         this.cost = cost;
     }
+    
+    public getBike(): Bike {
+        return this.bike;
+    }
 
+    public setBike(bike: Bike): void {
+        this.bike = bike;
+    }
+   
     equals(rent:Rent):boolean{
         return(
-            this.rentId === rent.getId() &&
             this.startDate === rent.getStartDate() &&
             this.endDate === rent.getEndDate() &&
             this.cost === rent.getCost()
