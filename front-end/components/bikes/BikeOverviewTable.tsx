@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Bike } from '@types';
+import { Bike, Rent } from '@types';
 import RentForm from '@components/rents/AddRentForm';
 
 type Props = {
   bikes: Array<Bike>;
+  rents: Array<Rent>;
 };
 
-const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
+const BikeOverviewTable: React.FC<Props> = ({ bikes,rents }: Props) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
 
@@ -20,6 +21,9 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
     setSelectedBike(null);
   };
 
+  const isBikeRented = (bike: Bike): boolean => {
+    return rents.some(rent => rent.bike.id === bike.id);
+  };
   return (
     <>
       {bikes && (
@@ -43,7 +47,13 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes }: Props) => {
                 <td>{bike.size}</td>
                 <td>{bike.cost}</td>
                 <td>
-                  <button className='bg-green py-2 px-4 rounded' onClick={() => addButton(bike)}>Rent</button>
+                <button
+                    className={`py-2 px-4 rounded ${isBikeRented(bike) ? 'bg-gray' : 'bg-green'}`}
+                    onClick={() => !isBikeRented(bike) && addButton(bike)}
+                    disabled={isBikeRented(bike)}
+                  >
+                    {isBikeRented(bike) ? 'In Use' : 'Rent'}
+                  </button>
                 </td>
               </tr>
             ))}

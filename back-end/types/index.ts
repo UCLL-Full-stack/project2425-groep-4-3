@@ -12,7 +12,7 @@ type BikeInput = {
 type RentInput = {
     id?: number;
     startDate: Date;
-    endDate: Date;
+    returned: Boolean;
     cost: number;
     bike?: BikeInput;
 }

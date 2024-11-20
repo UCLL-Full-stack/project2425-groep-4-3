@@ -11,7 +11,7 @@ const getRentById = async (id: number): Promise<Rent> => {
     return rent;
 };
 
-const rentAbike = async ({startDate,endDate,cost,bike:bikeInput}:RentInput): Promise<Rent> =>{
+const rentAbike = async ({startDate,returned,cost,bike:bikeInput}:RentInput): Promise<Rent> =>{
     if(!bikeInput)throw new Error(`No bike input.`)
 
     if(bikeInput.id === undefined || bikeInput.id === null) throw new Error(`Id is required. ${bikeInput.id}`);
@@ -19,7 +19,7 @@ const rentAbike = async ({startDate,endDate,cost,bike:bikeInput}:RentInput): Pro
     const bike = await bikeDb.getBikeById({id : bikeInput.id})
     if(!bike) throw new Error(`Bike with given Id not found.`)
     
-    const rent = new Rent({startDate,endDate,cost,bike: bike});
+    const rent = new Rent({startDate,returned,cost,bike: bike});
     return await rentDb.createRent(rent);
 
 }
