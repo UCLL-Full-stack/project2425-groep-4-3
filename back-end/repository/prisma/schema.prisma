@@ -7,21 +7,20 @@ datasource db {
 }
 
 model Bike{
-    id          Int @id @default(autoincrement())
+    id          Int @id @default(autoincrement()) @unique
     brand       String
     model       String
     location    String
-    Size        String
+    size        String
     cost        Int
-    rent        Rent?   @relation(fields: [rentId], references: [id])
-    rentId      Int?  
+    rent        Rent?  
 }
 
 model Rent{
-    id          Int @id @default(autoincrement())
+    id          Int @id @default(autoincrement()) @unique
     startDate   DateTime
     returned    Boolean
     cost        Int
     bike        Bike @relation(fields: [bikeId], references: [id])
-    bikeId      Int
+    bikeId      Int  @unique
 }

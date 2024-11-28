@@ -1,14 +1,14 @@
 import { Bike } from "./Bike";
-
+import {Rent as RentPrisma,Bike as BikePrisma } from '@prisma/client'
 export class Rent{
     private id?: number;
     private startDate:Date;
-    private returned: Boolean;
+    private returned: boolean;
     private cost:number;
     private bike: Bike;
 
 
-    constructor(rent:{id?: number, startDate: Date;returned: Boolean;cost: number; bike:Bike} ){
+    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike} ){
         this.validate(rent);
         this.id = rent.id;
         this.startDate = rent.startDate;
@@ -17,7 +17,7 @@ export class Rent{
         this.bike = rent.bike;
     }
 
-    validate(rent:{startDate: Date;returned: Boolean;cost: number}){
+    validate(rent:{startDate: Date;returned: boolean;cost: number}){
         const todaysDate = new Date();
         if(rent.startDate < todaysDate){
             throw new Error('Start date cannot be in the past.');
@@ -38,7 +38,7 @@ export class Rent{
         return this.startDate;
     }
 
-    getReturned():Boolean{
+    getReturned():boolean{
         return this.returned;
     }
 
@@ -76,5 +76,23 @@ export class Rent{
             this.returned === rent.getReturned() &&
             this.cost === rent.getCost()
         );
+    }
+
+    static from({
+        id,
+        startDate,
+        returned,
+        cost,
+        bike
+    }: RentPrisma &{
+        bike: BikePrisma
+    }){
+        return new Rent({
+            id,
+            startDate,
+            returned,
+            cost,
+            bike: Bike.from(bike)
+        })
     }
 }

@@ -3,7 +3,7 @@ import bikeDb from "../repository/bike.db";
 import rentDb from "../repository/rent.db";
 import { RentInput } from "../types";
 
-const getAllRents = (): Rent[] => rentDb.getAllrents();
+const getAllRents = async (): Promise<Rent[]> => rentDb.getAllRents();
 
 const getRentById = async (id: number): Promise<Rent> => {
     const rent = await rentDb.getRentById({ id });

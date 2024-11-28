@@ -8,7 +8,7 @@ async function main() {
       brand: 'Giant',
       model: 'Escape 3',
       location: 'New York',
-      Size: 'M',
+      size: 'M',
       cost: 500,
     },
   });
@@ -18,7 +18,7 @@ async function main() {
       brand: 'Trek',
       model: 'FX 3 Disc',
       location: 'San Francisco',
-      Size: 'L',
+      size: 'L',
       cost: 700,
     },
   });
@@ -28,7 +28,7 @@ async function main() {
       brand: 'Specialized',
       model: 'Sirrus 2.0',
       location: 'Chicago',
-      Size: 'S',
+      size: 'S',
       cost: 600,
     },
   });
@@ -37,7 +37,7 @@ async function main() {
   const rent1 = await prisma.rent.create({
     data: {
       startDate: new Date('2023-01-01T00:00:00.000Z'),
-      endDate: new Date('2023-01-05T00:00:00.000Z'),
+      returned: true,
       cost: 100,
       bike: { connect: { id: bike1.id } },
     },
@@ -46,7 +46,7 @@ async function main() {
   const rent2 = await prisma.rent.create({
     data: {
       startDate: new Date('2023-02-01T00:00:00.000Z'),
-      endDate: new Date('2023-02-03T00:00:00.000Z'),
+      returned: false,
       cost: 50,
       bike: { connect: { id: bike2.id } },
     },
@@ -55,7 +55,7 @@ async function main() {
   const rent3 = await prisma.rent.create({
     data: {
       startDate: new Date('2023-03-01T00:00:00.000Z'),
-      endDate: new Date('2023-03-07T00:00:00.000Z'),
+      returned: true,
       cost: 200,
       bike: { connect: { id: bike3.id } },
     },
@@ -65,12 +65,12 @@ async function main() {
 }
 
 (async () => {
-    try {
-        await main();
-        await prisma.$disconnect();
-    } catch (error) {
-        console.error(error);
-        await prisma.$disconnect();
-        process.exit(1);
-    }
+  try {
+    await main();
+    await prisma.$disconnect();
+  } catch (error) {
+    console.error(error);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
 })();

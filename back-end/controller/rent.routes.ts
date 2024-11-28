@@ -12,10 +12,9 @@
  *              type: string
  *              format: date-time
  *              description: Start date Rent
- *            endDate:
- *              type: string
- *              format: date-time
- *              description: End date Rent
+ *            returned:
+ *              type: boolean
+ *              description: Is the bike returned or not
  *            cost:
  *              type: number
  *              description: Cost of the rent.
@@ -128,7 +127,7 @@ rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) 
     try {
         const rent = <RentInput>req.body;
         const result = rentService.rentAbike(rent);
-        res.status(200).json(result)
+        return res.status(200).json(result)
     } catch (error) {
         next(error);
     };
