@@ -44,9 +44,6 @@
  *      RentInput:
  *          type: object
  *          properties:
- *            id:
- *              type: number
- *              format: int64
  *            startDate:
  *              type: string
  *              format: date-time

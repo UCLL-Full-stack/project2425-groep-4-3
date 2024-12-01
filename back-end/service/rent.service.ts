@@ -12,6 +12,10 @@ const getRentById = async (id: number): Promise<Rent> => {
 };
 
 const rentAbike = async ({startDate,returned,cost,bikeId}:RentInput): Promise<Rent> =>{
+    const todaysDate = new Date();
+    if(startDate < todaysDate){
+        throw new Error('Start date cannot be in the past.');
+    }
     const bikeInput = await bikeDb.getBikeById({id : bikeId});
     if(!bikeInput)throw new Error(`No bike input wit id ${bikeId}.`)
     
