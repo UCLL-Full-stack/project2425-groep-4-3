@@ -1,49 +1,53 @@
 import { run } from "node:test";
 import { Bike } from "../model/Bike";
+import database from "../util/database";
 
-const bikes = [
-    new Bike({
-        id: 0,
-        brand: "Trek",
-        model: "Domane AL 2",
-        location: "Brussels",
-        size: "M",
-        cost: 25,
-      }),
-      new Bike({
-        id: 1,
-        brand: "Giant",
-        model: "Escape 3",
-        location: "Antwerp",
-        size: "L",
-        cost: 30,
-      }),
-      new Bike({
-        id: 2,
-        brand: "Cannondale",
-        model: "Quick 2 Disc",
-        location: "Ghent",
-        size: "S",
-        cost: 20,
-      }),
-]
-const getAllbikes = (): Bike[] => bikes;
 
-const getBikeById = ({ id }: { id: number }): Bike | null => {
-    return bikes.find((Bike) => Bike.getId() === id) || null;
+const getAllBikes = async (): Promise<Bike[]> => {
+  try {
+      const bikesPrisma = await database.bike.findMany();
+      return bikesPrisma.map((bikePrisma) => Bike.from(bikePrisma));
+  } catch (error) {
+      console.error(error);
+      throw new Error('Database error. See server log for details.');
+  }
 };
 
-// const updateBike = (bike: Bike): Bike | null =>{
-//   const index = bikes.findIndex((bike) => bike.getId() === bike.getId());
-//   if(index){
-//     bikes[index]=bike;
-//     return bike
-//   }
-//   return null
-// }
+const getBikeById = async ({ id }: { id: number }): Promise<Bike | null> => {
+  try {
+      const bikePrisma = await database.bike.findUnique({
+          where: { id },
+      });
+
+      return bikePrisma ? Bike.from(bikePrisma) : null;
+  } catch (error) {
+      console.error(error);
+      throw new Error('Database error. See server log for details.');
+  }
+};
+
+const createBike = async (bike: Bike): Promise<Bike> => {
+  try {
+      const bikePrisma = await database.bike.create({
+          data: {
+                  brand: bike.getBrand(),
+                  model: bike.getModel(),
+                  location: bike.getLocation(),
+                  size: bike.getSize(),
+                  cost: bike.getCost()
+          },
+      });
+      return Bike.from(bikePrisma);
+  } catch (error) {
+      console.error(error);
+      throw new Error('Database error. See server log for details.');
+  }
+};
+
 
 export default {
-    getAllbikes,
+    getAllBikes,
     getBikeById,
+    createBike
     // updateBike
 };

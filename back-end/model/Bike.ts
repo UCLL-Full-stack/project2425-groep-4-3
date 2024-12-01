@@ -1,15 +1,17 @@
-import {Size} from "../types"
+import {size} from "../types"
 import { Rent } from "./Rent";
+import {Bike as BikePrisma } from '@prisma/client'
+
 export class Bike{
     private id?: number;
-    private brand: String;
-    private model: String;
-    private location: String;
-    private size: Size;
+    private brand: string;
+    private model: string;
+    private location: string;
+    private size: size;
     private cost: number;
 
 
-    constructor(bike: {id?: number; brand: string,model: string,location: string,size: Size,cost: number}) {
+    constructor(bike: {id?: number; brand: string,model: string,location: string,size: size,cost: number}) {
         this.validate(bike);
         this.id = bike.id;
         this.brand = bike.brand;
@@ -19,7 +21,7 @@ export class Bike{
         this.cost = bike.cost;
     }
     
-    validate(bike: {brand: string; model: string;location: string;size: Size;cost: number;}) {
+    validate(bike: {brand: string; model: string;location: string;size: size;cost: number;}) {
         const validSizes = ['S', 'M', 'L', 'XL'];
         if (!bike.size || !validSizes.includes(bike.size)) {
             throw new Error("Size is required and must be one of: S, M, L, XL.");
@@ -36,7 +38,7 @@ export class Bike{
         this.id = id;
     }
 
-    public getBrand(): String {
+    public getBrand(): string {
         return this.brand;
     }
 
@@ -44,7 +46,7 @@ export class Bike{
         this.brand = brand;
     }
 
-    public getModel(): String {
+    public getModel(): string {
         return this.model;
     }
 
@@ -52,7 +54,7 @@ export class Bike{
         this.model = model;
     }
 
-    public getLocation(): String {
+    public getLocation(): string {
         return this.location;
     }
 
@@ -60,11 +62,11 @@ export class Bike{
         this.location = location;
     }
 
-    public getSize(): Size {
+    public getSize(): size {
         return this.size;
     }
 
-    public setSize(size: Size): void {
+    public setSize(size: size): void {
         this.size = size;
     }
 
@@ -86,5 +88,24 @@ export class Bike{
           this.cost === bike.getCost()
         );
     };
+
+    static from({
+        id,
+        brand,
+        model,
+        location,
+        //dit is raar ma vind niet waar die hoofdletter is
+        size,
+        cost
+    }: BikePrisma){
+        return new Bike({
+            id,
+            brand,
+            model,
+            location,
+            size: size as size,
+            cost
+        })
+    }
 }
 

@@ -8,7 +8,7 @@ import { BikeInput, RentInput, Size } from "../../types";
 
 const currentDate = new Date();
 const startDate = set(currentDate, { hours: currentDate.getHours() + 1, minutes: currentDate.getMinutes() });
-const endDate = set(currentDate, { hours: currentDate.getHours() + 2, minutes: currentDate.getMinutes() });
+const returned = true;
 
 const validBbike = new Bike({
     id: 0,
@@ -26,7 +26,7 @@ let createRentDbMock: jest.Mock;
 let getBikeByIdDbMock: jest.Mock;
 
 
-const validRent = new Rent({startDate,endDate,cost,bike: validBbike});
+const validRent = new Rent({startDate,returned,cost,bike: validBbike});
 const bikeInput : BikeInput = {
     id: 0,
     brand: "Trek",
@@ -37,7 +37,7 @@ const bikeInput : BikeInput = {
 }
 const rentInput: RentInput = {
     startDate,
-    endDate,
+    returned,
     cost,
     bike: bikeInput
 }
@@ -67,7 +67,7 @@ test("when getting all rents, then all rents should be returned", async () => {
 
 test("given a valid rent ID, when retrieving the rent, then the correct rent should be returned", async () => {
     // given
-    // const rent = new Rent({startDate,endDate,cost,bike:validBbike});
+    // const rent = new Rent({startDate,returned,cost,bike:validBbike});
     rentDb.getRentById = getRentByIdDbMock.mockResolvedValue(validRent);
 
     // when
@@ -106,7 +106,7 @@ test("given a valid rent input, when renting a bike, then the rent should be cre
 
 test("when renting a bike without bike input, then an exception should be thrown", async () => {
     // given
-    const rentInput: RentInput = { startDate: new Date(), endDate: new Date(), cost: 50, bike: undefined };
+    const rentInput: RentInput = { startDate: new Date(), returned: true, cost: 50, bike: undefined };
 
     // when
     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`No bike input.`);
@@ -122,7 +122,7 @@ test("when renting a bike without an ID, then an exception should be thrown", as
         cost: 25,
     }
 
-    const rentInput: RentInput = { startDate: new Date(), endDate: new Date(), cost: 50, bike: bikeInputWithoutId };
+    const rentInput: RentInput = { startDate: new Date(), returned: true, cost: 50, bike: bikeInputWithoutId };
 
     // when
     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`Id is required. undefined`);

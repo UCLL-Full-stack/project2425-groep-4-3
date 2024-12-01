@@ -1,23 +1,23 @@
-type Size = "S" | "M" | "L" | "XL"
+type size = "S" | "M" | "L" | "XL"
 
 type BikeInput = {
     id?: number;
     brand: string;
     model: string;
     location: string;
-    size: Size;
+    size: size;
     cost: number;
 }
 
 type RentInput = {
     id?: number;
     startDate: Date;
-    endDate: Date;
+    returned: boolean;
     cost: number;
-    bike?: BikeInput;
+    bikeId: number;
 }
 export{
-    Size,
+    size,
     BikeInput,
     RentInput
 }

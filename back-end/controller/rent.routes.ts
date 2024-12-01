@@ -12,10 +12,9 @@
  *              type: string
  *              format: date-time
  *              description: Start date Rent
- *            endDate:
- *              type: string
- *              format: date-time
- *              description: End date Rent
+ *            returned:
+ *              type: boolean
+ *              description: Is the bike returned or not
  *            cost:
  *              type: number
  *              description: Cost of the rent.
@@ -42,6 +41,23 @@
  *            cost:
  *              type: number
  *              description: Cost of the bike.
+ *      RentInput:
+ *          type: object
+ *          properties:
+ *            startDate:
+ *              type: string
+ *              format: date-time
+ *              description: Start date Rent
+ *            returned:
+ *              type: boolean
+ *              description: Is the bike returned or not
+ *            cost:
+ *              type: number
+ *              description: Cost of the rent.
+ *            bikeId:
+ *              type: number
+ *              description: The id of the chosen bike
+ * 
  */
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -115,7 +131,7 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Rent'
+ *              $ref: '#/components/schemas/RentInput'
  *      responses:
  *         200:
  *            description: The created schedule.
@@ -128,7 +144,7 @@ rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) 
     try {
         const rent = <RentInput>req.body;
         const result = rentService.rentAbike(rent);
-        res.status(200).json(result)
+        return res.status(200).json(result)
     } catch (error) {
         next(error);
     };

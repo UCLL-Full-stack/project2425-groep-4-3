@@ -14,7 +14,7 @@ interface RentFormProps {
 
 const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: RentFormProps) => {
     const [startDate, setStartDate] = useState<string>("");
-    const [endDate, setEndDate] = useState<string>("");
+    const [returned, setReturned] = useState<boolean>(true);
     const [cost, setCost] = useState<number>(0);
     const [bikeId, setBikeId] = useState<number>(0);
     const router = useRouter();
@@ -41,10 +41,10 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
         setStartDateError("Start date cant be empty");
         result = false;
       }
-      if (!endDate || endDate.trim() === "" || endDate < startDate) {
-        setEndDateError("End date cant be empty");
-        result = false;
-      }
+      // if (!endDate || endDate.trim() === "" || endDate < startDate) {
+      //   setEndDateError("End date cant be empty");
+      //   result = false;
+      // }
       return result;
     };
 
@@ -55,11 +55,12 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
       if (!validate()) {
           return;
       };
+      setReturned(false);
 
       const newRent = {
         startDate: new Date(startDate),
-        endDate: new Date(endDate),
         cost: selectedBike.cost,
+        returned: returned,
         bike: selectedBike 
       };
 
@@ -93,20 +94,7 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
                 }
               </div>
         
-              <div className="items-center flex flex-col bg-[aliceblue] w-6/12 mx-[25%] p-4">
-                <label htmlFor="endDate">End Date</label>
-                <input
-                    className="mt-2 p-2 rounded-lg border-[solid] border-[0.1rem] border-black"
-                    type="datetime-local"
-                    id="endDate"
-                    name="endDate"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                />
-                {endDateError && 
-                  <div className="text-[red] mt-1">{endDateError}</div>
-                }
-              </div>
+              
     
               <button type="submit" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];"> Submit </button>
               <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={onCancel}>Cancel </button>

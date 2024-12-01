@@ -3,7 +3,7 @@ import bikeDb from "../repository/bike.db";
 import rentDb from "../repository/rent.db";
 import { RentInput } from "../types";
 
-const getAllRents = (): Rent[] => rentDb.getAllrents();
+const getAllRents = async (): Promise<Rent[]> => rentDb.getAllRents();
 
 const getRentById = async (id: number): Promise<Rent> => {
     const rent = await rentDb.getRentById({ id });
@@ -11,17 +11,21 @@ const getRentById = async (id: number): Promise<Rent> => {
     return rent;
 };
 
-const rentAbike = async ({startDate,endDate,cost,bike:bikeInput}:RentInput): Promise<Rent> =>{
-    if(!bikeInput)throw new Error(`No bike input.`)
-
-    if(bikeInput.id === undefined || bikeInput.id === null) throw new Error(`Id is required. ${bikeInput.id}`);
-
-    const bike = await bikeDb.getBikeById({id : bikeInput.id})
-    if(!bike) throw new Error(`Bike with given Id not found.`)
+const rentAbike = async ({startDate,returned,cost,bikeId}:RentInput): Promise<Rent> =>{
+    const todaysDate = new Date();
+    if(startDate < todaysDate){
+        throw new Error('Start date cannot be in the past.');
+    }
+    const bikeInput = await bikeDb.getBikeById({id : bikeId});
+    if(!bikeInput)throw new Error(`No bike input wit id ${bikeId}.`)
     
-    const rent = new Rent({startDate,endDate,cost,bike: bike});
+    const rents = await getAllRents()
+    const bikeIds = rents.map(rent => rent.getBike().getId());
+    if(bikeIds.includes(bikeId)){
+        throw new Error(`Bike with ${bikeId} is already rented.`)
+    }
+    const rent = new Rent({startDate,returned,cost,bike: bikeInput});
     return await rentDb.createRent(rent);
-
 }
 
 export default { getAllRents, getRentById, rentAbike };

@@ -19,7 +19,7 @@ export type Bike = {
 export type Rent = {
     rentId?: number;
     startDate: Date;
-    endDate: Date;
+    returned: Boolean;
     cost: number;
     bike: Bike;
 };
