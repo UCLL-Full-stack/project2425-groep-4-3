@@ -14,7 +14,7 @@ type RentInput = {
     startDate: Date;
     returned: boolean;
     cost: number;
-    bike?: BikeInput;
+    bikeId: number;
 }
 export{
     size,

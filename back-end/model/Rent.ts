@@ -19,7 +19,7 @@ export class Rent{
 
     validate(rent:{startDate: Date;returned: boolean;cost: number}){
         const todaysDate = new Date();
-        if(rent.startDate < todaysDate){
+        if(rent.startDate > todaysDate){
             throw new Error('Start date cannot be in the past.');
         }
         if(this.returned == true){

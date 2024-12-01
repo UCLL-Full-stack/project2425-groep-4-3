@@ -36,7 +36,7 @@ async function main() {
   // Create some rents
   const rent1 = await prisma.rent.create({
     data: {
-      startDate: new Date('2023-01-01T00:00:00.000Z'),
+      startDate: new Date('2025-01-01T00:00:00.000Z'),
       returned: true,
       cost: 100,
       bike: { connect: { id: bike1.id } },
@@ -45,23 +45,14 @@ async function main() {
 
   const rent2 = await prisma.rent.create({
     data: {
-      startDate: new Date('2023-02-01T00:00:00.000Z'),
+      startDate: new Date('2025-02-01T00:00:00.000Z'),
       returned: false,
       cost: 50,
       bike: { connect: { id: bike2.id } },
     },
   });
 
-  const rent3 = await prisma.rent.create({
-    data: {
-      startDate: new Date('2023-03-01T00:00:00.000Z'),
-      returned: true,
-      cost: 200,
-      bike: { connect: { id: bike3.id } },
-    },
-  });
-
-  console.log({ bike1, bike2, bike3, rent1, rent2, rent3 });
+  console.log({ bike1, bike2, bike3, rent1, rent2 });
 }
 
 (async () => {

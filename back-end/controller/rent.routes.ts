@@ -41,6 +41,26 @@
  *            cost:
  *              type: number
  *              description: Cost of the bike.
+ *      RentInput:
+ *          type: object
+ *          properties:
+ *            id:
+ *              type: number
+ *              format: int64
+ *            startDate:
+ *              type: string
+ *              format: date-time
+ *              description: Start date Rent
+ *            returned:
+ *              type: boolean
+ *              description: Is the bike returned or not
+ *            cost:
+ *              type: number
+ *              description: Cost of the rent.
+ *            bikeId:
+ *              type: number
+ *              description: The id of the chosen bike
+ * 
  */
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -114,7 +134,7 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Rent'
+ *              $ref: '#/components/schemas/RentInput'
  *      responses:
  *         200:
  *            description: The created schedule.
