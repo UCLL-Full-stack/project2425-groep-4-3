@@ -1,14 +1,17 @@
 import { Bike } from "./Bike";
-import {Rent as RentPrisma,Bike as BikePrisma } from '@prisma/client'
+import { User } from "./User";
+import {Rent as RentPrisma,Bike as BikePrisma, User as UserPrisma} from '@prisma/client'
 export class Rent{
     private id?: number;
     private startDate:Date;
     private returned: boolean;
     private cost:number;
     private bike: Bike;
+    private users: User[] = [];
 
 
-    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike} ){
+
+    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike; users?:User[]} ){
         this.validate(rent);
         this.id = rent.id;
         this.startDate = rent.startDate;
@@ -66,6 +69,25 @@ export class Rent{
     public setBike(bike: Bike): void {
         this.bike = bike;
     }
+
+    getUsers(): User[] {
+        return this.users;
+    }
+    
+    setUsers(users: User[]): void {
+        this.users = users;
+    }
+    
+    addUser(user: User): void {
+        if (!this.users.some(u => u.equals(user))) {
+            this.users.push(user);
+        }
+    }
+    
+    removeUser(user: User): void {
+        this.users = this.users.filter(u => !u.equals(user));
+    }
+    
    
     equals(rent:Rent):boolean{
         return(
@@ -74,22 +96,24 @@ export class Rent{
             this.cost === rent.getCost()
         );
     }
-
     static from({
         id,
         startDate,
         returned,
         cost,
-        bike
-    }: RentPrisma &{
-        bike: BikePrisma
-    }){
-        return new Rent({
+        bike,
+        users
+    }: RentPrisma & { bike: BikePrisma; users?: User[] }) {
+        const rent = new Rent({
             id,
             startDate,
             returned,
             cost,
             bike: Bike.from(bike)
-        })
+        });
+        rent.setUsers(users?.map(User.from) || []);
+        return rent;
     }
+    
+
 }

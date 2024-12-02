@@ -6,6 +6,12 @@ datasource db {
     url = env("DATABASE_URL")
 }
 
+enum Role {
+  User
+  Admin
+  Renter
+}
+
 model Bike{
     id          Int @id @default(autoincrement()) @unique
     brand       String
@@ -16,11 +22,33 @@ model Bike{
     rent        Rent?  
 }
 
-model Rent{
+model Rent {
     id          Int @id @default(autoincrement()) @unique
     startDate   DateTime
     returned    Boolean
     cost        Int
     bike        Bike @relation(fields: [bikeId], references: [id])
     bikeId      Int  @unique
+    users       UserRent[]
+}
+
+model User {
+    id          Int @id @default(autoincrement()) @unique
+    name        String
+    email       String
+    age         Int
+    role        Role @default(User)
+    password    String
+    rents       UserRent[]
+}
+
+model UserRent {
+    userId      Int
+    rentId      Int
+    user        User @relation(fields: [userId], references: [id])
+    rent        Rent @relation(fields: [rentId], references: [id])
+
+    rentedAt    DateTime @default(now())
+
+    @@id([userId, rentId])
 }

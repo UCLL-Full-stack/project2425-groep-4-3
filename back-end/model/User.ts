@@ -1,12 +1,21 @@
+import { User as UserPrisma, Rent as RentPrisma } from '@prisma/client'
+import { Role } from '@prisma/client';
+import { Rent } from './Rent';
+
+
+
 export class User{
+
     private id?: number;
     private name: string;
     private email: string;
     private age: number;
-    private role: string;
+    private role: Role;
     private password: string;
+    private rents: Rent[] = [];
 
-    constructor(user:{id?: number, name: string, email: string, age: number, role: string, password: string} ){
+
+    constructor(user:{id?: number, name: string, email: string, age: number, role: Role, password: string, rents?:Rent[]} ){
         this.validate(user);
         this.id = user.id;
         this.name = user.name;
@@ -14,9 +23,11 @@ export class User{
         this.age = user.age;
         this.role = user.role;
         this.password = user.password;
+        this.rents = user.rents || [];
+
     }
 
-    validate(user:{name: string, email: string, age: number, role: string, password: string}){
+    validate(user:{name: string, email: string, age: number, password: string}){
         if(!user.name?.trim()){
             throw new Error('Name is required.');
         }
@@ -29,10 +40,6 @@ export class User{
         if(user.age < 16){
             throw new Error('Minimum age is 16 years.');
         }
-        if(!user.role?.trim()){
-            throw new Error('Role is required.');
-        }
-
         if(user.password.length < 6){
             throw new Error('Password must be at least 6 characters long.');
         }
@@ -54,7 +61,7 @@ export class User{
         return this.age;
     }
 
-    getRole():string{
+    getRole():Role{
         return this.role;
     }
 
@@ -78,13 +85,32 @@ export class User{
         this.age = age;
     }
 
-    setRole(role: string): void {
+    setRole(role: Role): void {
         this.role = role;
     }
 
     setPassword(password: string): void {
         this.password = password;
     }
+
+    getRents(): Rent[] {
+        return this.rents;
+    }
+    
+    setRents(rents: Rent[]): void {
+        this.rents = rents;
+    }
+    
+    addRent(rent: Rent): void {
+        if (!this.rents.some(r => r.equals(rent))) {
+            this.rents.push(rent);
+        }
+    }
+    
+    removeRent(rent: Rent): void {
+        this.rents = this.rents.filter(r => !r.equals(rent));
+    }
+    
 
     equals(user:User):boolean{
         return(
@@ -95,4 +121,27 @@ export class User{
             this.password === user.getPassword()
         );
     }
+
+    static from({
+        id,
+        name,
+        email,
+        age,
+        role,
+        password,
+        rents
+    }: UserPrisma & { rents?: Rent[] }) {
+        const user = new User({
+            id,
+            name,
+            email,
+            age,
+            role,
+            password
+        });
+        user.setRents(rents?.map(Rent.from) || []);
+        return user;
+    }
+    
+    
 }
