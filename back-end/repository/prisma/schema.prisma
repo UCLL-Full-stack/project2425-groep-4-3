@@ -30,6 +30,15 @@ model Rent {
     bike        Bike @relation(fields: [bikeId], references: [id])
     bikeId      Int  @unique
     users       UserRent[]
+    accessories Accessory[]
+}
+
+model Accessory {
+    id          Int @id @default(autoincrement()) @unique
+    name        String
+    amount      Int
+    cost        Int
+    rents       Rent[]
 }
 
 model User {

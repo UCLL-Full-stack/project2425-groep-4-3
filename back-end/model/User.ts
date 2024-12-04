@@ -2,8 +2,6 @@ import { User as UserPrisma, Rent as RentPrisma } from '@prisma/client'
 import { Role } from '@prisma/client';
 import { Rent } from './Rent';
 
-
-
 export class User{
 
     private id?: number;
