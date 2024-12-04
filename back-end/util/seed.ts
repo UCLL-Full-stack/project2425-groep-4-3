@@ -2,7 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create some bikes
   const bike1 = await prisma.bike.create({
     data: {
       brand: 'Giant',
@@ -40,7 +39,7 @@ async function main() {
       age: 20,
       role: 'User',
       password: 'Sander123',
-    }
+    },
   });
 
   const user2 = await prisma.user.create({
@@ -50,7 +49,7 @@ async function main() {
       age: 20,
       role: 'Admin',
       password: 'Niels123',
-    }
+    },
   });
 
   const user3 = await prisma.user.create({
@@ -60,7 +59,7 @@ async function main() {
       age: 25,
       role: 'Renter',
       password: 'Remco123',
-    }
+    },
   });
 
   const user4 = await prisma.user.create({
@@ -70,7 +69,31 @@ async function main() {
       age: 25,
       role: 'Renter',
       password: 'Wout123',
-    }
+    },
+  });
+
+  const accessory1 = await prisma.accessory.create({
+    data: {
+      name: 'Helmet',
+      amount: 50,
+      cost: 25,
+    },
+  });
+
+  const accessory2 = await prisma.accessory.create({
+    data: {
+      name: 'Lock',
+      amount: 100,
+      cost: 15,
+    },
+  });
+
+  const accessory3 = await prisma.accessory.create({
+    data: {
+      name: 'Lights',
+      amount: 75,
+      cost: 20,
+    },
   });
 
   const rent1 = await prisma.rent.create({
@@ -80,6 +103,9 @@ async function main() {
       cost: 100,
       bike: { connect: { id: bike1.id } },
       user: { connect: { id: user1.id } },
+      accessories: {
+        connect: [{ id: accessory1.id }, { id: accessory2.id }],
+      },
     },
   });
 
@@ -90,11 +116,26 @@ async function main() {
       cost: 50,
       bike: { connect: { id: bike2.id } },
       user: { connect: { id: user2.id } },
+      accessories: {
+        connect: [{ id: accessory3.id }],
+      },
     },
   });
-      
 
-  console.log({ bike1, bike2, bike3, rent1, rent2, user1, user2, user3, user4 });
+  console.log({
+    bike1,
+    bike2,
+    bike3,
+    user1,
+    user2,
+    user3,
+    user4,
+    rent1,
+    rent2,
+    accessory1,
+    accessory2,
+    accessory3,
+  });
 }
 
 (async () => {

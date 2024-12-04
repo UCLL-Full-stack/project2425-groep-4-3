@@ -1,12 +1,14 @@
+import { Rent as RentPrisma, Accessory as AccessoryPrisma, User as UserPrisma, Bike as BikePrisma } from "@prisma/client";
+import { Rent } from "./Rent";
 export class Accessory{
-    private accessoryId?: number;
-    private name: String;
+    private id?: number;
+    private name: string;
     private amount: number;
     private cost: number;
 
-    constructor(accessory: {accessoryId?: number; name: string,amount: number,cost: number}) {
+    constructor(accessory: {id?: number; name: string,amount: number,cost: number}) {
         this.validate(accessory);
-        this.accessoryId = accessory.accessoryId;
+        this.id = accessory.id;
         this.name = accessory.name;
         this.amount = accessory.amount;
         this.cost = accessory.cost;
@@ -25,14 +27,14 @@ export class Accessory{
     }
 
     public getId(): number | undefined {
-        return this.accessoryId;
+        return this.id;
     }
 
     public setId(id: number): void {
-        this.accessoryId = id;
+        this.id = id;
     }
 
-    public getName(): String {
+    public getName(): string {
         return this.name;
     }
 
@@ -56,9 +58,30 @@ export class Accessory{
         this.cost = cost;
     }
 
+   
+    
+    
+
     equals(accessory: Accessory): boolean {
         return this.name === accessory.getName() && 
         this.amount === accessory.getAmount() && 
         this.cost === accessory.getCost();
     }
+
+    static from({
+        id,
+        name,
+        amount,
+        cost,
+        
+    }: AccessoryPrisma & {
+    }) {
+        return new Accessory({
+            id,
+            name,
+            amount,
+            cost,
+        });
+    }
+
 }   

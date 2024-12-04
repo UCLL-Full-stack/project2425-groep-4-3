@@ -47,6 +47,12 @@ CREATE TABLE "User" (
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "_AccessoryToRent" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Bike_id_key" ON "Bike"("id");
 
@@ -65,8 +71,20 @@ CREATE UNIQUE INDEX "Accessory_id_key" ON "Accessory"("id");
 -- CreateIndex
 CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_AccessoryToRent_AB_unique" ON "_AccessoryToRent"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_AccessoryToRent_B_index" ON "_AccessoryToRent"("B");
+
 -- AddForeignKey
 ALTER TABLE "Rent" ADD CONSTRAINT "Rent_bikeId_fkey" FOREIGN KEY ("bikeId") REFERENCES "Bike"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Rent" ADD CONSTRAINT "Rent_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_AccessoryToRent" ADD CONSTRAINT "_AccessoryToRent_A_fkey" FOREIGN KEY ("A") REFERENCES "Accessory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_AccessoryToRent" ADD CONSTRAINT "_AccessoryToRent_B_fkey" FOREIGN KEY ("B") REFERENCES "Rent"("id") ON DELETE CASCADE ON UPDATE CASCADE;

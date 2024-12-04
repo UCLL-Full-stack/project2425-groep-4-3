@@ -1,5 +1,6 @@
 import { Role } from "@prisma/client";
 
+
 type size = "S" | "M" | "L" | "XL"
 
 
@@ -19,6 +20,7 @@ type RentInput = {
     cost: number;
     bikeId: number;
     userId: number;
+    accessoriesIdList: number[];
 }
 
 type UserInput = {
@@ -30,9 +32,17 @@ type UserInput = {
     password: string;
 }
 
+type AccessoryInput = {
+    id?: number;
+    name: string;
+    amount: number;
+    cost: number;
+}
+
 export{
     size,
     BikeInput,
     RentInput,
-    UserInput
+    UserInput,
+    AccessoryInput
 }
