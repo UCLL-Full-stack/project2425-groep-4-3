@@ -1,12 +1,22 @@
 import Header from '@components/header';
-import { Rent } from '@types';
+import { Accessory, Rent } from '@types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import RentService from '@services/RentService';
 import RentOverviewTable from '@components/rents/RentOverviewTable';
+import AccessoryOverviewTable from '@components/accessories/AccessoryOverviewTable';
+import AccessoryService from '@services/AccessoryService';
 
 const Rents: React.FC = () => {
     const [rents,setRents]= useState<Array<Rent>>();
+
+    const [accessories,setAccessories]= useState<Array<Accessory>>();
+    
+    const getaccessories =async () => {
+        const res = await AccessoryService.getAllAccessories();
+        const accessoryList = await res.json();
+        setAccessories(accessoryList)
+    }
     
     const getrents =async () => {
         const res = await RentService.getAllRents();
@@ -14,7 +24,8 @@ const Rents: React.FC = () => {
         setRents(rentsList)
     }
     useEffect(()=>{
-        getrents()
+        getrents(),
+        getaccessories()
     },[])
   return (
     <>
@@ -28,6 +39,11 @@ const Rents: React.FC = () => {
           <h2>Rents overview</h2>
           {rents &&(
             <RentOverviewTable rents={rents}></RentOverviewTable>
+          )}
+
+          <h1>Accessory's</h1>
+          {accessories &&(
+            <AccessoryOverviewTable accessories={accessories}></AccessoryOverviewTable>
           )}
         </section>
       </main>
