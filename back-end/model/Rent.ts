@@ -1,20 +1,25 @@
 import { Bike } from "./Bike";
-import {Rent as RentPrisma,Bike as BikePrisma } from '@prisma/client'
+import { User } from "./User";
+import {Rent as RentPrisma,Bike as BikePrisma, User as UserPrisma} from '@prisma/client'
 export class Rent{
     private id?: number;
     private startDate:Date;
     private returned: boolean;
     private cost:number;
     private bike: Bike;
+    private user: User;
+    
 
 
-    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike} ){
+
+    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike; user:User} ){
         this.validate(rent);
         this.id = rent.id;
         this.startDate = rent.startDate;
         this.returned = rent.returned;
         this.cost = rent.cost;
         this.bike = rent.bike;
+        this.user = rent.user;
     }
 
     validate(rent:{startDate: Date;returned: boolean;cost: number}){
@@ -66,6 +71,16 @@ export class Rent{
     public setBike(bike: Bike): void {
         this.bike = bike;
     }
+
+    getUser(): User {
+        return this.user;
+    }
+    
+    setUser(user: User): void {
+        this.user = user;
+    }
+    
+
    
     equals(rent:Rent):boolean{
         return(
@@ -80,16 +95,17 @@ export class Rent{
         startDate,
         returned,
         cost,
-        bike
-    }: RentPrisma &{
-        bike: BikePrisma
-    }){
+        bike,
+        user
+    }: RentPrisma & { bike: BikePrisma; user: UserPrisma }): Rent {
         return new Rent({
             id,
             startDate,
             returned,
             cost,
-            bike: Bike.from(bike)
-        })
-    }
+            bike: Bike.from(bike),
+            user: User.from(user) 
+        });
+    }  
+    
 }

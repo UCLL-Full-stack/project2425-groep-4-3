@@ -94,7 +94,6 @@ export class Bike{
         brand,
         model,
         location,
-        //dit is raar ma vind niet waar die hoofdletter is
         size,
         cost
     }: BikePrisma){

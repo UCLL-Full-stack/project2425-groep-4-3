@@ -20,6 +20,29 @@
  *              description: Cost of the rent.
  *            bike:
  *              $ref: '#/components/schemas/Bike'
+ *            user:
+ *              $ref: '#/components/schemas/User'
+ *      User:
+ *          type: object
+ *          properties:
+ *            id:
+ *              type: number
+ *              format: int64
+ *            name:
+ *              type: string
+ *              description: Name of the user
+ *            email:
+ *              type: string
+ *              description: Email of the user
+ *            age:
+ *              type: number
+ *              description: Age of the user
+ *            role:
+ *              type: string
+ *              description: Role of the user
+ *            password:
+ *              type: string
+ *              description: Password of the user
  *      Bike:
  *          type: object
  *          properties:
@@ -57,6 +80,10 @@
  *            bikeId:
  *              type: number
  *              description: The id of the chosen bike
+ *            userId:
+ *              type: number
+ *              description: The id of the user who rents the bike
+ * 
  * 
  */
 
