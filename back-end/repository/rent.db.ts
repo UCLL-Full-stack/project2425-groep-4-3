@@ -5,7 +5,7 @@ import database from "../util/database";
 const getAllRents = async (): Promise<Rent[]> => {
     try {
         const rentsPrisma = await database.rent.findMany({
-            include: {bike: true}
+            include: {bike: true, user: true},
         });
         return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
     } catch (error) {
@@ -17,7 +17,7 @@ const getRentById = async ({ id }: { id: number }): Promise<Rent | null> => {
     try {
         const rentPrisma = await database.rent.findUnique({
             where: { id },
-            include: { bike: true },
+            include: { bike: true, user: true },
         });
 
         return rentPrisma ? Rent.from(rentPrisma) : null;
@@ -36,12 +36,17 @@ const createRent = async (rent: Rent): Promise<Rent> => {
                 cost: rent.getCost(),
                 bike: {
                     connect: {id: rent.getBike().getId()}
-                }
                 },
-                include:{
-                    bike: true
-                }
-            })
+                user: {
+                    connect: {id: rent.getUser().getId()}
+                },
+                
+            },
+            include:{
+                bike: true,
+                user: true
+            }});
+    
         return Rent.from(rentPrisma);
     } catch (error) {
         console.error(error);

@@ -1,4 +1,7 @@
+import { Role } from "@prisma/client";
+
 type size = "S" | "M" | "L" | "XL"
+
 
 type BikeInput = {
     id?: number;
@@ -15,9 +18,21 @@ type RentInput = {
     returned: boolean;
     cost: number;
     bikeId: number;
+    userId: number;
 }
+
+type UserInput = {
+    id?: number;
+    name: string;
+    email: string;
+    age: number;
+    role: Role;
+    password: string;
+}
+
 export{
     size,
     BikeInput,
-    RentInput
+    RentInput,
+    UserInput
 }
