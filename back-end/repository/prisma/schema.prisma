@@ -27,10 +27,10 @@ model Rent {
     startDate   DateTime
     returned    Boolean
     cost        Int
-    bike        Bike @relation(fields: [bikeId], references: [id])
     bikeId      Int  @unique
-    users       UserRent[]
-    accessories Accessory[]
+    bike        Bike @relation(fields: [bikeId], references: [id])
+    userId      Int  @unique
+    user        User @relation(fields: [userId], references: [id])
 }
 
 model Accessory {
@@ -38,7 +38,6 @@ model Accessory {
     name        String
     amount      Int
     cost        Int
-    rents       Rent[]
 }
 
 model User {
@@ -48,16 +47,5 @@ model User {
     age         Int
     role        Role @default(User)
     password    String
-    rents       UserRent[]
-}
-
-model UserRent {
-    userId      Int
-    rentId      Int
-    user        User @relation(fields: [userId], references: [id])
-    rent        Rent @relation(fields: [rentId], references: [id])
-
-    rentedAt    DateTime @default(now())
-
-    @@id([userId, rentId])
+    rents       Rent[]
 }

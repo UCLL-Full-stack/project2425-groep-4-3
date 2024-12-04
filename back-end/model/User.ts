@@ -1,4 +1,4 @@
-import { User as UserPrisma, Rent as RentPrisma } from '@prisma/client'
+import { User as UserPrisma, Rent as RentPrisma, Bike as BikePrisma} from '@prisma/client'
 import { Role } from '@prisma/client';
 import { Rent } from './Rent';
 
@@ -10,7 +10,7 @@ export class User{
     private age: number;
     private role: Role;
     private password: string;
-    private rents: Rent[] = [];
+    private rents: Rent[];
 
 
     constructor(user:{id?: number, name: string, email: string, age: number, role: Role, password: string, rents?:Rent[]} ){
@@ -127,18 +127,19 @@ export class User{
         age,
         role,
         password,
-        rents
-    }: UserPrisma & { rents?: Rent[] }) {
-        const user = new User({
+        rents,
+    }: UserPrisma & {
+        rents?: (RentPrisma & { bike: BikePrisma; user: UserPrisma })[];
+    }) {
+        return new User({
             id,
             name,
             email,
             age,
             role,
-            password
+            password,
+            rents: rents?.map(rent => Rent.from(rent)) || [],
         });
-        user.setRents(rents?.map(Rent.from) || []);
-        return user;
     }
     
     

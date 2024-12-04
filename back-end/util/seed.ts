@@ -33,25 +33,6 @@ async function main() {
     },
   });
 
-  // Create some rents
-  const rent1 = await prisma.rent.create({
-    data: {
-      startDate: new Date('2025-01-01T00:00:00.000Z'),
-      returned: true,
-      cost: 100,
-      bike: { connect: { id: bike1.id } },
-    },
-  });
-
-  const rent2 = await prisma.rent.create({
-    data: {
-      startDate: new Date('2025-02-01T00:00:00.000Z'),
-      returned: false,
-      cost: 50,
-      bike: { connect: { id: bike2.id } },
-    },
-  });
-
   const user1 = await prisma.user.create({
     data: {
       name: 'Sander',
@@ -92,7 +73,25 @@ async function main() {
     }
   });
 
+  const rent1 = await prisma.rent.create({
+    data: {
+      startDate: new Date('2025-01-01T00:00:00.000Z'),
+      returned: true,
+      cost: 100,
+      bike: { connect: { id: bike1.id } },
+      user: { connect: { id: user1.id } },
+    },
+  });
 
+  const rent2 = await prisma.rent.create({
+    data: {
+      startDate: new Date('2025-02-01T00:00:00.000Z'),
+      returned: false,
+      cost: 50,
+      bike: { connect: { id: bike2.id } },
+      user: { connect: { id: user2.id } },
+    },
+  });
       
 
   console.log({ bike1, bike2, bike3, rent1, rent2, user1, user2, user3, user4 });

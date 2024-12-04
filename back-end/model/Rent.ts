@@ -7,17 +7,19 @@ export class Rent{
     private returned: boolean;
     private cost:number;
     private bike: Bike;
-    private users: User[] = [];
+    private user: User;
+    
 
 
 
-    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike; users?:User[]} ){
+    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike; user:User} ){
         this.validate(rent);
         this.id = rent.id;
         this.startDate = rent.startDate;
         this.returned = rent.returned;
         this.cost = rent.cost;
         this.bike = rent.bike;
+        this.user = rent.user;
     }
 
     validate(rent:{startDate: Date;returned: boolean;cost: number}){
@@ -70,24 +72,15 @@ export class Rent{
         this.bike = bike;
     }
 
-    getUsers(): User[] {
-        return this.users;
+    getUser(): User {
+        return this.user;
     }
     
-    setUsers(users: User[]): void {
-        this.users = users;
+    setUser(user: User): void {
+        this.user = user;
     }
     
-    addUser(user: User): void {
-        if (!this.users.some(u => u.equals(user))) {
-            this.users.push(user);
-        }
-    }
-    
-    removeUser(user: User): void {
-        this.users = this.users.filter(u => !u.equals(user));
-    }
-    
+
    
     equals(rent:Rent):boolean{
         return(
@@ -96,24 +89,23 @@ export class Rent{
             this.cost === rent.getCost()
         );
     }
+
     static from({
         id,
         startDate,
         returned,
         cost,
         bike,
-        users
-    }: RentPrisma & { bike: BikePrisma; users?: User[] }) {
-        const rent = new Rent({
+        user
+    }: RentPrisma & { bike: BikePrisma; user: UserPrisma }): Rent {
+        return new Rent({
             id,
             startDate,
             returned,
             cost,
-            bike: Bike.from(bike)
+            bike: Bike.from(bike),
+            user: User.from(user) 
         });
-        rent.setUsers(users?.map(User.from) || []);
-        return rent;
-    }
+    }  
     
-
 }

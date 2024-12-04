@@ -18,6 +18,7 @@ type RentInput = {
     returned: boolean;
     cost: number;
     bikeId: number;
+    userId: number;
 }
 
 type UserInput = {
