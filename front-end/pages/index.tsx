@@ -2,8 +2,13 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Header from '@components/header';
 import styles from '@styles/home.module.css';
+import { GetServerSideProps, GetServerSidePropsContext} from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Head>
@@ -22,17 +27,22 @@ const Home: React.FC = () => {
             width={50}
             height={50}
           />
-          <h1>Welcome!</h1>
+          <h1>{t("home.title")}</h1>
         </span>
 
         <div className={styles.description}>
-          <p>
-            PedaLenen is a Bike renting application
+          <p>{t("home.info")}
+            
           </p>
         </div>
       </main>
     </>
   );
 };
+export const getServerSideProps: GetServerSideProps = async ({locale}) =>({
+  props: {
+    ...(await serverSideTranslations(locale ?? "nl" ,["common"])),
+  },
+})
 
 export default Home;
