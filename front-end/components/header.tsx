@@ -22,6 +22,10 @@ const Header: React.FC = () => {
         <Link href="/users" className="nav-link px-4 fs-5 text-white">
           Users
         </Link>
+
+        <Link href="/accessories" className="nav-link px-4 fs-5 text-white">
+          Accessories
+        </Link>
       </nav>
     </header>
   );

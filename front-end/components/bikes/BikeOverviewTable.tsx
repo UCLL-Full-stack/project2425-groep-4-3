@@ -66,6 +66,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes,rents }: Props) => {
           onCancel={() => setShowForm(false)}
           selectedBike={selectedBike}
         />
+        
       )}
     </>
   );
