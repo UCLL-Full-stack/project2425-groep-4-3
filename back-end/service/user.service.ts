@@ -41,6 +41,7 @@ const authenticate = async ({name, password}: AuthenticationRequest): Promise<Au
     };
     const userPassword = user.getPassword()
     console.log(userPassword)
+    console.log(password)
     const isValidPassword = await bcrypt.compare((password).trim(), (userPassword).trim())
     if (!isValidPassword) {
         throw new Error("Password is incorrect.")
