@@ -1,6 +1,6 @@
 import { User as UserPrisma, Rent as RentPrisma, Bike as BikePrisma} from '@prisma/client'
-import { Role } from '@prisma/client';
 import { Rent } from './Rent';
+import { Role } from '../types/index'
 
 export class User{
 
@@ -136,7 +136,7 @@ export class User{
             name,
             email,
             age,
-            role,
+            role: role as Role,
             password,
             rents: rents?.map(rent => Rent.from(rent)) || [],
         });

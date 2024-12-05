@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "Role" AS ENUM ('User', 'Admin', 'Renter');
-
 -- CreateTable
 CREATE TABLE "Bike" (
     "id" SERIAL NOT NULL,
@@ -41,7 +38,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "age" INTEGER NOT NULL,
-    "role" "Role" NOT NULL DEFAULT 'User',
+    "role" TEXT NOT NULL,
     "password" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

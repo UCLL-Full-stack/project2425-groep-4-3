@@ -1,6 +1,11 @@
 /**
  * @swagger
  *   components:
+ *    securitySchemes:
+ *      bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *    schemas:
  *      Rent:
  *          type: object
@@ -98,9 +103,11 @@ const rentRouter = express.Router();
  * @swagger
  * /rents:
  *   get:
- *     summary: Get a list of all rents.
- *     responses:
- *       200:
+ *       security:
+ *        - bearerAuth: [] 
+ *       summary: Get a list of all rents.
+ *       responses:
+ *        200:
  *         description: A list of rents.
  *         content:
  *           application/json:
@@ -122,6 +129,8 @@ rentRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /rents/{id}:
  *  get:
+ *      security:
+ *        - bearerAuth: [] 
  *      summary: Get a Rent by id.
  *      parameters:
  *          - in: path
@@ -152,20 +161,22 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  * @swagger
  * /rents/rentAbike:
  *   post:
- *      summary: rent a bike
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/RentInput'
- *      responses:
- *         200:
- *            description: The created schedule.
- *            content:
- *              application/json:
- *                schema:
- *                  $ref: '#/components/schemas/Rent'
+ *     security:
+ *       - bearerAuth: [] 
+ *     summary: Rent a bike
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RentInput'
+ *     responses:
+ *       200:
+ *         description: The created schedule.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Rent'
  */
 rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) => {
     try {

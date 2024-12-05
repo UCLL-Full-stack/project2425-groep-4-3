@@ -1,6 +1,11 @@
 /**
  * @swagger
  *   components:
+ *    securitySchemes:
+ *      bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *    schemas:
  *      Bike:
  *          type: object
@@ -33,8 +38,10 @@ const bikeRouter = express.Router();
  * @swagger
  * /bikes:
  *   get:
- *     summary: Get a list of all bikes.
- *     responses:
+ *      security:
+ *        - bearerAuth: [] 
+ *      summary: Get a list of all bikes.
+ *      responses:
  *       200:
  *         description: A list of bikes.
  *         content:
@@ -57,6 +64,8 @@ bikeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /bikes/{id}:
  *  get:
+ *      security:
+ *        - bearerAuth: [] 
  *      summary: Get a Bike by id.
  *      parameters:
  *          - in: path

@@ -1,6 +1,11 @@
 /**
  * @swagger
  *   components:
+ *    securitySchemes:
+ *      bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *    schemas:
  *      Accessory:
  *          type: object
@@ -29,6 +34,8 @@ const accessoryRouter = express.Router();
  * @swagger
  * /accessories:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all accessories.
  *     responses:
  *       200:
@@ -38,7 +45,7 @@ const accessoryRouter = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                  $ref: '#/components/schemas/Accessory'
+ *                 $ref: '#/components/schemas/Accessory'
  */
 accessoryRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -52,22 +59,24 @@ accessoryRouter.get('/', async (req: Request, res: Response, next: NextFunction)
 /**
  * @swagger
  * /accessories/{id}:
- *  get:
- *    summary: Get an accessory by ID.
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: integer
- *          required: true
- *          description: ID of the accessory to return.
- *    responses:
- *      200:
- *        description: An accessory object.
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Accessory'
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get an accessory by ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the accessory to return.
+ *     responses:
+ *       200:
+ *         description: An accessory object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Accessory'
  */
 accessoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
