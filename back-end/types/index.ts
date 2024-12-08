@@ -1,7 +1,7 @@
-import { Role } from "@prisma/client";
 
 type size = "S" | "M" | "L" | "XL"
 
+type Role = "admin" | "renter" | "owner"
 
 type BikeInput = {
     id?: number;
@@ -22,7 +22,7 @@ type RentInput = {
 }
 
 type UserInput = {
-    id?: number;
+    // id?: number;
     name: string;
     email: string;
     age: number;
@@ -30,9 +30,23 @@ type UserInput = {
     password: string;
 }
 
-export{
+type AuthenticationResponse = {
+    token: string;
+    name: string;
+    role: Role;
+};
+
+type AuthenticationRequest = {
+    name: string,
+    password: string
+}
+
+export {
     size,
     BikeInput,
     RentInput,
-    UserInput
-}
+    UserInput, 
+    Role,
+    AuthenticationResponse,
+    AuthenticationRequest
+};

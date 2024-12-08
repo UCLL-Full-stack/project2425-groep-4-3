@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "Role" AS ENUM ('User', 'Admin', 'Renter');
-
 -- CreateTable
 CREATE TABLE "Bike" (
     "id" SERIAL NOT NULL,
@@ -41,7 +38,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "age" INTEGER NOT NULL,
-    "role" "Role" NOT NULL DEFAULT 'User',
+    "role" TEXT NOT NULL,
     "password" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -64,6 +61,9 @@ CREATE UNIQUE INDEX "Accessory_id_key" ON "Accessory"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
 
 -- AddForeignKey
 ALTER TABLE "Rent" ADD CONSTRAINT "Rent_bikeId_fkey" FOREIGN KEY ("bikeId") REFERENCES "Bike"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

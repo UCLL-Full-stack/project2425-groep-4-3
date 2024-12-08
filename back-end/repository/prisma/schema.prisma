@@ -6,12 +6,6 @@ datasource db {
     url = env("DATABASE_URL")
 }
 
-enum Role {
-  User
-  Admin
-  Renter
-}
-
 model Bike{
     id          Int @id @default(autoincrement()) @unique
     brand       String
@@ -42,10 +36,10 @@ model Accessory {
 
 model User {
     id          Int @id @default(autoincrement()) @unique
-    name        String
+    name        String @unique
     email       String
     age         Int
-    role        Role @default(User)
+    role        String
     password    String
     rents       Rent[]
 }
