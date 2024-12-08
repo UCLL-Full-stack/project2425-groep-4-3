@@ -25,10 +25,6 @@ export class Rent{
     }
 
     validate(rent:{startDate: Date;returned: boolean;cost: number}){
-        
-        if(this.returned == true){
-            throw new Error('The rent is in use');
-        }
         if(rent.cost < 0){
             throw new Error('Cost cannot go under 0.');
         }
