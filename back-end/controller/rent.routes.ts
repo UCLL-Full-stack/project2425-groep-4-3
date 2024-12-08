@@ -1,94 +1,119 @@
 /**
  * @swagger
- *   components:
+ * components:
  *    securitySchemes:
  *      bearerAuth:
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
- *    schemas:
- *      Rent:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            startDate:
- *              type: string
- *              format: date-time
- *              description: Start date Rent
- *            returned:
- *              type: boolean
- *              description: Is the bike returned or not
- *            cost:
- *              type: number
- *              description: Cost of the rent.
- *            bike:
- *              $ref: '#/components/schemas/Bike'
- *            user:
- *              $ref: '#/components/schemas/User'
- *      User:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            name:
- *              type: string
- *              description: Name of the user
- *            email:
- *              type: string
- *              description: Email of the user
- *            age:
- *              type: number
- *              description: Age of the user
- *            role:
- *              type: string
- *              description: Role of the user
- *            password:
- *              type: string
- *              description: Password of the user
- *      Bike:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            brand:
- *              type: string
- *              description: Brand Bike
- *            model:
- *              type: string
- *              description: Model Bike
- *            location:
- *              type: string
- *              description: location Bike
- *            size:
- *              type: string
- *              enum: [S | M | L | XL]
- *            cost:
- *              type: number
- *              description: Cost of the bike.
- *      RentInput:
- *          type: object
- *          properties:
- *            startDate:
- *              type: string
- *              format: date-time
- *              description: Start date Rent
- *            returned:
- *              type: boolean
- *              description: Is the bike returned or not
- *            cost:
- *              type: number
- *              description: Cost of the rent.
- *            bikeId:
- *              type: number
- *              description: The id of the chosen bike
- *            userId:
- *              type: number
- *              description: The id of the user who rents the bike
- * 
+ *   schemas:
+ *     Rent:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *           description: Start date Rent
+ *         returned:
+ *           type: boolean
+ *           description: Is the bike returned or not
+ *         cost:
+ *           type: number
+ *           description: Cost of the rent.
+ *         bike:
+ *           $ref: '#/components/schemas/Bike'
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ *         accessories:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Accessory'
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         name:
+ *           type: string
+ *           description: Name of the user
+ *         email:
+ *           type: string
+ *           description: Email of the user
+ *         age:
+ *           type: number
+ *           description: Age of the user
+ *         role:
+ *           type: string
+ *           description: Role of the user
+ *         password:
+ *           type: string
+ *           description: Password of the user
+ *     Bike:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         brand:
+ *           type: string
+ *           description: Brand of the bike
+ *         model:
+ *           type: string
+ *           description: Model of the bike
+ *         location:
+ *           type: string
+ *           description: Location of the bike
+ *         size:
+ *           type: string
+ *           enum: [S, M, L, XL]
+ *         cost:
+ *           type: number
+ *           description: Cost of the bike.
+ *     Accessory:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *         name:
+ *           type: string
+ *           description: Name of the accessory
+ *         amount:
+ *           type: number
+ *           format: int64
+ *           description: Amount of the accessory
+ *         cost:
+ *           type: number
+ *           format: int64
+ *           description: Cost of the accessory
+ *     RentInput:
+ *       type: object
+ *       properties:
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *           description: Start date Rent
+ *         returned:
+ *           type: boolean
+ *           description: Is the bike returned or not
+ *         cost:
+ *           type: number
+ *           description: Cost of the rent.
+ *         bikeId:
+ *           type: number
+ *           description: The id of the chosen bike
+ *         userId:
+ *           type: number
+ *           description: The id of the user who rents the bike
+ *         accessoriesIdList:
+ *           type: array
+ *           items:
+ *             type: number
+ *             description: The id of the chosen accessories
  * 
  */
 
