@@ -40,11 +40,14 @@ const createRent = async (rent: Rent): Promise<Rent> => {
                 user: {
                     connect: {id: rent.getUser().getId()}
                 },
-                
+                accessories: {
+                    connect: rent.getAccessories().map(accessory => ({id: accessory.getId()}))
+                },
             },
             include:{
                 bike: true,
-                user: true
+                user: true,
+                accessories: true
             }});
     
         return Rent.from(rentPrisma);

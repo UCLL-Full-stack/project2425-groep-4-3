@@ -1,12 +1,12 @@
 import { Bike } from "../../model/Bike";
-import { Size } from "../../types";
+import { size } from "../../types";
 
 const validBike = {
     id: 0,
     brand: "Trek",
     model: "Domane AL 2",
     location: "Brussels",
-    size: "M" as Size,
+    size: "M" as size,
     cost: 25,
 };
 
@@ -24,7 +24,7 @@ test('given valid values for Bike, when Bike is created, then Bike is created wi
 });
 
 test('given an invalid size, when Bike is created, then throws an error', () => {
-    const invalidBike = { ...validBike, size: "KDHZ" as Size };
+    const invalidBike = { ...validBike, size: "KDHZ" as size };
     const createBike = () => new Bike(invalidBike);
     
     expect(createBike).toThrow('Size is required and must be one of: S, M, L, XL.');
@@ -75,7 +75,7 @@ test('when setting new values, then values are updated correctly', () => {
     bike.setBrand("Cannondale");
     bike.setModel("Synapse");
     bike.setLocation("Antwerp");
-    bike.setSize("L" as Size);
+    bike.setSize("L" as size);
     bike.setCost(30);
 
     // Then

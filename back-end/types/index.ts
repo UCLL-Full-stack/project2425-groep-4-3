@@ -19,6 +19,7 @@ type RentInput = {
     cost: number;
     bikeId: number;
     userId: number;
+    accessoriesIdList: number[];
 }
 
 type UserInput = {
@@ -29,6 +30,14 @@ type UserInput = {
     role: Role;
     password: string;
 }
+
+type AccessoryInput = {
+    id?: number;
+    name: string;
+    amount: number;
+    cost: number;
+}
+
 
 type AuthenticationResponse = {
     token: string;
@@ -45,7 +54,8 @@ export {
     size,
     BikeInput,
     RentInput,
-    UserInput, 
+    UserInput,
+    AccessoryInput, 
     Role,
     AuthenticationResponse,
     AuthenticationRequest
