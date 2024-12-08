@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+import bcrypt from 'bcrypt';
 
 async function main() {
   // Create some bikes
@@ -39,7 +40,7 @@ async function main() {
       email: 'Sander@gmail.com',
       age: 20,
       role: 'User',
-      password: 'Sander123',
+      password: await bcrypt.hash("Sander123", 12),
     }
   });
 

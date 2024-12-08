@@ -20,7 +20,13 @@ const createUser = async ({
     role,
     password
 }: UserInput): Promise<User> =>{
-    const user = new User({name,email,age,role,password});
+    const userCheck = await getUserByUsername({name});
+    if(userCheck != null){
+        throw new Error(`User with name: ${name} already exist.`);
+    }
+    const hashedPassword = await bcrypt.hash(password, 12)
+
+    const user = new User({name,email,age,role,password:hashedPassword});
     return await userDb.createUser(user)
 }
 
@@ -39,10 +45,11 @@ const authenticate = async ({name, password}: AuthenticationRequest): Promise<Au
     if ((user == null)) {
         throw new Error(`Authanticate Error.`)
     };
-    const userPassword = user.getPassword()
-    console.log(userPassword)
+
     console.log(password)
-    const isValidPassword = await bcrypt.compare((password).trim(), (userPassword).trim())
+    console.log(user.getPassword())
+
+    const isValidPassword = await bcrypt.compare(password, user.getPassword())
     if (!isValidPassword) {
         throw new Error("Password is incorrect.")
     }

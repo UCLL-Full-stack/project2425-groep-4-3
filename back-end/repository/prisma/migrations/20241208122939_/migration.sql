@@ -62,6 +62,9 @@ CREATE UNIQUE INDEX "Accessory_id_key" ON "Accessory"("id");
 -- CreateIndex
 CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
+
 -- AddForeignKey
 ALTER TABLE "Rent" ADD CONSTRAINT "Rent_bikeId_fkey" FOREIGN KEY ("bikeId") REFERENCES "Bike"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
