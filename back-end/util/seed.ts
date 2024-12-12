@@ -38,7 +38,7 @@ async function main() {
       name: 'Sander',
       email: 'Sander@gmail.com',
       age: 20,
-      role: 'User',
+      role: 'Owner',
       password: await bcrypt.hash("Sander123", 12),
     }
   });
@@ -103,7 +103,7 @@ async function main() {
       returned: true,
       cost: 100,
       bike: { connect: { id: bike1.id } },
-      user: { connect: { id: user1.id } },
+      user: { connect: { id: user3.id } },
       accessories: {
         connect: [{ id: accessory1.id }, { id: accessory2.id }],
       },
@@ -116,7 +116,7 @@ async function main() {
       returned: false,
       cost: 50,
       bike: { connect: { id: bike2.id } },
-      user: { connect: { id: user2.id } },
+      user: { connect: { id: user4.id } },
       accessories: {
         connect: [{ id: accessory3.id }],
       },

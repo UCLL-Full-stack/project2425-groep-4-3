@@ -1,3 +1,4 @@
+import { Bike, User } from "@prisma/client";
 
 type size = "S" | "M" | "L" | "XL"
 
@@ -50,6 +51,15 @@ type AuthenticationRequest = {
     password: string
 }
 
+type RentInputUpdate={
+    id?: number;
+    startDate: Date;
+    returned: boolean;
+    cost: number;
+    bike: Bike;
+    user: User;
+    accessoriesIdList: number[];
+}
 export {
     size,
     BikeInput,
@@ -58,5 +68,6 @@ export {
     AccessoryInput, 
     Role,
     AuthenticationResponse,
-    AuthenticationRequest
+    AuthenticationRequest,
+    RentInputUpdate
 };

@@ -1,5 +1,6 @@
 import { Bike } from "../model/Bike";
 import { Rent } from "../model/Rent";
+import { RentInput, RentInputUpdate } from "../types";
 import database from "../util/database";
 
 const getAllRents = async (): Promise<Rent[]> => {
@@ -57,8 +58,66 @@ const createRent = async (rent: Rent): Promise<Rent> => {
     }
 };
 
+const updateRentById = async (rent: RentInputUpdate,id:number): Promise<Rent> =>{
+    try{
+        // console.log("Updating rent with id:", id);
+        // console.log("Rent data:", rent);
+        const rentPrisma = await database.rent.update({
+            where:{
+                id:id
+            },
+            data:{
+                startDate: rent.startDate,
+                returned: rent.returned,
+                cost: rent.cost,
+                bike: {
+                    connect: {id: rent.bike.id}
+                },
+                user: {
+                    connect: {id: rent.user.id}
+                },
+                accessories: {
+                    connect: (rent.accessoriesIdList || []).map(accId => ({ id: accId })),
+                },
+                
+            },
+            include: {
+                bike: true,
+                user: true,
+                accessories: true
+            }
+        });
+        return Rent.from(rentPrisma);
+    }catch(error){
+        console.log("Error occurred while updating rent by given id.");
+        console.log(error)
+        throw error;
+    }
+}
+
+const deleteRentById = async (id : number) : Promise<Rent> => {
+    try {
+        const rentToDelete = await database.rent.delete({
+            where: {
+                id: id,
+            },
+            include: {
+                bike: true,
+                user: true,
+                accessories: true
+            }
+        });
+        return Rent.from(rentToDelete);
+    } catch (error) {
+        console.log("Error occurred while deleting rent by id.")
+        throw error;
+    };
+};
+
 export default {
     getAllRents,
     getRentById,
-    createRent
+    createRent,
+    updateRentById,
+    deleteRentById
 };

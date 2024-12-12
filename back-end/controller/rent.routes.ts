@@ -120,7 +120,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import rentService from '../service/rent.service';
 import { Rent } from '../model/Rent';
-import { RentInput } from '../types';
+import { RentInput, RentInputUpdate } from '../types';
 
 const rentRouter = express.Router();
 
@@ -213,4 +213,77 @@ rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) 
     };
 });
 
+/**
+ * @swagger
+ * paths: 
+ *  /rents/updateById/{id}:
+ *      put:    
+ *          security:
+ *              - bearerAuth: []
+ *          summary: Update user with the given id and new rent
+ *          parameters:
+ *              - name: id
+ *                in: path 
+ *                required: true
+ *                schema: 
+ *                  type: integer
+ *                  format: int64
+ *          requestBody:
+ *                  required: true
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Rent'                 
+ *          responses: 
+ *              '200':
+ *                  description: The updated rent is returned
+ *                  content: 
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/components/schemas/Rent'
+ */        
+rentRouter.put("/updateById/:id", async (req: Request, res: Response, next: NextFunction) => { 
+    try {
+        const idParam : string = req.params.id;
+        const rentInfo = <RentInputUpdate>req.body;
+        
+        const updatedRent = await rentService.deleteAndUpdateRent(rentInfo, parseInt(idParam, 10));
+        return res.status(200).json(updatedRent);
+    } catch (error) {    
+        next(error);
+    };
+}); 
+
+/**
+ * @swagger
+ * paths: 
+ *  /rents/byId/{id}:
+ *      delete:    
+ *          security:
+ *              - bearerAuth: []
+ *          summary: Delete user with the given id
+ *          parameters: 
+ *              - name: id
+ *                in: path 
+ *                required: true
+ *                schema: 
+ *                  type: integer
+ *                  format: int64
+ *          responses: 
+ *              '200':
+ *                  description: The deleted user is returned
+ *                  content: 
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/components/schemas/Rent'
+ */        
+rentRouter.delete("/byId/:id", async (req: Request, res: Response, next: NextFunction) => { 
+    try {
+        const idParam : string = req.params.id;
+        const deletedRent = await rentService.deleteRentById(parseInt(idParam, 10));
+        return res.status(200).json(deletedRent);
+    } catch (error) {    
+        next(error);
+    }
+});
 export { rentRouter };

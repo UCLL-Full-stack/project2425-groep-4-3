@@ -17,12 +17,15 @@ export type Bike = {
   };
   
 export type Rent = {
-    rentId?: number;
+    id?: number;
     startDate: Date;
     returned: Boolean;
     cost: number;
     bike: Bike;
+    user: User;
+    accessoriesIdList: number[];
 };
+
 
 export type StatusMessage = {
     message : String,
