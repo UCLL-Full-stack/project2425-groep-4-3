@@ -1,33 +1,67 @@
 import Header from '@components/header';
-import { Bike } from '@types';
+import { Bike, Rent, User } from '@types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import BikeService from '@services/BikeService';
 import BikeOverviewTable from '@components/bikes/BikeOverviewTable';
+import RentService from '@services/RentService';
+import UserService from '@services/UserService';
 
 const Bikes: React.FC = () => {
-    const [bikes,setBikes]= useState<Array<Bike>>();
-    
-    const getbikes =async () => {
-        const res = await BikeService.getAllBikes();
-        const bikesList = await res.json();
-        setBikes(bikesList)
+  
+  const [bikes, setBikes] = useState<Array<Bike>>();
+  const [rents, setRents] = useState<Array<Rent>>();
+  const [error, setError] = useState<string>();
+
+  const getbikes = async () => {
+    setError("");
+    const response = await BikeService.getAllBikes();
+    if (!response.ok) {
+      if (response.status === 401) {
+        setError("You are not authorized.");
+      } else {
+        setError(response.statusText);
+      }
+    } else {
+      const bikes = await response.json();
+      setBikes(bikes);
     }
-    useEffect(()=>{
-        getbikes()
-    },[])
+  };
+
+  const getrents = async () => {
+    setError("");
+    const response = await RentService.getAllRents();
+    if (!response.ok) {
+      if (response.status === 401) {
+        setError("You are not authorized.");
+      } else {
+        setError(response.statusText);
+      }
+    } else {
+      const rents = await response.json();
+      setRents(rents);
+    }
+  };
+
+  useEffect(() => {
+    getbikes();
+    getrents();
+  }, []);
+
   return (
     <>
       <Head>
         <title>Bikes</title>
       </Head>
       <Header />
-      <main className="d-flex flex-column justify-content-center align-items-center">
-        <h1>Bikes</h1>
-        <section>
-          <h2>Bikes overview</h2>
-          {bikes &&(
-            <BikeOverviewTable bikes={bikes}></BikeOverviewTable>
+      <main className="flex flex-col items-center py-8">
+        <h1 className="text-3xl font-semibold mb-8">Bikes Overview</h1>
+        <section className="w-full max-w-7xl px-4">
+          <h2 className="text-2xl font-semibold mb-4">Bikes Overview</h2>
+          {bikes && rents ? (
+            <BikeOverviewTable bikes={bikes} rents={rents} />
+          ) : (
+            <p className="text-red-500">Error loading data: {error}</p>
           )}
         </section>
       </main>

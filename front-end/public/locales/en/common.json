@@ -1,0 +1,49 @@
+{
+
+    "app.title": "PedaLenen",
+    "home": {
+        "title": "Welcome",
+        "info": "PedaLenen is a Bike renting application."
+        
+    },
+    "login":{
+        "title":"Login",
+        "signup":"I don't have an account yet",
+        "label":{
+            "username":"Username:",
+            "password":"Password:"
+        },
+        "button":"Login",
+        "succes":"succes",
+        "error":"Something went wrong with login, try again.",
+        "validate":{
+            "password":"Password is incorrect.",
+            "name":"Username is incorrect."
+        }
+        
+    },
+    "signup":{
+        "title":"Sign up",
+        "login":"I already have an account",
+        "label":{
+            "username":"Username:",
+            "password":"Password:",
+            "confirmPassword":"Confirm password:",
+            "email":"Email:",
+            "age":"Age:",
+            "role":"Select your role:"
+        },
+        "button":"Sign up",
+        "success":"success",
+        "error":"Something went wrong with signup, try again.",
+        "validate":{
+            "password":"Password is empty.",
+            "confirmPassword":"Passwords do not match.",
+            "name":"Username is incorrect.",
+            "email":"Email is incorrect.",
+            "age":"Age is incorrect.",
+            "role":"Role is not selected."
+
+        }
+    }
+}

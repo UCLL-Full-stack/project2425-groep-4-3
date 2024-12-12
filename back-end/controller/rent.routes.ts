@@ -1,53 +1,126 @@
 /**
  * @swagger
  *   components:
- *    schemas:
- *      Rent:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            startDate:
- *              type: string
- *              format: date-time
- *              description: Start date Rent
- *            endDate:
- *              type: string
- *              format: date-time
- *              description: End date Rent
- *            cost:
- *              type: number
- *              description: Cost of the rent.
- *            bike:
- *              $ref: '#/components/schemas/Bike'
- *      Bike:
- *          type: object
- *          properties:
- *            id:
- *              type: number
- *              format: int64
- *            brand:
- *              type: string
- *              description: Brand Bike
- *            model:
- *              type: string
- *              description: Model Bike
- *            location:
- *              type: string
- *              description: location Bike
- *            size:
- *              type: string
- *              enum: [S | M | L | XL]
- *            cost:
- *              type: number
- *              description: Cost of the bike.
+ *     securitySchemes:
+ *       bearerAuth:
+ *         type: http
+ *         scheme: bearer
+ *         bearerFormat: JWT
+ *     schemas:
+ *       Rent:
+ *         type: object
+ *         properties:
+ *           id:
+ *             type: number
+ *             format: int64
+ *           startDate:
+ *             type: string
+ *             format: date-time
+ *             description: Start date Rent
+ *           returned:
+ *             type: boolean
+ *             description: Is the bike returned or not
+ *           cost:
+ *             type: number
+ *             description: Cost of the rent.
+ *           bike:
+ *             $ref: '#/components/schemas/Bike'
+ *           user:
+ *             $ref: '#/components/schemas/User'
+ *           accessories:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/Accessory'
+ *       User:
+ *         type: object
+ *         properties:
+ *           id:
+ *             type: number
+ *             format: int64
+ *           name:
+ *             type: string
+ *             description: Name of the user
+ *           email:
+ *             type: string
+ *             description: Email of the user
+ *           age:
+ *             type: number
+ *             description: Age of the user
+ *           role:
+ *             type: string
+ *             description: Role of the user
+ *           password:
+ *             type: string
+ *             description: Password of the user
+ *       Bike:
+ *         type: object
+ *         properties:
+ *           id:
+ *             type: number
+ *             format: int64
+ *           brand:
+ *             type: string
+ *             description: Brand of the bike
+ *           model:
+ *             type: string
+ *             description: Model of the bike
+ *           location:
+ *             type: string
+ *             description: Location of the bike
+ *           size:
+ *             type: string
+ *             enum: [S, M, L, XL]
+ *           cost:
+ *             type: number
+ *             description: Cost of the bike.
+ *       Accessory:
+ *         type: object
+ *         properties:
+ *           id:
+ *             type: number
+ *             format: int64
+ *           name:
+ *             type: string
+ *             description: Name of the accessory
+ *           amount:
+ *             type: number
+ *             format: int64
+ *             description: Amount of the accessory
+ *           cost:
+ *             type: number
+ *             format: int64
+ *             description: Cost of the accessory
+ *       RentInput:
+ *         type: object
+ *         properties:
+ *           startDate:
+ *             type: string
+ *             format: date-time
+ *             description: Start date Rent
+ *           returned:
+ *             type: boolean
+ *             description: Is the bike returned or not
+ *           cost:
+ *             type: number
+ *             description: Cost of the rent.
+ *           bikeId:
+ *             type: number
+ *             description: The id of the chosen bike
+ *           userId:
+ *             type: number
+ *             description: The id of the user who rents the bike
+ *           accessoriesIdList:
+ *             type: array
+ *             items:
+ *               type: number
+ *               description: The id of the chosen accessories
  */
+
 
 import express, { NextFunction, Request, Response } from 'express';
 import rentService from '../service/rent.service';
 import { Rent } from '../model/Rent';
-import { RentInput } from '../types';
+import { RentInput, RentInputUpdate } from '../types';
 
 const rentRouter = express.Router();
 
@@ -55,9 +128,11 @@ const rentRouter = express.Router();
  * @swagger
  * /rents:
  *   get:
- *     summary: Get a list of all rents.
- *     responses:
- *       200:
+ *       security:
+ *        - bearerAuth: [] 
+ *       summary: Get a list of all rents.
+ *       responses:
+ *        200:
  *         description: A list of rents.
  *         content:
  *           application/json:
@@ -79,6 +154,8 @@ rentRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /rents/{id}:
  *  get:
+ *      security:
+ *        - bearerAuth: [] 
  *      summary: Get a Rent by id.
  *      parameters:
  *          - in: path
@@ -109,29 +186,104 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  * @swagger
  * /rents/rentAbike:
  *   post:
- *      summary: rent a bike
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Rent'
- *      responses:
- *         200:
- *            description: The created schedule.
- *            content:
- *              application/json:
- *                schema:
- *                  $ref: '#/components/schemas/Rent'
+ *     security:
+ *       - bearerAuth: [] 
+ *     summary: Rent a bike
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RentInput'
+ *     responses:
+ *       200:
+ *         description: The created schedule.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Rent'
  */
 rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) => {
     try {
         const rent = <RentInput>req.body;
         const result = rentService.rentAbike(rent);
-        res.status(200).json(result)
+        return res.status(200).json(result)
     } catch (error) {
         next(error);
     };
 });
 
+/**
+ * @swagger
+ * paths: 
+ *  /rents/updateById/{id}:
+ *      put:    
+ *          security:
+ *              - bearerAuth: []
+ *          summary: Update user with the given id and new rent
+ *          parameters:
+ *              - name: id
+ *                in: path 
+ *                required: true
+ *                schema: 
+ *                  type: integer
+ *                  format: int64
+ *          requestBody:
+ *                  required: true
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/Rent'                 
+ *          responses: 
+ *              '200':
+ *                  description: The updated rent is returned
+ *                  content: 
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/components/schemas/Rent'
+ */        
+rentRouter.put("/updateById/:id", async (req: Request, res: Response, next: NextFunction) => { 
+    try {
+        const idParam : string = req.params.id;
+        const rentInfo = <RentInputUpdate>req.body;
+        
+        const updatedRent = await rentService.deleteAndUpdateRent(rentInfo, parseInt(idParam, 10));
+        return res.status(200).json(updatedRent);
+    } catch (error) {    
+        next(error);
+    };
+}); 
+
+/**
+ * @swagger
+ * paths: 
+ *  /rents/byId/{id}:
+ *      delete:    
+ *          security:
+ *              - bearerAuth: []
+ *          summary: Delete user with the given id
+ *          parameters: 
+ *              - name: id
+ *                in: path 
+ *                required: true
+ *                schema: 
+ *                  type: integer
+ *                  format: int64
+ *          responses: 
+ *              '200':
+ *                  description: The deleted user is returned
+ *                  content: 
+ *                      application/json:
+ *                          schema: 
+ *                              $ref: '#/components/schemas/Rent'
+ */        
+rentRouter.delete("/byId/:id", async (req: Request, res: Response, next: NextFunction) => { 
+    try {
+        const idParam : string = req.params.id;
+        const deletedRent = await rentService.deleteRentById(parseInt(idParam, 10));
+        return res.status(200).json(deletedRent);
+    } catch (error) {    
+        next(error);
+    }
+});
 export { rentRouter };

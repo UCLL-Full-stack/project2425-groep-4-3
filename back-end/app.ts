@@ -7,17 +7,32 @@ import swaggerUi from 'swagger-ui-express';
 import { rentRouter } from './controller/rent.routes';
 import userRouter from './controller/user.routes';
 import { bikeRouter } from './controller/bike.routes';
+import accessoryRouter from './controller/accessory.routes';
+import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 
 const app = express();
+app.use(helmet());
+
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup','/status','/users'],
+    })
+);
+
 app.use('/rents', rentRouter);
 app.use('/bikes', bikeRouter);
 app.use('/users', userRouter);
+app.use('/accessories', accessoryRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Courses API is running...' });
@@ -41,6 +56,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         res.status(401).json({ status: 'unauthorized', message: err.message });
     } else if (err.name === 'CoursesError') {
         res.status(400).json({ status: 'domain error', message: err.message });
+    } else if (err.name === 'InternalServerError') {
+        res.status(500).json({ status: 'internal server error', message: err.message });
     } else {
         res.status(400).json({ status: 'application error', message: err.message });
     }

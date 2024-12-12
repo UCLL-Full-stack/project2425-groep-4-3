@@ -1,6 +1,7 @@
 import { Bike } from "../../model/Bike";
-import { Size } from "../../types";
+import { size as Size } from "../../types";
 
+//given for almost all
 const validBike = {
     id: 0,
     brand: "Trek",
@@ -24,7 +25,7 @@ test('given valid values for Bike, when Bike is created, then Bike is created wi
 });
 
 test('given an invalid size, when Bike is created, then throws an error', () => {
-    const invalidBike = { ...validBike, size: "KDHZ" as Size };
+    const invalidBike = { ...validBike, size: "LLLLLLL" as Size };
     const createBike = () => new Bike(invalidBike);
     
     expect(createBike).toThrow('Size is required and must be one of: S, M, L, XL.');
@@ -47,7 +48,7 @@ test('given two Bike objects with the same values, when equals is called, then r
 
 test('given two Bike objects with different values, when equals is called, then returns false', () => {
     const bike1 = new Bike(validBike);
-    const bike2 = new Bike({ ...validBike, brand: "Giant" }); // Different brand
+    const bike2 = new Bike({ ...validBike, brand: "Giant" });
 
     // Then
     expect(bike1.equals(bike2)).toBe(false);
@@ -69,15 +70,10 @@ test('when id is not set, then getId returns undefined', () => {
 });
 
 test('when setting new values, then values are updated correctly', () => {
-    const bike = new Bike(validBike);
-
-    // Update values
-    bike.setBrand("Cannondale");
-    bike.setModel("Synapse");
-    bike.setLocation("Antwerp");
-    bike.setSize("L" as Size);
-    bike.setCost(30);
-
+    //given
+    const bike = new Bike({brand:"Cannondale",model:"Ultra",location:"Antwerp",size:"L",cost :30});
+    
+    bike.setModel("Synapse")
     // Then
     expect(bike.getBrand()).toEqual("Cannondale");
     expect(bike.getModel()).toEqual("Synapse");

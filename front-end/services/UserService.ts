@@ -1,9 +1,14 @@
+import { User } from "@types";
+
 const getAllUsers = async () => {
+
+
     return fetch(process.env.NEXT_PUBLIC_API_URL + `/users`, 
         { 
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+
             }
         });
     };
@@ -17,10 +22,32 @@ const getAllUsers = async () => {
             }
         });
     };
+
+    const loginUser = (user: User) => {
+        return fetch(process.env.NEXT_PUBLIC_API_URL + "/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+    };
+
+    const signupUser = (user: User) => {
+        return fetch(process.env.NEXT_PUBLIC_API_URL + "/users/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+    }
       
     const UserService = {
         getAllUsers,
-        getUserById
+        getUserById,
+        loginUser,
+        signupUser
     };
       
     export default UserService;

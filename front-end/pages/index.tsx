@@ -1,11 +1,17 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Header from '@components/header';
-import styles from '@styles/home.module.css';
+
+import { GetServerSideProps, GetServerSidePropsContext} from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <>
+    
       <Head>
         <title>PedaLenen</title>
         <meta name="description" content="PedaLenen" />
@@ -13,26 +19,31 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>
+      <main className="text-center text-red-600" >
         <span>
           <Image
             src="/images/courses.png"
             alt="Courses Logo"
-            className={styles.vercelLogo}
+            className=""
             width={50}
             height={50}
           />
-          <h1>Welcome!</h1>
+          <h1 className='text-red-600'>{t("home.title")}</h1>
         </span>
 
-        <div className={styles.description}>
-          <p>
-            PedaLenen is a Bike renting application
+        <div >
+          <p className="text-red-300">{t("home.info")}
+            
           </p>
         </div>
       </main>
     </>
   );
 };
+export const getServerSideProps: GetServerSideProps = async ({locale}) =>({
+  props: {
+    ...(await serverSideTranslations(locale ?? "nl" ,["common"])),
+  },
+})
 
 export default Home;

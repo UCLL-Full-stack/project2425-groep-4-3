@@ -1,9 +1,16 @@
 const getAllBikes = async () => {
-return fetch(process.env.NEXT_PUBLIC_API_URL + `/bikes`, 
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUser) {
+        throw new Error("No logged-in user found in session storage");
+    }
+    const token = JSON.parse(loggedInUser).token;
+
+    return fetch(process.env.NEXT_PUBLIC_API_URL + `/bikes`, 
     { 
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         }
     });
 };

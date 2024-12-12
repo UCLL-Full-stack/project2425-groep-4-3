@@ -1,105 +1,102 @@
 import { User } from "../../model/User";
+import { Rent } from "../../model/Rent";
+import { Role } from "../../types";
+import { User as UserPrisma, Rent as RentPrisma, Bike as BikePrisma } from '@prisma/client';
 
-const name = 'Niels';
-const email = 'Niels@gmail.com';
-const age = 24;
-const role = "user";
-const password = 'password';
-
-const emptyname = '';
-
+// Mock valid user data
 const validUser = {
-    id: 0,
-    name: "Niels",
-    email: "Niels@gmail.com",
+    id: 1,
+    name: "John Doe",
+    email: "john.doe@example.com",
     age: 25,
-    role: "admin",
-    password: "password", 
+    role: "ADMIN" as Role,
+    password: "securePassword",
 };
 
-test('given: valid values for User, when: User is created, then: User is created with those values', () => {
-
-    //when
+// Tests
+test('given valid values for User, when User is created, then User is created with those values', () => {
+    // When
     const user = new User(validUser);
 
-    //then
-    expect(user.getId()).toEqual(0)
-    expect(user.getName()).toEqual("Niels");
-    expect(user.getEmail()).toEqual("Niels@gmail.com");
+    // Then
+    expect(user.getId()).toEqual(1);
+    expect(user.getName()).toEqual("John Doe");
+    expect(user.getEmail()).toEqual("john.doe@example.com");
     expect(user.getAge()).toEqual(25);
-    expect(user.getRole()).toEqual("admin");
-    expect(user.getPassword()).toEqual("password");
-   
+    expect(user.getRole()).toEqual("ADMIN");
+    expect(user.getPassword()).toEqual("securePassword");
 });
 
-test('given: empty name, when: User is created, then: throws error "Name is required."', () => {
-    //given
-    const invalidUser = {...validUser, name: ""}
-    
-    //when
-    const newUser = ()=> new User(invalidUser);
+test('given a missing name, when User is created, then throws an error', () => {
+    const invalidUser = { ...validUser, name: "" };
+    const createUser = () => new User(invalidUser);
 
-    //then
-    expect(newUser).toThrow('Name is required.');
+    expect(createUser).toThrow('Name is required.');
 });
 
-// Test missing email
-test('given: missing email, when: User is created, then: throws error "Email is required."', () => {
-    //given
-    const invalidUser = {...validUser, email: ""}
-    
-    //when
-    const newUser = ()=> new User(invalidUser);
+test('given an invalid email, when User is created, then throws an error', () => {
+    const invalidUser = { ...validUser, email: "invalidEmail" };
+    const createUser = () => new User(invalidUser);
 
-    //then
-    expect(newUser).toThrow('Email is required.');
+    expect(createUser).toThrow('Email must contain an @.');
 });
 
-// Test invalid email format
-test('given: invalid email format, when: User is created, then: throws error "Email must contain an @."', () => {
-    //given
-    const invalidUser = {...validUser, email: "nielsgmail.com"}
-    
-    //when
-    const newUser = ()=> new User(invalidUser);
+test('given an age less than 16, when User is created, then throws an error', () => {
+    const invalidUser = { ...validUser, age: 15 };
+    const createUser = () => new User(invalidUser);
 
-    //then
-    expect(newUser).toThrow('Email must contain an @.');
+    expect(createUser).toThrow('Minimum age is 16 years.');
 });
 
-// Test minimum age
-test('given: age below minimum, when: User is created, then: throws error "Minimum age is 16 years."', () => {
-    //given
-    const invalidUser = {...validUser, age: 15}
-    
-    //when
-    const newUser = ()=> new User(invalidUser);
+test('given a password shorter than 6 characters, when User is created, then throws an error', () => {
+    const invalidUser = { ...validUser, password: "12345" };
+    const createUser = () => new User(invalidUser);
 
-    //then
-    expect(newUser).toThrow('Minimum age is 16 years.');
+    expect(createUser).toThrow('Password must be at least 6 characters long.');
 });
 
-// Test missing role
-test('given: missing role, when: User is created, then: throws error "Role is required."', () => {
-    //given
-    const invalidUser = {...validUser, role: ""}
-    
-    //when
-    const newUser = ()=> new User(invalidUser);
+test('given two User objects with the same values, when equals is called, then returns true', () => {
+    const user1 = new User(validUser);
+    const user2 = new User(validUser);
 
-    //then
-    expect(newUser).toThrow('Role is required.'); 
+    expect(user1.equals(user2)).toBe(true);
 });
 
-// Test password length
-test('given: short password, when: User is created, then: throws error "Password must be at least 6 characters long."', () => {
-    //given
-    const invalidUser = {...validUser, password: "12345"}
-    
-    //when
-    const newUser = ()=> new User(invalidUser);
+test('given two User objects with different values, when equals is called, then returns false', () => {
+    const user1 = new User(validUser);
+    const user2 = new User({ ...validUser, email: "jane.doe@example.com" }); // Different email
 
-    //then
-    expect(newUser).toThrow('Password must be at least 6 characters long.'); 
+    expect(user1.equals(user2)).toBe(false);
 });
+
+test('when id is set, then getId returns the correct value', () => {
+    const user = new User(validUser);
+    user.setId(2);
+
+    expect(user.getId()).toEqual(2);
+});
+
+test('when id is not set, then getId returns undefined', () => {
+    const user = new User({ ...validUser, id: undefined });
+
+    expect(user.getId()).toBeUndefined();
+});
+
+test('when setting new values, then values are updated correctly', () => {
+    const user = new User(validUser);
+
+    // Update values
+    user.setName("Jane Doe");
+    user.setEmail("jane.doe@example.com");
+    user.setAge(30);
+    user.setRole("ADMIN" as Role);
+    user.setPassword("newSecurePassword");
+
+    expect(user.getName()).toEqual("Jane Doe");
+    expect(user.getEmail()).toEqual("jane.doe@example.com");
+    expect(user.getAge()).toEqual(30);
+    expect(user.getRole()).toEqual("ADMIN");
+    expect(user.getPassword()).toEqual("newSecurePassword");
+});
+
 
