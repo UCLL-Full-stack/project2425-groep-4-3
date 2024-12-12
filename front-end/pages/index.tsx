@@ -19,7 +19,7 @@ const Home: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="flex flex-col items-center">
+      <main className="text-center text-red-600" >
         <span>
           <Image
             src="/images/courses.png"
