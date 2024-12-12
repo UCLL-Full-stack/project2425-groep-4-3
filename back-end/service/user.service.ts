@@ -20,7 +20,8 @@ const createUser = async ({
     role,
     password
 }: UserInput): Promise<User> =>{
-    const userCheck = await getUserByUsername({name});
+    const userCheck = await userDb.getUserByUsername({ name });
+    
     if(userCheck != null){
         throw new Error(`User with name: ${name} already exist.`);
     }

@@ -49,7 +49,7 @@ async function main() {
       email: 'Niels@gmail.com',
       age: 20,
       role: 'Admin',
-      password: 'Niels123',
+      password: await bcrypt.hash("Niels123", 12),
     },
   });
 
@@ -59,7 +59,7 @@ async function main() {
       email: 'Remco@gmail.com',
       age: 25,
       role: 'Renter',
-      password: 'Remco123',
+      password: await bcrypt.hash("Remco123", 12),
     },
   });
 
@@ -69,7 +69,7 @@ async function main() {
       email: 'Wout@gmail.com',
       age: 25,
       role: 'Renter',
-      password: 'Wout123',
+      password: await bcrypt.hash("Wout123", 12),
     },
   });
 

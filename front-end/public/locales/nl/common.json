@@ -7,6 +7,7 @@
     },
     "login": {
         "title": "Inloggen",
+        "signup":"Ik heb nog geen account",
         "label": {
             "username": "Gebruikersnaam:",
             "password": "Wachtwoord:"
@@ -17,6 +18,31 @@
         "validate":{
             "password":"Passwoord is niet correct.",
             "name":"Gebruikersnaam is niet correct."
+        }
+        
+    },
+    "signup":{
+        "title":"Registreren",
+        "login":"Ik heb al een account",
+        "label":{
+            "username":"Gebruikersnaam:",
+            "password":"Wachtwoord:",
+            "confirmPassword":"Bevestig wachtwoord:",
+            "email":"Email:",
+            "age":"Leeftijd:",
+            "role":"Selecteer uw rol:"
+        },
+        "button":"Registreer",
+        "success":"Registratie succesvol",
+        "error":"Er is iets misgegaan met registreren, probeer het opnieuw.",
+        "validate":{
+            "password":"Wachtwoord is niet ingevuld.",
+            "confirmPassword":"Wachtwoord is niet hetzelfde.",
+            "name":"Gebruikersnaam is niet correct.",
+            "email":"Email is niet correct.",
+            "age":"Leeftijd is niet correct.",
+            "role":"Rol is niet geselecteerd."
+
         }
     }
 

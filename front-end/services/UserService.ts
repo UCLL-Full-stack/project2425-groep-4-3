@@ -32,11 +32,22 @@ const getAllUsers = async () => {
             body: JSON.stringify(user),
         });
     };
+
+    const signupUser = (user: User) => {
+        return fetch(process.env.NEXT_PUBLIC_API_URL + "/users/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+    }
       
     const UserService = {
         getAllUsers,
         getUserById,
         loginUser,
+        signupUser
     };
       
     export default UserService;
