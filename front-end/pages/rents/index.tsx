@@ -9,20 +9,59 @@ import AccessoryService from '@services/AccessoryService';
 
 const Rents: React.FC = () => {
     const [rents,setRents]= useState<Array<Rent>>();
-
     const [accessories,setAccessories]= useState<Array<Accessory>>();
+    const [error, setError] = useState<string>();
+
+    // const getaccessories =async () => {
+    //     const res = await AccessoryService.getAllAccessories();
+    //     const accessoryList = await res.json();
+    //     setAccessories(accessoryList)
+    // }
+
+    const getaccessories = async () => {
+        setError("");
+        const response = await AccessoryService.getAllAccessories();
+        if (!response.ok) {
+            if(response.status === 401) {
+                setError(
+                    "You are not authorized."
+                );
+            }
+            else{
+                setError(response.statusText);
+            }
+        } 
+        else {
+            const accessories = await response.json();
+            setAccessories(accessories);
+        }
+    };
     
-    const getaccessories =async () => {
-        const res = await AccessoryService.getAllAccessories();
-        const accessoryList = await res.json();
-        setAccessories(accessoryList)
-    }
+    // const getrents =async () => {
+    //     const res = await RentService.getAllRents();
+    //     const rentsList = await res.json();
+    //     setRents(rentsList)
+    // }
+
+    const getrents = async () => {
+        setError("");
+        const response = await RentService.getAllRents();
+        if (!response.ok) {
+            if(response.status === 401) {
+                setError(
+                    "You are not authorized."
+                );
+            }
+            else{
+                setError(response.statusText);
+            }
+        } 
+        else {
+            const rents = await response.json();
+            setRents(rents);
+        }
+    };
     
-    const getrents =async () => {
-        const res = await RentService.getAllRents();
-        const rentsList = await res.json();
-        setRents(rentsList)
-    }
     useEffect(()=>{
         getrents(),
         getaccessories()

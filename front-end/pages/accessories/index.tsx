@@ -8,12 +8,34 @@ import { useEffect, useState } from 'react';
 
 const Accessories: React.FC = () => {
     const [accessories,setAccessories]= useState<Array<Accessory>>();
-    
-    const getaccessories =async () => {
-        const res = await AccessoryService.getAllAccessories();
-        const accessoryList = await res.json();
-        setAccessories(accessoryList)
-    }
+    const [error, setError] = useState<string>();
+    // const getaccessories =async () => {
+    //     const res = await AccessoryService.getAllAccessories();
+    //     const accessoryList = await res.json();
+    //     setAccessories(accessoryList)
+    // }
+
+    const getaccessories = async () => {
+      setError("");
+      const response = await AccessoryService.getAllAccessories();
+      if (!response.ok) {
+        if(response.status === 401) {
+            setError(
+              "You are not authorized."
+            );
+        }
+        else{
+          setError(response.statusText);
+        }
+      } 
+      else {
+        const accessories = await response.json();
+        setAccessories(accessories);
+      }
+    };
+
+
+
     useEffect(()=>{
         getaccessories()
     },[])

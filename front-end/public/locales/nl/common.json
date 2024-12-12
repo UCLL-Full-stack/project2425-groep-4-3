@@ -4,6 +4,20 @@
     "home": {
         "title": "Welkom",
         "info": "PedaLenen is een fietsverhuurapplicatie."
-    
-}
+    },
+    "login": {
+        "title": "Inloggen",
+        "label": {
+            "username": "Gebruikersnaam:",
+            "password": "Wachtwoord:"
+        },
+        "button": "Inloggen",
+        "success": "succes",
+        "error": "Er is iets misgegaan met inloggen, probeer het opnieuw.",
+        "validate":{
+            "password":"Passwoord is niet correct.",
+            "name":"Gebruikersnaam is niet correct."
+        }
+    }
+
 }

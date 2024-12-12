@@ -4,6 +4,20 @@
     "home": {
         "title": "Welcome",
         "info": "PedaLenen is a Bike renting application."
-    
-}
+        
+    },
+    "login":{
+        "title":"Login",
+        "label":{
+            "username":"Username:",
+            "password":"Password:"
+        },
+        "button":"Login",
+        "succes":"succes",
+        "error":"Something went wrong with login, try again.",
+        "validate":{
+            "password":"Password is incorrect.",
+            "name":"Username is incorrect."
+        }
+    }
 }
