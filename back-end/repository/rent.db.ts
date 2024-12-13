@@ -1,6 +1,6 @@
 import { Bike } from "../model/Bike";
 import { Rent } from "../model/Rent";
-import { RentInput, RentInputUpdate } from "../types";
+import { RentInput, RentInputCreate, RentInputUpdate } from "../types";
 import database from "../util/database";
 
 const getAllRents = async (): Promise<Rent[]> => {

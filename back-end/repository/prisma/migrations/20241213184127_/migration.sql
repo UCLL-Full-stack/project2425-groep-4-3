@@ -60,9 +60,6 @@ CREATE UNIQUE INDEX "Rent_id_key" ON "Rent"("id");
 CREATE UNIQUE INDEX "Rent_bikeId_key" ON "Rent"("bikeId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Rent_userId_key" ON "Rent"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Accessory_id_key" ON "Accessory"("id");
 
 -- CreateIndex

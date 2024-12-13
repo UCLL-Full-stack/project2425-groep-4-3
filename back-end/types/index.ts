@@ -60,6 +60,16 @@ type RentInputUpdate={
     user: User;
     accessoriesIdList: number[];
 }
+
+type RentInputCreate = {
+    id?: number;
+    startDate: Date;
+    returned: boolean;
+    cost: number;
+    bike: Bike;
+    userName: string;
+    accessoriesIdList: number[];
+};
 export {
     size,
     BikeInput,
@@ -69,5 +79,6 @@ export {
     Role,
     AuthenticationResponse,
     AuthenticationRequest,
-    RentInputUpdate
+    RentInputUpdate,
+    RentInputCreate
 };

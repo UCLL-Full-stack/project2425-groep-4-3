@@ -1,18 +1,19 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RentService from "@services/RentService";
 import BikeService from "@services/BikeService";
 import classNames from "classnames";
-import { Bike} from "@types";
+import { Bike, User} from "@types";
 import { StatusMessage } from "@types";
+import Accessories from "pages/accessories";
 
 interface RentFormProps {
-    onSubmit: (formData: any) => void;
-    onCancel: () => void;
-    selectedBike: Bike;
+  onSubmit: (formData: any) => void;
+  onCancel: () => void;
+  selectedBike: Bike;
 }
 
-const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: RentFormProps) => {
+const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
     const [startDate, setStartDate] = useState<string>("");
     const [returned, setReturned] = useState<boolean>(true);
     const [cost, setCost] = useState<number>(0);
@@ -24,7 +25,9 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
     const [costError, setCostError] = useState("");
     const [bikeIdError, setBikeIdError] = useState("");
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
-
+    const [selectedUsername, setSelectedUsername] = useState<string>()
+    const [selectedAccessories, setSelectedAccessories]= useState<number[]>([]);
+    const [selectedUsernameError, setSelectedUsernameError] = useState<string>()
 
     const clearErrors = () => {
       setStartDateError("");
@@ -32,6 +35,7 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
       setCostError("");
       setBikeIdError("");
       setStatusMessages([]);
+      setSelectedUsernameError("");
 
     };
 
@@ -49,6 +53,10 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
     };
 
     const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+      const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        setSelectedUsername(JSON.parse(loggedInUser).name);
+
       e.preventDefault();
       clearErrors();
 
@@ -57,24 +65,44 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
       };
       setReturned(false);
 
+      if(selectedUsername == undefined){
+        setSelectedUsernameError("username is undefined.")
+        return;
+      }
       const newRent = {
         startDate: new Date(startDate),
         cost: selectedBike.cost,
         returned: returned,
-        bike: selectedBike 
+        bike: selectedBike,
+        userName: selectedUsername,
+        accessoriesIdList: selectedAccessories
       };
 
       const response = RentService.rentABike(newRent);
 
-      // if (response.status === 200) {
+      // if (response.ok) {
       //   setStatusMessages([{ message: "Succes", type: "success" }]);
       //   console.log("Rent successfully created");
       // } else {
       //   setStatusMessages([{ message: "failed to add it", type: "error" }]);
       // };
 
-      onSubmit(newRent);
     };
+
+    const handleCancel = () => {
+      // Reset form fields
+      setStartDate("");
+      setReturned(true);
+      setCost(0);
+      setBikeId(0);
+      setSelectedAccessories([]);
+
+      // Clear errors
+      clearErrors();
+  };
+    useEffect(() => {
+      
+    }, []);
 
     return (
       <main>
@@ -97,7 +125,7 @@ const RentForm: React.FC<RentFormProps> = ({ onSubmit, onCancel, selectedBike}: 
               
     
               <button type="submit" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];"> Submit </button>
-              <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={onCancel}>Cancel </button>
+              <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={handleCancel}>Cancel </button>
           </form>
       </main>
     );

@@ -23,7 +23,7 @@ model Rent {
     cost        Int
     bikeId      Int  @unique
     bike        Bike @relation(fields: [bikeId], references: [id])
-    userId      Int  @unique
+    userId      Int  
     user        User @relation(fields: [userId], references: [id])
     accessories   Accessory[]
 }

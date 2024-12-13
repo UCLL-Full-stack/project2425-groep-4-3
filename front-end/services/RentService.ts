@@ -1,4 +1,4 @@
-import { Rent } from "@types";
+import { Rent, RentInputCreate } from "@types";
 
     const getAllRents = async () => {
 
@@ -19,13 +19,16 @@ import { Rent } from "@types";
                 }
         });
     };
-    const rentABike = (rent : Rent) => {
-        console.log(rent)
+    const rentABike = (rent : RentInputCreate) => {
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        const token = JSON.parse(loggedInUser).token;
         fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/rentAbike`,
         {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(rent)
         });

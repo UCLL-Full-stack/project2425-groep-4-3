@@ -26,6 +26,15 @@ export type Rent = {
     accessoriesIdList: number[];
 };
 
+export type RentInputCreate = {
+    id?: number;
+    startDate: Date;
+    returned: boolean;
+    cost: number;
+    bike: Bike;
+    userName: string;
+    accessoriesIdList: number[];
+};
 
 export type StatusMessage = {
     message : String,

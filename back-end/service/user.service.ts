@@ -42,12 +42,11 @@ const getUserByUsername = async ({ name }: { name: string }): Promise<User> => {
 const authenticate = async ({name, password}: AuthenticationRequest): Promise<AuthenticationResponse> => {
     
     const user = await getUserByUsername({name});
-    console.log(user)
+    // console.log(user)
     if ((user == null)) {
         throw new Error(`Authanticate Error.`)
     };
 
-    console.log(password)
     console.log(user.getPassword())
 
     const isValidPassword = await bcrypt.compare(password, user.getPassword())
