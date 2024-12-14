@@ -3,17 +3,19 @@ import { useEffect, useState } from "react";
 import RentService from "@services/RentService";
 import BikeService from "@services/BikeService";
 import classNames from "classnames";
-import { Bike, User} from "@types";
+import { Accessory, Bike, User} from "@types";
 import { StatusMessage } from "@types";
 import Accessories from "pages/accessories";
+import AccessoryOverviewTable from "@components/accessories/AccessoryOverviewTable";
 
 interface RentFormProps {
   onSubmit: (formData: any) => void;
   onCancel: () => void;
   selectedBike: Bike;
+  accessories: Array<Accessory>;
 }
 
-const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
+const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentFormProps) => {
     const [startDate, setStartDate] = useState<string>("");
     const [returned, setReturned] = useState<boolean>(true);
     const [cost, setCost] = useState<number>(0);
@@ -39,6 +41,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
 
     };
 
+    
+
     const validate = (): boolean => {
       let result = true;
       if (!startDate || startDate.trim() === "") {
@@ -53,9 +57,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
     };
 
     const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-      const loggedInUser = localStorage.getItem("loggedInUser");
-        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
-        setSelectedUsername(JSON.parse(loggedInUser).name);
+      console.log("fvjvbdfjvk,v sdkvskvskjvdijvsidjv ")
+      
 
       e.preventDefault();
       clearErrors();
@@ -80,6 +83,12 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
 
       const response = RentService.rentABike(newRent);
 
+      setTimeout(() => {
+        router.push("/rents");
+      }, 500);
+    
+
+
       // if (response.ok) {
       //   setStatusMessages([{ message: "Succes", type: "success" }]);
       //   console.log("Rent successfully created");
@@ -101,7 +110,9 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
       clearErrors();
   };
     useEffect(() => {
-      
+      const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        setSelectedUsername(JSON.parse(loggedInUser).name);
     }, []);
 
     return (
@@ -121,6 +132,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike}: RentFormProps) => {
                   <div className="text-[red] mt-1">{startDateError}</div>
                 }
               </div>
+
+              <AccessoryOverviewTable accessories={accessories} />
         
               
     

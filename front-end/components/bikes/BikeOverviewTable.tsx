@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Bike, Rent } from '@types';
+import { Accessory, Bike, Rent } from '@types';
 import RentForm from '@components/rents/AddRentForm';
+
 
 type Props = {
   bikes: Array<Bike>;
   rents: Array<Rent>;
+  accessories: Array<Accessory>;
 };
 
-const BikeOverviewTable: React.FC<Props> = ({ bikes, rents }: Props) => {
+const BikeOverviewTable: React.FC<Props> = ({ bikes, rents, accessories }: Props) => {
   const [showForm, setShowForm] = useState(false);
   const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
 
@@ -68,11 +70,12 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes, rents }: Props) => {
           </tbody>
         </table>
       )}
-      {showForm && selectedBike && (
+      {showForm && selectedBike && accessories &&(
         <RentForm
           onSubmit={submitForm}
           onCancel={() => setShowForm(false)}
           selectedBike={selectedBike}
+          accessories={accessories}
         />
       )}
     </>
