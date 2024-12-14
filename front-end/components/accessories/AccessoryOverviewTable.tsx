@@ -14,8 +14,20 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories }: Props) => {
     setSelectedAccessories((prevAccessories) => [...prevAccessories, accessory]);
   };
 
-  const isAccessorySeleced = (accessoryId?: number ) => {
-    return selectedAccessories.some(accessory => accessory.accessoryId === accessoryId);
+
+  
+
+  const isAccessorySeleced = (accessory?: Accessory ) => {
+    if(accessory && selectedAccessories.includes(accessory))
+      return accessory;
+    return null;
+  };
+
+
+  const removeButton = (accessory: Accessory) => {
+    setSelectedAccessories((prevAccessories) =>
+      prevAccessories.filter((item) => item !== accessory)
+    );
   };
  
   
@@ -29,6 +41,7 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories }: Props) => {
               <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Amount</th>
               <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Cost</th>
               <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Add</th>
+              <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Remove</th>
             </tr>
           </thead>
           <tbody>
@@ -43,14 +56,31 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories }: Props) => {
                 <td>
                 <button
                     className={`py-2 px-4 rounded-lg text-white font-semibold ${
-                      isAccessorySeleced(accessory.accessoryId)
-                        ? 'bg-gray-400 cursor-not-allowed'
+                      isAccessorySeleced(accessory)
+                        ? 'hidden'
                         : 'bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500'
                     }`}
-                    onClick={() => !isAccessorySeleced(accessory.accessoryId) && addButton(accessory)}
-                    disabled={isAccessorySeleced(accessory.accessoryId)}
+                    onClick={() => !isAccessorySeleced(accessory) && addButton(accessory)}
+                    disabled={isAccessorySeleced(accessory) !==  null}
+                    
+                    
                   >
-                    {isAccessorySeleced(accessory.accessoryId) ? 'Selected' : 'Select'}
+                    Select
+                  </button>
+
+                </td>
+                <td>
+                  <button
+                    className={`py-2 px-4 rounded-lg text-white font-semibold ${
+                      isAccessorySeleced(accessory)
+                        ? 'bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500'
+                        : 'hidden'
+                    }`}
+                    onClick={() => isAccessorySeleced(accessory) && removeButton(accessory)}
+
+                    disabled={!isAccessorySeleced(accessory)}
+                  >
+                    Remove
                   </button>
                 </td>
               </tr>
