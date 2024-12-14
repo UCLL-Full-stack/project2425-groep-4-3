@@ -3,16 +3,26 @@ import { Accessory } from "@types";
 
 type Props = {
   accessories: Array<Accessory>;
+  onAccessorySelectionChange: (selectedAccessories: Accessory[]) => void;
 };
 
-const AccessoryOverviewTable: React.FC<Props> = ({ accessories }: Props) => {
+const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelectionChange  }: Props) => {
   
   const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
   
   
+  // const addButton = (accessory: Accessory) => {
+  //   setSelectedAccessories((prevAccessories) => [...prevAccessories, accessory]);
+  // };
+
   const addButton = (accessory: Accessory) => {
-    setSelectedAccessories((prevAccessories) => [...prevAccessories, accessory]);
+    setSelectedAccessories((prevAccessories) => {
+      const updatedAccessories = [...prevAccessories, accessory];
+      onAccessorySelectionChange(updatedAccessories);
+      return updatedAccessories;
+    });
   };
+  
 
 
   
@@ -24,11 +34,20 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories }: Props) => {
   };
 
 
+  // const removeButton = (accessory: Accessory) => {
+  //   setSelectedAccessories((prevAccessories) =>
+  //     prevAccessories.filter((item) => item !== accessory)
+  //   );
+  // };
+
   const removeButton = (accessory: Accessory) => {
-    setSelectedAccessories((prevAccessories) =>
-      prevAccessories.filter((item) => item !== accessory)
-    );
+    setSelectedAccessories((prevAccessories) => {
+      const updatedAccessories = prevAccessories.filter((item) => item !== accessory);
+      onAccessorySelectionChange(updatedAccessories);
+      return updatedAccessories;
+    });
   };
+  
  
   
   return (
@@ -89,7 +108,8 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories }: Props) => {
         </table>
         
       )}
-      selected accessories: {selectedAccessories.map((accessory) => accessory.name).join(", ")}
+      <p className="pt-2 text-lg">Selected accessories: {selectedAccessories.map((accessory) => accessory.name).join(", ")}</p>
+      
     </>
   );
 };

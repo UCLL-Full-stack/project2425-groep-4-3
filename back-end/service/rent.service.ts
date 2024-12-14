@@ -48,7 +48,7 @@ const rentAbike = async ({startDate, returned, cost, bike, userName, accessories
         throw new Error(`Bike with ${bike.id} is already rented.`)
     }
 
-    const rent = new Rent({startDate,returned,cost,bike: bikeInput, user: userInput, accessories: []});
+    const rent = new Rent({startDate,returned,cost,bike: bikeInput, user: userInput, accessories: accessoriesList});
     return await rentDb.createRent(rent);
 }
 

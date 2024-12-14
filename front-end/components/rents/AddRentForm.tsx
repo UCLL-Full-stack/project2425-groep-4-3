@@ -28,7 +28,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
     const [bikeIdError, setBikeIdError] = useState("");
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
     const [selectedUsername, setSelectedUsername] = useState<string>()
-    const [selectedAccessories, setSelectedAccessories]= useState<number[]>([]);
+    const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
+
     const [selectedUsernameError, setSelectedUsernameError] = useState<string>()
 
     const clearErrors = () => {
@@ -79,6 +80,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
         bike: selectedBike,
         userName: selectedUsername,
         accessoriesIdList: selectedAccessories
+          .map((accessory) => accessory.accessoryId)
+          .filter((id): id is number => id !== undefined),
       };
 
       const response = RentService.rentABike(newRent);
@@ -133,7 +136,9 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
                 }
               </div>
 
-              <AccessoryOverviewTable accessories={accessories} />
+              <AccessoryOverviewTable accessories={accessories} onAccessorySelectionChange={setSelectedAccessories}
+/>
+
         
               
     
