@@ -32,11 +32,14 @@ const rentAbike = async ({startDate, returned, cost, bike, userName, accessories
     const bikeInput = await bikeDb.getBikeById({id : bike.id});
     const userInput = await userDb.getUserByUsername({name : userName});
 
-    for (const accessoryId of accessoriesIdList) {
-        const accessory = await accessoryDb.getAccessoryById({ id: accessoryId });
+    console.log(accessoriesIdList)
+    for (const id of accessoriesIdList) {
+        const accessory = await accessoryDb.getAccessoryById({ id: id });
+        console.log(accessory)
         if (!accessory) {
-            throw new Error(`Accessory with id ${accessoryId} does not exist.`);
+            throw new Error(`Accessory with id ${id} does not exist.`);
         }
+        
         accessoriesList.push(accessory);
     }
     if(!bikeInput)throw new Error(`No bike input wit id ${bike.id}.`)
@@ -49,6 +52,7 @@ const rentAbike = async ({startDate, returned, cost, bike, userName, accessories
     }
 
     const rent = new Rent({startDate,returned,cost,bike: bikeInput, user: userInput, accessories: accessoriesList});
+    console.log(rent)
     return await rentDb.createRent(rent);
 }
 

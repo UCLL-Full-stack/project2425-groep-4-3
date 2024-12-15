@@ -41,7 +41,7 @@ export type StatusMessage = {
     type: "error" | "success"
 }
 export type Accessory = {
-    accessoryId?: number;
+    id?: number;
     name: string;
     amount: number;
     cost: number;

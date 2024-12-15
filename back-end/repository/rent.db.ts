@@ -6,7 +6,7 @@ import database from "../util/database";
 const getAllRents = async (): Promise<Rent[]> => {
     try {
         const rentsPrisma = await database.rent.findMany({
-            include: {bike: true, user: true},
+            include: {bike: true, user: true,accessories: true},
         });
         return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
     } catch (error) {
@@ -50,7 +50,6 @@ const createRent = async (rent: Rent): Promise<Rent> => {
                 user: true,
                 accessories: true
             }});
-    
         return Rent.from(rentPrisma);
     } catch (error) {
         console.error(error);

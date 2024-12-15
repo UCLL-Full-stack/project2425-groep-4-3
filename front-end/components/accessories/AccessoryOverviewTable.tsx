@@ -15,40 +15,40 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
   //   setSelectedAccessories((prevAccessories) => [...prevAccessories, accessory]);
   // };
 
-  const addButton = (accessory: Accessory) => {
-    setSelectedAccessories((prevAccessories) => {
-      const updatedAccessories = [...prevAccessories, accessory];
-      onAccessorySelectionChange(updatedAccessories);
-      return updatedAccessories;
-    });
-  };
+  // const addButton = (accessory: Accessory) => {
+  //   setSelectedAccessories((prevAccessories) => {
+  //     const updatedAccessories = [...prevAccessories, accessory];
+  //     onAccessorySelectionChange(updatedAccessories);
+  //     return updatedAccessories;
+  //   });
+  // };
   
-
-
-  
-
-  const isAccessorySeleced = (accessory?: Accessory ) => {
-    if(accessory && selectedAccessories.includes(accessory))
+  const isAccessorySelected = (accessory: Accessory ) => {
+    if(selectedAccessories.includes(accessory))
       return accessory;
     return null;
   };
 
 
   // const removeButton = (accessory: Accessory) => {
-  //   setSelectedAccessories((prevAccessories) =>
-  //     prevAccessories.filter((item) => item !== accessory)
-  //   );
+  //   setSelectedAccessories((prevAccessories) => {
+  //     const updatedAccessories = prevAccessories.filter((item) => item !== accessory);
+  //     onAccessorySelectionChange(updatedAccessories);
+  //     return updatedAccessories;
+  //   });
   // };
-
-  const removeButton = (accessory: Accessory) => {
+  
+  const accessorySelection = (event: React.MouseEvent<HTMLButtonElement>,accessory: Accessory) => {
+    event.preventDefault();
     setSelectedAccessories((prevAccessories) => {
-      const updatedAccessories = prevAccessories.filter((item) => item !== accessory);
+      const isSelected = prevAccessories.includes(accessory);
+      const updatedAccessories = isSelected? prevAccessories.filter((item) => item !== accessory): [...prevAccessories, accessory];
       onAccessorySelectionChange(updatedAccessories);
       return updatedAccessories;
     });
+
   };
   
- 
   
   return (
     <>
@@ -60,7 +60,7 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
               <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Amount</th>
               <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Cost</th>
               <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Add</th>
-              <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Remove</th>
+              {/* <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">Remove</th> */}
             </tr>
           </thead>
           <tbody>
@@ -72,7 +72,7 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
                 <td className="py-3 px-4 text-sm text-gray-800">{accessory.name}</td>
                 <td className="py-3 px-4 text-sm text-gray-800">{accessory.amount}</td>
                 <td className="py-3 px-4 text-sm text-gray-800">{accessory.cost}</td>
-                <td>
+                {/* <td>
                 <button
                     className={`py-2 px-4 rounded-lg text-white font-semibold ${
                       isAccessorySeleced(accessory)
@@ -100,6 +100,18 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
                     disabled={!isAccessorySeleced(accessory)}
                   >
                     Remove
+                  </button>
+                </td> */}
+                <td>
+                  <button
+                    className={`py-2 px-4 rounded-lg text-white font-semibold ${
+                      isAccessorySelected(accessory)
+                        ? 'bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500'
+                        : 'bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500'
+                    }`}
+                    onClick={(event) => accessorySelection(event, accessory)}
+                  >
+                    {isAccessorySelected(accessory) ? 'Remove' : 'Select'}
                   </button>
                 </td>
               </tr>

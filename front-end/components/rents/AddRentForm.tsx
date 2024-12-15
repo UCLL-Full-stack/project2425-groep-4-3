@@ -73,6 +73,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
         setSelectedUsernameError("username is undefined.")
         return;
       }
+  
+      console.log(selectedAccessories)
       const newRent = {
         startDate: new Date(startDate),
         cost: selectedBike.cost,
@@ -80,11 +82,11 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
         bike: selectedBike,
         userName: selectedUsername,
         accessoriesIdList: selectedAccessories
-          .map((accessory) => accessory.accessoryId)
+          .map((accessory) =>  accessory.id)
           .filter((id): id is number => id !== undefined),
       };
-
-      const response = RentService.rentABike(newRent);
+      console.log(newRent)
+      RentService.rentABike(newRent);
 
       setTimeout(() => {
         router.push("/rents");
@@ -136,12 +138,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
                 }
               </div>
 
-              <AccessoryOverviewTable accessories={accessories} onAccessorySelectionChange={setSelectedAccessories}
-/>
+              <AccessoryOverviewTable accessories={accessories} onAccessorySelectionChange={setSelectedAccessories}/>
 
-        
-              
-    
               <button type="submit" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];"> Submit </button>
               <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={handleCancel}>Cancel </button>
           </form>
