@@ -113,10 +113,30 @@ const deleteRentById = async (id : number) : Promise<Rent> => {
     };
 };
 
+const getRentByUserId = async ({ userId }: { userId: number }): Promise<Rent[]> => {
+    try {
+        const rentsPrisma = await database.rent.findMany({
+            where: { 
+                user:{
+                    id:userId
+                }
+            },
+            include: { bike: true, user: true },
+        });
+        // console.log(userId)
+        console.log(rentsPrisma)
+        return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllRents,
     getRentById,
     createRent,
     updateRentById,
-    deleteRentById
+    deleteRentById,
+    getRentByUserId
 };

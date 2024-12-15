@@ -58,11 +58,11 @@ const Header: React.FC = () => {
           Users
         </Link>
         }
-        {loggedInUser && (
+        {/* {loggedInUser && (
           <Link href="/accessories" className="px-4 text-lg text-white">
             Accessories
           </Link>
-        )}
+        )} */}
         {loggedInUser ? (
           <>
             <div className="px-4 text-lg text-white">

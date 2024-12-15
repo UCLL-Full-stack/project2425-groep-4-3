@@ -1,7 +1,7 @@
 const getAllBikes = async () => {
     const loggedInUser = localStorage.getItem("loggedInUser");
     if (!loggedInUser) {
-        throw new Error("No logged-in user found in session storage");
+        throw new Error("No logged-in user found in local storage");
     }
     const token = JSON.parse(loggedInUser).token;
 

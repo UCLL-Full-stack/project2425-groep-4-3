@@ -4,6 +4,7 @@ import bikeDb from "../repository/bike.db";
 import rentDb from "../repository/rent.db";
 import userDb from "../repository/user.db";
 import { RentInput, RentInputCreate, RentInputUpdate } from "../types";
+import userService from "./user.service";
 
 const getAllRents = async (): Promise<Rent[]> => rentDb.getAllRents();
 
@@ -22,7 +23,7 @@ const updateRent = async (rent : RentInputUpdate ,id:number): Promise<Rent> =>{
     return await rentDb.updateRentById(rent,id);
 }
 
-const rentAbike = async ({startDate, returned, cost, bike, userName, accessoriesIdList}: RentInputCreate): Promise<Rent> => {
+const rentAbike = async ({startDate, returned, cost, bike, name, accessoriesIdList}: RentInputCreate): Promise<Rent> => {
     const todaysDate = new Date();
     const accessoriesList = [];
 
@@ -30,7 +31,7 @@ const rentAbike = async ({startDate, returned, cost, bike, userName, accessories
         throw new Error('Start date cannot be in the past.');
     }
     const bikeInput = await bikeDb.getBikeById({id : bike.id});
-    const userInput = await userDb.getUserByUsername({name : userName});
+    const userInput = await userDb.getUserByUsername(name);
 
     console.log(accessoriesIdList)
     for (const id of accessoriesIdList) {
@@ -43,7 +44,7 @@ const rentAbike = async ({startDate, returned, cost, bike, userName, accessories
         accessoriesList.push(accessory);
     }
     if(!bikeInput)throw new Error(`No bike input wit id ${bike.id}.`)
-    if(!userInput)throw new Error(`No user input wit id ${userName}.`)
+    if(!userInput)throw new Error(`No user input wit id ${name}.`)
     
     const rents = await getAllRents()
     const bikeIds = rents.map(rent => rent.getBike().getId());
@@ -66,4 +67,19 @@ const deleteRentById = async (id: number): Promise<Rent> => {
     return rentToDelete;
 };
 
-export default { getAllRents, getRentById, rentAbike,updateRent, deleteRentById};
+const getRentsByUserName = async (name: string): Promise<Rent[]> =>{
+    console.log('name ygzuaguguagudgaugfuazgufgua' + name)
+    const user = await userService.getUserByUsername({name:name});
+    const userId = user.getId()
+    console.log(userId)
+    if (userId === undefined) {
+        throw new Error("User ID is undefined for username: " + name);
+    }
+    const rents = await rentDb.getRentByUserId({userId});
+    if(!rents){
+        throw new Error("No rents were found with name:" + name)
+    }
+    return rents;
+}
+
+export default { getAllRents, getRentById, rentAbike,updateRent, deleteRentById,getRentsByUserName};

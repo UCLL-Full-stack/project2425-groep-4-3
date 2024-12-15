@@ -5,7 +5,7 @@ import { Rent, RentInputCreate } from "@types";
         const loggedInUser = localStorage.getItem("loggedInUser");
   
         if (!loggedInUser) {
-            throw new Error("No logged-in user found in session storage");
+            throw new Error("No logged-in user found in local storage");
         }
     
         const token = JSON.parse(loggedInUser).token;
@@ -21,7 +21,7 @@ import { Rent, RentInputCreate } from "@types";
     };
     const rentABike = (rent : RentInputCreate) => {
         const loggedInUser = localStorage.getItem("loggedInUser");
-        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        if (!loggedInUser) {throw new Error("No logged-in user found in local storage");}
         const token = JSON.parse(loggedInUser).token;
         fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/rentAbike`,
         {
@@ -35,7 +35,7 @@ import { Rent, RentInputCreate } from "@types";
     }
     const updateRentById = async (id: number, rent: Rent) => {
         const loggedInUser = localStorage.getItem("loggedInUser");
-        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        if (!loggedInUser) {throw new Error("No logged-in user found in local storage");}
         const token = JSON.parse(loggedInUser).token;
     
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/updateById/${id}`, {
@@ -53,7 +53,7 @@ import { Rent, RentInputCreate } from "@types";
 
     const deleteRent = (id: number) => {
         const loggedInUser = localStorage.getItem("loggedInUser");
-        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        if (!loggedInUser) {throw new Error("No logged-in user found in local storage");}
         const token = JSON.parse(loggedInUser).token;
     
         return fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/byId/${id}`,
@@ -65,11 +65,28 @@ import { Rent, RentInputCreate } from "@types";
             },
         });
     }
+
+    const getRentsByUserName = async () => {
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {throw new Error("No logged-in user found in local storage");}
+        const token = JSON.parse(loggedInUser).token;
+        const name = JSON.parse(loggedInUser).name;
+
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/rents/user/${name}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response
+    };
     const RentService = {
         getAllRents,
         rentABike,
         updateRentById,
-        deleteRent
+        deleteRent,
+        getRentsByUserName
     };
       
     export default RentService;

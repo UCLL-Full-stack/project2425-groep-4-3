@@ -5,7 +5,7 @@ import BikeService from "@services/BikeService";
 import classNames from "classnames";
 import { Accessory, Bike, User} from "@types";
 import { StatusMessage } from "@types";
-import Accessories from "pages/accessories";
+// import Accessories from "pages/accessories";
 import AccessoryOverviewTable from "@components/accessories/AccessoryOverviewTable";
 
 interface RentFormProps {
@@ -55,7 +55,6 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories,onCancel}:
     };
 
     const submit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-      console.log("fvjvbdfjvk,v sdkvskvskjvdijvsidjv ")
       
 
       e.preventDefault();
@@ -71,23 +70,23 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories,onCancel}:
         return;
       }
   
-      console.log(selectedAccessories)
+      // console.log(selectedAccessories)
       const newRent = {
         startDate: new Date(startDate),
         cost: selectedBike.cost,
         returned: returned,
         bike: selectedBike,
-        userName: selectedUsername,
+        name: selectedUsername,
         accessoriesIdList: selectedAccessories
           .map((accessory) =>  accessory.id)
           .filter((id): id is number => id !== undefined),
       };
-      console.log(newRent)
+      // console.log(newRent)
       RentService.rentABike(newRent);
 
       setTimeout(() => {
         router.push("/rents");
-      }, 500);
+      }, 1000);
     
 
 
@@ -103,7 +102,7 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories,onCancel}:
     
     useEffect(() => {
       const loggedInUser = localStorage.getItem("loggedInUser");
-        if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
+        if (!loggedInUser) {throw new Error("No logged-in user found in local storage");}
         setSelectedUsername(JSON.parse(loggedInUser).name);
     }, []);
 

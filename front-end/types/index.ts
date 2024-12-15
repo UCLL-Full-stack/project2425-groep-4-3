@@ -32,7 +32,7 @@ export type RentInputCreate = {
     returned: boolean;
     cost: number;
     bike: Bike;
-    userName: string;
+    name: string;
     accessoriesIdList: number[];
 };
 

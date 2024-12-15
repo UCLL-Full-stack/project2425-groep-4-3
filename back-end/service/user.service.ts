@@ -20,7 +20,7 @@ const createUser = async ({
     role,
     password
 }: UserInput): Promise<User> =>{
-    const userCheck = await userDb.getUserByUsername({ name });
+    const userCheck = await userDb.getUserByUsername(name);
     
     if(userCheck != null){
         throw new Error(`User with name: ${name} already exist.`);
@@ -32,11 +32,15 @@ const createUser = async ({
 }
 
 const getUserByUsername = async ({ name }: { name: string }): Promise<User> => {
-    const user = await userDb.getUserByUsername({ name });
+    if(name === undefined){
+        throw new Error(`Username:${name} is not correct.`)
+    }
+    const user = await userDb.getUserByUsername(name);
     if (!user) {
         throw new Error(`User with name: ${name} does not exist.`);
     }
     return user;
+
 };
 
 const authenticate = async ({name, password}: AuthenticationRequest): Promise<AuthenticationResponse> => {
@@ -61,4 +65,5 @@ const authenticate = async ({name, password}: AuthenticationRequest): Promise<Au
     };
 };
 
-export default { getAllUsers, getUserById, createUser, authenticate };
+
+export default { getAllUsers, getUserById, createUser, authenticate,getUserByUsername};
