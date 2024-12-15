@@ -72,7 +72,7 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes, rents, accessories }: Props
       )}
       {showForm && selectedBike && accessories &&(
         <RentForm
-          onSubmit={submitForm}
+          // onSubmit={submitForm}
           onCancel={() => setShowForm(false)}
           selectedBike={selectedBike}
           accessories={accessories}

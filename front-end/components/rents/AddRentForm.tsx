@@ -9,19 +9,16 @@ import Accessories from "pages/accessories";
 import AccessoryOverviewTable from "@components/accessories/AccessoryOverviewTable";
 
 interface RentFormProps {
-  onSubmit: (formData: any) => void;
   onCancel: () => void;
   selectedBike: Bike;
   accessories: Array<Accessory>;
 }
 
-const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentFormProps) => {
+const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories,onCancel}: RentFormProps) => {
     const [startDate, setStartDate] = useState<string>("");
     const [returned, setReturned] = useState<boolean>(true);
     const [cost, setCost] = useState<number>(0);
     const [bikeId, setBikeId] = useState<number>(0);
-    const router = useRouter();
-
     const [startDateError, setStartDateError] = useState("");
     const [endDateError, setEndDateError] = useState("");
     const [costError, setCostError] = useState("");
@@ -29,8 +26,8 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
     const [selectedUsername, setSelectedUsername] = useState<string>()
     const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
-
     const [selectedUsernameError, setSelectedUsernameError] = useState<string>()
+    const router = useRouter();
 
     const clearErrors = () => {
       setStartDateError("");
@@ -103,23 +100,14 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
 
     };
 
-    const handleCancel = () => {
-      // Reset form fields
-      setStartDate("");
-      setReturned(true);
-      setCost(0);
-      setBikeId(0);
-      setSelectedAccessories([]);
-
-      // Clear errors
-      clearErrors();
-  };
+    
     useEffect(() => {
       const loggedInUser = localStorage.getItem("loggedInUser");
         if (!loggedInUser) {throw new Error("No logged-in user found in session storage");}
         setSelectedUsername(JSON.parse(loggedInUser).name);
     }, []);
 
+  
     return (
       <main>
           <form onSubmit={submit} className="items-center flex flex-col bg-[aliceblue] w-6/12 mx-[25%] p-4">
@@ -137,11 +125,10 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories}: RentForm
                   <div className="text-[red] mt-1">{startDateError}</div>
                 }
               </div>
-
               <AccessoryOverviewTable accessories={accessories} onAccessorySelectionChange={setSelectedAccessories}/>
 
               <button type="submit" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];"> Submit </button>
-              <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={handleCancel}>Cancel </button>
+              <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={onCancel}>Cancel </button>
           </form>
       </main>
     );
