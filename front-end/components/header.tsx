@@ -8,6 +8,7 @@ const Header: React.FC = () => {
 
   const [loggedInUser, setLoggedInUser] = useState<User | undefined>(undefined);
   const router = useRouter();
+  
   useEffect(() => {
     const loggedInUser = localStorage.getItem("loggedInUser");
   
@@ -47,14 +48,16 @@ const Header: React.FC = () => {
             Bikes
           </Link>
         )}
-        {loggedInUser && (
+        {loggedInUser && (loggedInUser.role == "Admin" || loggedInUser?.role == "Renter") && (
           <Link href="/rents" className="px-4 text-lg text-white">
             Rents
           </Link>
         )}
+        { loggedInUser && loggedInUser.role == "Admin" &&
         <Link href="/users" className="px-4 text-lg text-white">
           Users
         </Link>
+        }
         {loggedInUser && (
           <Link href="/accessories" className="px-4 text-lg text-white">
             Accessories

@@ -63,13 +63,6 @@ const Rents: React.FC = () => {
           ) : (
             <p className="text-red-500">Error loading rents: {error}</p>
           )}
-
-          <h2 className="text-2xl font-semibold mt-12 mb-4">Accessories</h2>
-          {accessories ? (
-            <AccessoryOverviewTable accessories={accessories} />
-          ) : (
-            <p className="text-red-500">Error loading accessories: {error}</p>
-          )}
         </section>
       </main>
     </>
