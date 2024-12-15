@@ -13,7 +13,7 @@ export class Rent{
 
     
 
-    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike; user:User; accessories?:Accessory []} ){
+    constructor(rent:{id?: number, startDate: Date;returned: boolean;cost: number; bike:Bike; user:User; accessories: Accessory []} ){
         this.validate(rent);
         this.id = rent.id;
         this.startDate = rent.startDate;

@@ -9,21 +9,6 @@ type Props = {
 const RentOverviewTable: React.FC<Props> = ({ rents }: Props) => {
   const [updatedRents, setUpdatedRents] = useState<Array<Rent>>(rents);
 
-  // const updateStatusRent = async (rent: Rent) => {
-  //   console.log("Updating rent status for rentId:", rent.id);
-  //   console.log(rent)
-  //     if(!rent.id){
-  //       console.error("Rent ID is missing",rent.id);
-  //       return
-  //     }
-
-  //   const newRentStatus = { ...rent, retuned:true}
-  //   const response = await RentService.updateRentById(rent.id,newRentStatus)
-  //   setUpdatedRents((allRents) =>
-  //     allRents.map((rentInRents) => (rentInRents.id === rent.id ? response : rentInRents))
-  //   );
-  // };
-
   const deleteRent = async(id: number)=>{
     console.log(id)
     if(id === undefined){

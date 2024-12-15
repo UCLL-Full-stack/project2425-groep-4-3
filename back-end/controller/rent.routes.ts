@@ -309,4 +309,38 @@ rentRouter.delete("/byId/:id", async (req: Request, res: Response, next: NextFun
         next(error);
     }
 });
+
+/**
+ * @swagger
+ * /rents/user/{name}:
+ *   get:
+ *       security:
+ *        - bearerAuth: [] 
+ *       summary: Get a list of all rents.
+ *       parameters: 
+ *            - name: name
+ *              in: path 
+ *              required: true
+ *              schema: 
+ *                type: string
+ *       responses:
+ *        200:
+ *         description: A list of rents.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                  $ref: '#/components/schemas/Rent'
+ */
+rentRouter.get('/user/:name', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const nameParam : string = req.params.name;
+        console.log(`controller:${nameParam}`)
+        const rents = await rentService.getRentsByUserName(nameParam);
+        res.status(200).json(rents);
+    } catch (error) {
+        next(error);
+    }
+});
 export { rentRouter };

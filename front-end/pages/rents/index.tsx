@@ -11,6 +11,7 @@ const Rents: React.FC = () => {
   const [rents, setRents] = useState<Array<Rent>>();
   const [accessories, setAccessories] = useState<Array<Accessory>>();
   const [error, setError] = useState<string>();
+  const [name, setName] = useState<string>();
 
   const getaccessories = async () => {
     setError("");
@@ -29,22 +30,34 @@ const Rents: React.FC = () => {
 
   const getrents = async () => {
     setError("");
-    const response = await RentService.getAllRents();
-    if (!response.ok) {
-      if (response.status === 401) {
-        setError("You are not authorized.");
+    const loggedInUser = localStorage.getItem("loggedInUser");
+        if (!loggedInUser) {throw new Error("No logged-in user found in local storage");}
+        setName(JSON.parse(loggedInUser).name);
+    // if(name != undefined){
+      const response = await RentService.getRentsByUserName();
+    
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError("You are not authorized.");
+        } else {
+          setError(response.statusText);
+        }
       } else {
-        setError(response.statusText);
+        const rents = await response.json();
+        setRents(rents);
       }
-    } else {
-      const rents = await response.json();
-      setRents(rents);
-    }
+    // }
+    // else{
+    //   setError("You are not authorized.")
+    // }
+    console.log(rents + "rents");
+
   };
 
   useEffect(() => {
     getrents();
     getaccessories();
+    
   }, []);
 
   return (
@@ -62,13 +75,6 @@ const Rents: React.FC = () => {
             <RentOverviewTable rents={rents} />
           ) : (
             <p className="text-red-500">Error loading rents: {error}</p>
-          )}
-
-          <h2 className="text-2xl font-semibold mt-12 mb-4">Accessories</h2>
-          {accessories ? (
-            <AccessoryOverviewTable accessories={accessories} />
-          ) : (
-            <p className="text-red-500">Error loading accessories: {error}</p>
           )}
         </section>
       </main>
