@@ -220,7 +220,7 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *             $ref: '#/components/schemas/RentInputCreate'
  *     responses:
  *       200:
- *         description: The created schedule.
+ *         description: The created rent.
  *         content:
  *           application/json:
  *             schema:
