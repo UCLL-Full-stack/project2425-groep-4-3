@@ -47,3 +47,4 @@ export type Accessory = {
     cost: number;
 };
   
+export type size = "S" | "M" | "L" | "XL"

@@ -7,6 +7,7 @@ import BikeOverviewTable from '@components/bikes/BikeOverviewTable';
 import RentService from '@services/RentService';
 import UserService from '@services/UserService';
 import AccessoryService from '@services/AccessoryService';
+import AddBikeForm from '@components/bikes/AddBikeForm';
 
 const Bikes: React.FC = () => {
   
@@ -14,6 +15,7 @@ const Bikes: React.FC = () => {
   const [rents, setRents] = useState<Array<Rent>>();
   const [error, setError] = useState<string>();
   const [accessories, setAccessories] = useState<Array<Accessory>>();
+  const [formVisible, setFormVisible] = useState(false);
 
   const getaccessories = async () => {
     setError("");
@@ -70,6 +72,9 @@ const Bikes: React.FC = () => {
     getaccessories();
   }, []);
 
+  const toggleForm = () => {
+    setFormVisible(!formVisible);
+  };
   return (
     <>
       <Head>
@@ -80,10 +85,26 @@ const Bikes: React.FC = () => {
         <h1 className="text-3xl font-semibold mb-8">Bikes Overview</h1>
         <section className="w-full max-w-7xl px-4">
           <h2 className="text-2xl font-semibold mb-4">Bikes Overview</h2>
-          {bikes && rents && accessories ?(
+        
+          {bikes && rents && accessories ? (
             <BikeOverviewTable bikes={bikes} rents={rents} accessories={accessories} />
           ) : (
             <p className="text-red-500">Error loading data: {error}</p>
+          )}
+
+          <div className="flex justify-center my-6">
+            <button 
+              onClick={toggleForm} 
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              {formVisible ? 'Hide Form' : 'Add New Bike'}
+            </button>
+          </div>
+
+          {formVisible && (
+            <div className="my-4">
+              <AddBikeForm />
+            </div>
           )}
         </section>
       </main>
