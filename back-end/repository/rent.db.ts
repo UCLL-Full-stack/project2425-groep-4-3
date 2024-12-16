@@ -1,12 +1,12 @@
 import { Bike } from "../model/Bike";
 import { Rent } from "../model/Rent";
-import { RentInput, RentInputUpdate } from "../types";
+import { RentInput, RentInputCreate, RentInputUpdate } from "../types";
 import database from "../util/database";
 
 const getAllRents = async (): Promise<Rent[]> => {
     try {
         const rentsPrisma = await database.rent.findMany({
-            include: {bike: true, user: true},
+            include: {bike: true, user: true,accessories: true},
         });
         return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
     } catch (error) {
@@ -50,7 +50,6 @@ const createRent = async (rent: Rent): Promise<Rent> => {
                 user: true,
                 accessories: true
             }});
-    
         return Rent.from(rentPrisma);
     } catch (error) {
         console.error(error);
@@ -114,10 +113,30 @@ const deleteRentById = async (id : number) : Promise<Rent> => {
     };
 };
 
+const getRentByUserId = async ({ userId }: { userId: number }): Promise<Rent[]> => {
+    try {
+        const rentsPrisma = await database.rent.findMany({
+            where: { 
+                user:{
+                    id:userId
+                }
+            },
+            include: { bike: true, user: true },
+        });
+        // console.log(userId)
+        console.log(rentsPrisma)
+        return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     getAllRents,
     getRentById,
     createRent,
     updateRentById,
-    deleteRentById
+    deleteRentById,
+    getRentByUserId
 };

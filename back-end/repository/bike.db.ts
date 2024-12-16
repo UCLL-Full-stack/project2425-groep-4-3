@@ -30,11 +30,11 @@ const createBike = async (bike: Bike): Promise<Bike> => {
   try {
       const bikePrisma = await database.bike.create({
           data: {
-                  brand: bike.getBrand(),
-                  model: bike.getModel(),
-                  location: bike.getLocation(),
-                  size: bike.getSize(),
-                  cost: bike.getCost()
+                brand: bike.getBrand(),
+                model: bike.getModel(),
+                location: bike.getLocation(),
+                size: bike.getSize(),
+                cost: bike.getCost()
           },
       });
       return Bike.from(bikePrisma);

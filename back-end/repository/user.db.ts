@@ -43,10 +43,11 @@ const createUser = async (user: User): Promise<User> => {
     }
 }
 
-const getUserByUsername = async ({ name }: { name: string }): Promise<User | null> => {
+const getUserByUsername = async (name: string): Promise<User | null> => {
+    console.log(name + 'DBBBB')
     try {
-        const userPrisma = await database.user.findFirst({
-            where: { name },
+        const userPrisma = await database.user.findUnique({
+            where: { name: name},
         });
 
         return userPrisma ? User.from(userPrisma) : null;
@@ -55,6 +56,8 @@ const getUserByUsername = async ({ name }: { name: string }): Promise<User | nul
         throw new Error('Database error. See server log for details.');
     }
 };
+
+
 export default {
     getAllUsers,
     getUserById,

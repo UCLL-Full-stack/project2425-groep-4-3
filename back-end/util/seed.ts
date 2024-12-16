@@ -76,7 +76,7 @@ async function main() {
   const accessory1 = await prisma.accessory.create({
     data: {
       name: 'Helmet',
-      amount: 50,
+      amount: 1,
       cost: 25,
     },
   });
@@ -84,7 +84,7 @@ async function main() {
   const accessory2 = await prisma.accessory.create({
     data: {
       name: 'Lock',
-      amount: 100,
+      amount: 1,
       cost: 15,
     },
   });
@@ -92,7 +92,7 @@ async function main() {
   const accessory3 = await prisma.accessory.create({
     data: {
       name: 'Lights',
-      amount: 75,
+      amount: 2,
       cost: 20,
     },
   });
