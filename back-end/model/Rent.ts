@@ -28,6 +28,7 @@ export class Rent{
         if(rent.cost < 0){
             throw new Error('Cost cannot go under 0.');
         }
+
     }
 
     getId(): number | undefined{

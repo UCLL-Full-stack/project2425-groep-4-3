@@ -1,10 +1,10 @@
 import bikeService from "../../service/bike.service";
 import bikeDb from "../../repository/bike.db";
 import { Bike } from "../../model/Bike";
-import { Size } from "../../types";
+import { size } from "../../types";
 
-const mockBike1 = new Bike({ id: 1, brand: 'Giant', model: 'Escape 3', location: 'Downtown', size: 'M' as Size, cost: 12 });
-const mockBike2 = new Bike({ id: 2, brand: 'Trek', model: 'FX 1', location: 'Uptown', size: 'L' as Size, cost: 15 });
+const mockBike1 = new Bike({ id: 1, brand: 'Giant', model: 'Escape 3', location: 'Downtown', size: 'M' as size, cost: 12 });
+const mockBike2 = new Bike({ id: 2, brand: 'Trek', model: 'FX 1', location: 'Uptown', size: 'L' as size, cost: 15 });
 
 let mockBikeDbGetAllBikes: jest.Mock;
 let mockBikeDbGetBikeById: jest.Mock;
@@ -13,7 +13,7 @@ beforeEach(() => {
     mockBikeDbGetAllBikes = jest.fn();
     mockBikeDbGetBikeById = jest.fn();
 
-    bikeDb.getAllbikes = mockBikeDbGetAllBikes;
+    bikeDb.getAllBikes = mockBikeDbGetAllBikes;
     bikeDb.getBikeById = mockBikeDbGetBikeById;
 });
 

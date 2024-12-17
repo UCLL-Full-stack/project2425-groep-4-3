@@ -23,14 +23,14 @@ const updateRent = async (rent : RentInputUpdate ,id:number): Promise<Rent> =>{
     return await rentDb.updateRentById(rent,id);
 }
 
-const rentAbike = async ({startDate, returned, cost, bike, name, accessoriesIdList}: RentInputCreate): Promise<Rent> => {
+const rentAbike = async ({startDate, returned, cost, bikeId, name, accessoriesIdList}: RentInputCreate): Promise<Rent> => {
     const todaysDate = new Date();
     const accessoriesList = [];
 
     if(startDate < todaysDate){
         throw new Error('Start date cannot be in the past.');
     }
-    const bikeInput = await bikeDb.getBikeById({id : bike.id});
+    const bikeInput = await bikeDb.getBikeById({id : bikeId});
     const userInput = await userDb.getUserByUsername(name);
 
     console.log(accessoriesIdList)
@@ -43,13 +43,13 @@ const rentAbike = async ({startDate, returned, cost, bike, name, accessoriesIdLi
         
         accessoriesList.push(accessory);
     }
-    if(!bikeInput)throw new Error(`No bike input wit id ${bike.id}.`)
+    if(!bikeInput)throw new Error(`No bike input wit id ${bikeId}.`)
     if(!userInput)throw new Error(`No user input wit id ${name}.`)
     
     const rents = await getAllRents()
     const bikeIds = rents.map(rent => rent.getBike().getId());
-    if(bikeIds.includes(bike.id)){
-        throw new Error(`Bike with ${bike.id} is already rented.`)
+    if(bikeIds.includes(bikeId)){
+        throw new Error(`Bike with ${bikeId} is already rented.`)
     }
 
     const rent = new Rent({startDate,returned,cost,bike: bikeInput, user: userInput, accessories: accessoriesList});

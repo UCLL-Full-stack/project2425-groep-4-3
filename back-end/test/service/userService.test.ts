@@ -2,8 +2,9 @@ import userService from "../../service/user.service";
 import userDb from "../../repository/user.db";
 import { User } from "../../model/User";
 
-const mockUser1 = new User({ id: 1, name: 'Alice', email: 'alice@example.com', age: 30, role: 'user', password: 'password1' });
+const mockUser1 = new User({ id: 1, name: 'Alice', email: 'alice@example.com', age: 30, role: 'renter', password: 'password1' });
 const mockUser2 = new User({ id: 2, name: 'Bob', email: 'bob@example.com', age: 25, role: 'admin', password: 'password2' });
+const mockUser3 = new User({ id: 2, name: 'kika', email: 'kika@example.com', age: 35, role: 'owner', password: 'password3' });
 
 let mockUserDbGetAllUsers: jest.Mock;
 let mockUserDbGetUserById: jest.Mock;
