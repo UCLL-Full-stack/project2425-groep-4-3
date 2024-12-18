@@ -4,6 +4,8 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import UserService from '@services/UserService';
 import UserOverviewTable from '@components/users/UserOverviewTable';
+import useInterval from 'use-interval';
+import useSWR, { mutate } from 'swr';
 
 
 const Users: React.FC = () => {
@@ -12,11 +14,18 @@ const Users: React.FC = () => {
     const getUsers =async () => {
         const res = await UserService.getAllUsers();
         const userList = await res.json();
-        setUsers(userList)
+        return userList
     }
-    useEffect(()=>{
-        getUsers()
-    },[])
+
+  const {data: responseUsers, error:errorUser} = useSWR('/users', getUsers);
+
+  useInterval(()=> {
+    mutate('/users',getUsers());
+  },5000);
+
+  const errorMerge = errorUser;
+
+
   return (
     <>
       <Head>
@@ -27,8 +36,8 @@ const Users: React.FC = () => {
         <h1>Users</h1>
         <section>
           <h2>User overview</h2>
-          {users &&(
-            <UserOverviewTable users={users}></UserOverviewTable>
+          {responseUsers &&(
+            <UserOverviewTable users={responseUsers}></UserOverviewTable>
           )}
         </section>
       </main>

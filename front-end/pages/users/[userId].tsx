@@ -5,6 +5,7 @@ import { User } from "@types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
 
 const ReadUserById: React.FC = () =>{
@@ -18,11 +19,12 @@ const ReadUserById: React.FC = () =>{
         const [foundUser] = await Promise.all([userResponse.json()])
         setUser(foundUser)
     }
+
     useInterval(()=> {
         if (userId){
             getUserById()
         }
-    }, 5000)
+    }, 2500)
     return(
         <>
             <Head>My User</Head>
