@@ -119,13 +119,43 @@
  *             items:
  *               type: number
  *               description: The id of the chosen accessories
+ *       RentInputUpdate:
+ *         type: object
+ *         properties:
+ *           id:
+ *             type: number
+ *             format: int64
+ *             description: The rent Id
+ *           startDate:
+ *             type: string
+ *             format: date-time
+ *             description: Start date Rent
+ *           returned:
+ *             type: boolean
+ *             description: Is the bike returned or not
+ *           cost:
+ *             type: number
+ *             description: Cost of the rent
+ *           bike:
+ *             type: number
+ *             format: int64
+ *             description: BikeId connected with Rent
+ *           user:
+ *             type: number
+ *             format: int64
+ *             description: UserId connected with Rent
+ *           accessories:
+ *             type: array
+ *             items:
+ *               type: number
+ *               format: int64
+ *               description: AccsessoryIds connected with Rent
  */
 
 
 import express, { NextFunction, Request, Response } from 'express';
 import rentService from '../service/rent.service';
-import { Rent } from '../model/Rent';
-import { RentInput, RentInputCreate, RentInputUpdate } from '../types';
+import { RentInputCreate, RentInputUpdate } from '../types';
 
 const rentRouter = express.Router();
 
@@ -238,7 +268,7 @@ rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) 
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/Rent'                 
+ *                              $ref: '#/components/schemas/RentInputUpdate'                 
  *          responses: 
  *              '200':
  *                  description: The updated rent is returned

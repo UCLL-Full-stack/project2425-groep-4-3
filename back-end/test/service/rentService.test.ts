@@ -4,7 +4,7 @@ import { Rent } from "../../model/Rent";
 import bikeDb from "../../repository/bike.db";
 import rentDb from "../../repository/rent.db";
 import rentService from "../../service/rent.service";
-import { BikeInput, RentInput, Size } from "../../types";
+import { BikeInput, size } from "../../types";
 
 const currentDate = new Date();
 const startDate = set(currentDate, { hours: currentDate.getHours() + 1, minutes: currentDate.getMinutes() });
@@ -35,12 +35,7 @@ const bikeInput : BikeInput = {
     size: "M",
     cost: 25,
 }
-const rentInput: RentInput = {
-    startDate,
-    returned,
-    cost,
-    bike: bikeInput
-}
+
 beforeEach(() => {
     getAllRentsDbMock = jest.fn();
     getRentByIdDbMock = jest.fn();
