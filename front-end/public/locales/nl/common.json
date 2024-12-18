@@ -37,11 +37,17 @@
         "error":"Er is iets misgegaan met registreren, probeer het opnieuw.",
         "validate":{
             "password":"Wachtwoord is niet ingevuld.",
+            "passwordLength":"Wachtwoord moet minstens 7 karakters bevatten.",
+            "passwordFormat":"Wachtwoord moet minstens 1 Hoofdletter en 1 cijfer bevatten.",
             "confirmPassword":"Wachtwoord is niet hetzelfde.",
-            "name":"Gebruikersnaam is niet correct.",
-            "email":"Email is niet correct.",
-            "age":"Leeftijd is niet correct.",
-            "role":"Rol is niet geselecteerd."
+            "name":"Gebruikersnaam is verplicht.",
+            "nameLetters":"Gebruikersnaam mag enkel letters bevatten.",
+            "email":"Email is verplicht.",
+            "emailFormat": "Email moet een geldig formaat hebben.",
+            "age":"Leeftijd is Verplicht.",
+            "ageLimit": "Leeftijd moet boven 16 zijn.",
+            "role":"Rol is niet geselecteerd.",
+            "roleFormat": "Role kan enkel 'renter' of 'owner' zijn."
 
         }
     }

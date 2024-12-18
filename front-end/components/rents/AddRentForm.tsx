@@ -46,11 +46,10 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories,onCancel}:
       if (!startDate || startDate.trim() === "") {
         setStartDateError("Start date cant be empty");
         result = false;
+      } else if (new Date(startDate) < new Date()) {
+        setStartDateError("Start date cant be in the past");
+        result = false;
       }
-      // if (!endDate || endDate.trim() === "" || endDate < startDate) {
-      //   setEndDateError("End date cant be empty");
-      //   result = false;
-      // }
       return result;
     };
 
