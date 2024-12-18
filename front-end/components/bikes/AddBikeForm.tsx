@@ -17,66 +17,69 @@ const AddBikeForm: React.FC<Props> = ({onCancel}) => {
     const [locationError, setLocationError] = useState<string | null>(null);
     const [sizeError, setSizeError] = useState<string | null>(null);
     const [costError, setCostError] = useState<string | null>(null);
-    const [valid, setValid] = useState(true);
+    const [valid, setValid] = useState(false);
     const [generalError, setGeneralError] = useState<string | null>(null);
 
-    const validateFields = () => {
-        setValid(true);
+    const validateFields = (): Boolean => {
+        let isValid = true;
         if (!brand) {
             setBrandError('Brand is required');
-            setValid(false);
+            isValid = false;
         } else {
             setBrandError(null);
         }
 
         if (!model) {
             setModelError('Model is required');
-            setValid(false);
+            isValid = false;
         } else {
             setModelError(null);
         }
 
         if (!location) {
             setLocationError('Location is required');
-            setValid(false);
+            isValid = false;
         } else {
             setLocationError(null);
         }
 
         if (!['S', 'M', 'L', 'XL'].includes(size)) {
             setSizeError('Size must be S, M, L, or XL');
-            setValid(false);
+            isValid = false;
         } else {
             setSizeError(null);
         }
 
         if (cost <= 0) {
             setCostError('Cost must be a positive number');
-            setValid(false);
+            isValid = false;
         } else {
             setCostError(null);
+            
         }
+        return isValid;
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         validateFields();
 
-        if (valid) {
-            const bike = { brand, model, location, size, cost };
-
-            try {
-                const response = await BikeService.createBike(bike);
-                if (response.ok) {
-                    console.log('Form submitted successfully');
-                    onCancel();
-                } else {
-                    setGeneralError('Error submitting form');
-                }
-            } catch (error) {
+        if (!validateFields()) {
+            return;
+        }
+        const bike = { brand, model, location, size, cost };
+        try {
+            const response = await BikeService.createBike(bike);
+            if (response.ok) {
+                console.log('Form submitted successfully');
+                onCancel();
+            } else {
                 setGeneralError('Error submitting form');
             }
+        } catch (error) {
+            setGeneralError('Error submitting form');
         }
+        
         
     };
 
