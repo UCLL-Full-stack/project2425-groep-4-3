@@ -3,7 +3,7 @@ import accessoryDb from "../repository/accessory.db";
 import bikeDb from "../repository/bike.db";
 import rentDb from "../repository/rent.db";
 import userDb from "../repository/user.db";
-import { RentInput, RentInputCreate, RentInputUpdate } from "../types";
+import { RentInputCreate, RentInputUpdate } from "../types";
 import userService from "./user.service";
 
 const getAllRents = async (): Promise<Rent[]> => rentDb.getAllRents();

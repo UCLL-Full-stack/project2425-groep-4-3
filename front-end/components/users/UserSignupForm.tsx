@@ -37,22 +37,40 @@ const UserSignupForm: React.FC = () => {
     if (!name || name.trim() === "") {
       setNameError(t("signup.validate.name"));
       result = false;
+    } else if(!/^[a-zA-Z]+$/.test(name)){
+      setNameError(t("signup.validate.nameLetters"));
+      result = false;
     }
     
     if (!email || email.trim() === "") {
       setEmailError(t("signup.validate.email"));
       result = false;
+    } else if(!email.includes("@") || !email.includes(".")){
+      setEmailError(t("signup.validate.emailFormat"));
+      result = false;
     }
-    if (!age || age < 18) {
+    if (!age) {
       setAgeError(t("signup.validate.age"));
+      result = false;
+    } else if(age < 16){
+      setAgeError(t("signup.validate.ageLimit"));
       result = false;
     }
     if (!role || role.trim() === "") {
       setRoleError(t("signup.validate.role"));
       result = false;
+    } else if (role !== "owner" && role !== "renter") {
+      setRoleError(t("signup.validate.roleFormat"));
+      result = false;
     }
     if (!password || password.trim() === "") {
       setPasswordError(t("signup.validate.password"));
+      result = false;
+    } else if (password.length < 7) {
+      setPasswordError(t("signup.validate.passwordLength"));
+      result = false;
+    } else if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+      setPasswordError(t("signup.validate.passwordFormat"));
       result = false;
     } else if (password !== confirmPassword) {
       setConfirmPasswordError(t("signup.validate.confirmPassword"));
@@ -129,7 +147,7 @@ const UserSignupForm: React.FC = () => {
         </label>
         <input
           id="emailInput"
-          type="email"
+          type="text"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"

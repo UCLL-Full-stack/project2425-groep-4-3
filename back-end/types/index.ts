@@ -13,18 +13,7 @@ type BikeInput = {
     cost: number;
 }
 
-type RentInput = {
-    id?: number;
-    startDate: Date;
-    returned: boolean;
-    cost: number;
-    bikeId: number;
-    userId: number;
-    accessoriesIdList: number[];
-}
-
 type UserInput = {
-    // id?: number;
     name: string;
     email: string;
     age: number;
@@ -73,7 +62,6 @@ type RentInputCreate = {
 export {
     size,
     BikeInput,
-    RentInput,
     UserInput,
     AccessoryInput, 
     Role,

@@ -48,7 +48,7 @@ const Header: React.FC = () => {
             Bikes
           </Link>
         )}
-        {loggedInUser && (loggedInUser.role == "Admin" || loggedInUser?.role == "Renter") && (
+        {loggedInUser && (
           <Link href="/rents" className="px-4 text-lg text-white">
             Rents
           </Link>

@@ -4,6 +4,7 @@ import { Rent } from "../../model/Rent";
 import bikeDb from "../../repository/bike.db";
 import rentDb from "../../repository/rent.db";
 import rentService from "../../service/rent.service";
+import { BikeInput, size } from "../../types";
 import { BikeInput, RentInput, RentInputCreate, size } from "../../types";
 import { Accessory } from "../../model/Accessory";
 import { User } from "../../model/User";
@@ -50,6 +51,7 @@ const BikeID = validBike.getId();
 if (!BikeID) {
     throw new Error('Bike ID is required.');
 }
+
 const rentInput: RentInputCreate = {
     
     startDate,

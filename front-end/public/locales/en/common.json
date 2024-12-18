@@ -38,11 +38,17 @@
         "error":"Something went wrong with signup, try again.",
         "validate":{
             "password":"Password is empty.",
+            "passwordLength":"Password must be at least 7 characters long.",
+            "passwordFormat":"Password must contain at least 1 uppercase letter and 1 number.",
             "confirmPassword":"Passwords do not match.",
             "name":"Username is incorrect.",
+            "nameLetters":"Username can only contain letters.",
             "email":"Email is incorrect.",
+            "emailFormat": "Email must have a valid format.",
             "age":"Age is incorrect.",
-            "role":"Role is not selected."
+            "ageLimit": "Age must be above 16.",
+            "role":"Role is not selected.",
+            "roleFormat": "Role can only be 'renter' or 'owner'."
 
         }
     }

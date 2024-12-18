@@ -24,10 +24,26 @@ export class Rent{
         this.accessories = rent.accessories || [];
     }
 
-    validate(rent:{startDate: Date;returned: boolean;cost: number}){
+    validate(rent:{startDate: Date;returned: boolean;cost: number, bike:Bike; user:User; accessories: Accessory []}){
         if(rent.cost < 0){
             throw new Error('Cost cannot go under 0.');
         }
+        if(!rent.cost){
+            throw new Error('Cost is required.');
+        }
+        if(!rent.startDate){
+            throw new Error('Start date is required.');
+        }
+        if(rent.startDate < new Date()){
+            throw new Error('Start date cannot be in the past.');
+        }
+        if(!rent.bike){
+            throw new Error('Bike is required.');
+        }
+        if(!rent.user){
+            throw new Error('User is required.');
+        }
+
 
     }
 

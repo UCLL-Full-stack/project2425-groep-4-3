@@ -25,22 +25,44 @@ export class User{
 
     }
 
-    validate(user:{name: string, email: string, age: number, password: string}){
-        if(!user.name?.trim()){
+    validate(user:{name: string, email: string, age: number, password: string, role: Role}){
+        if(!user.name.trim()){
             throw new Error('Name is required.');
         }
-        if(!user.email?.trim()){
+        const nameRegex = /^[a-zA-Z\s]+$/; // enkel letters en spaties toegestaan
+        if (!nameRegex.test(user.name)) {
+            throw new Error('Name must contain only letters and spaces.');
+        }
+        if(!user.email.trim()){
             throw new Error('Email is required.');
         }
-        if(user.email.indexOf('@') === -1){
-            throw new Error('Email must contain an @.');
+        if(!user.email.includes('@') || !user.email.includes('.')){
+            throw new Error('Email must be valid.');
+        }
+        if(!user.age){
+            throw new Error('Age is required.');
         }
         if(user.age < 16){
             throw new Error('Minimum age is 16 years.');
         }
-        if(user.password.length < 6){
-            throw new Error('Password must be at least 6 characters long.');
+        if(!user.password?.trim()){
+            throw new Error('Password is required.');
         }
+        if(user.password.length < 7){
+            throw new Error('Password must be at least 7 characters long.');
+        }
+        if(!user.role){
+            throw new Error('Role is required.');
+        }
+        if (!/[A-Z]/.test(user.password)) {
+            throw new Error('Password must contain at least one uppercase letter.');
+        }
+        if (!/[0-9]/.test(user.password)) {
+            throw new Error('Password must contain at least one numeric digit.');
+        }
+        
+
+
     }
 
     getId(): number | undefined{
