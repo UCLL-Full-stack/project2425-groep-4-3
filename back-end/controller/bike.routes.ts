@@ -13,18 +13,20 @@
  *            id:
  *              type: number
  *              format: int64
+ *              description: Bike id
  *            brand:
  *              type: string
- *              description: Brand Bike
+ *              description: The brand of the bike
  *            model:
  *              type: string
- *              description: Model Bike
+ *              description: The model of the bike 
  *            location:
  *              type: string
- *              description: location Bike
+ *              description: The location of the Bike
  *            size:
  *              type: string
  *              enum: [S | M | L | XL]
+ *              description: Size of the bike.
  *            cost:
  *              type: number
  *              description: Cost of the bike.
@@ -66,17 +68,17 @@ bikeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *  get:
  *      security:
  *        - bearerAuth: [] 
- *      summary: Get a Bike by id.
+ *      summary: Get a Bike by id
  *      parameters:
  *          - in: path
  *            name: id
  *            schema:
  *              type: integer
  *              required: true
- *              description: The Bike id.
+ *              description: The bike Id
  *      responses:
  *          200:
- *              description: A Bike object.
+ *              description: A complete Bike
  *              content:
  *                  application/json:
  *                      schema:

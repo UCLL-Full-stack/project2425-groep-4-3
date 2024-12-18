@@ -13,6 +13,7 @@
  *           id:
  *             type: number
  *             format: int64
+ *             description: The rent Id
  *           startDate:
  *             type: string
  *             format: date-time
@@ -22,7 +23,7 @@
  *             description: Is the bike returned or not
  *           cost:
  *             type: number
- *             description: Cost of the rent.
+ *             description: Cost of the rent
  *           bike:
  *             $ref: '#/components/schemas/Bike'
  *           user:
@@ -37,6 +38,7 @@
  *           id:
  *             type: number
  *             format: int64
+ *             description: Id of the User
  *           name:
  *             type: string
  *             description: Name of the user
@@ -58,64 +60,44 @@
  *           id:
  *             type: number
  *             format: int64
+ *             description: Id of the Bike
  *           brand:
  *             type: string
- *             description: Brand of the bike
+ *             description: Brand of the Bike
  *           model:
  *             type: string
- *             description: Model of the bike
+ *             description: Model of the Bike
  *           location:
  *             type: string
- *             description: Location of the bike
+ *             description: Location of the Bike
  *           size:
  *             type: string
  *             enum: [S, M, L, XL]
+ *             description: Size of the Bike
  *           cost:
  *             type: number
- *             description: Cost of the bike.
+ *             description: Cost of the Bike
  *       Accessory:
  *         type: object
  *         properties:
  *           id:
  *             type: number
  *             format: int64
+ *             description: Id of the Accessory
  *           name:
  *             type: string
- *             description: Name of the accessory
+ *             description: Name of the Accessory
  *           amount:
  *             type: number
  *             format: int64
- *             description: Amount of the accessory
+ *             description: Amount of the Accessory
  *           cost:
  *             type: number
  *             format: int64
- *             description: Cost of the accessory
- *       RentInput:
- *         type: object
- *         properties:
- *           startDate:
- *             type: string
- *             format: date-time
- *             description: Start date Rent
- *           returned:
- *             type: boolean
- *             description: Is the bike returned or not
- *           cost:
- *             type: number
- *             description: Cost of the rent.
- *           bikeId:
- *             type: number
- *             description: The id of the chosen bike
- *           userId:
- *             type: number
- *             description: The id of the user who rents the bike
- *           accessoriesIdList:
- *             type: array
- *             items:
- *               type: number
- *               description: The id of the chosen accessories
+ *             description: Cost of the Accessory
  *       RentInputCreate:
  *         type: object
+ *         description: RentInput create is with Username 
  *         properties:
  *           startDate:
  *             type: string
@@ -153,10 +135,10 @@ const rentRouter = express.Router();
  *   get:
  *       security:
  *        - bearerAuth: [] 
- *       summary: Get a list of all rents.
+ *       summary: Get all rents
  *       responses:
  *        200:
- *         description: A list of rents.
+ *         description: Complete list of rents
  *         content:
  *           application/json:
  *             schema:
@@ -179,17 +161,17 @@ rentRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *  get:
  *      security:
  *        - bearerAuth: [] 
- *      summary: Get a Rent by id.
+ *      summary: Get a Rent by id
  *      parameters:
  *          - in: path
  *            name: id
  *            schema:
  *              type: integer
  *              required: true
- *              description: The Rent id.
+ *              description: The Rent id
  *      responses:
  *          200:
- *              description: A Rent object.
+ *              description: A Rent
  *              content:
  *                  application/json:
  *                      schema:
@@ -211,7 +193,7 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *   post:
  *     security:
  *       - bearerAuth: [] 
- *     summary: Rent a bike
+ *     summary: Rent a bike(Create Rent)
  *     requestBody:
  *       required: true
  *       content:
@@ -220,7 +202,7 @@ rentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *             $ref: '#/components/schemas/RentInputCreate'
  *     responses:
  *       200:
- *         description: The created schedule.
+ *         description: The created Rent.
  *         content:
  *           application/json:
  *             schema:
@@ -243,7 +225,7 @@ rentRouter.post("/rentAbike", (req: Request, res: Response, next: NextFunction) 
  *      put:    
  *          security:
  *              - bearerAuth: []
- *          summary: Update user with the given id and new rent
+ *          summary: Update rent with the given id 
  *          parameters:
  *              - name: id
  *                in: path 
@@ -284,7 +266,7 @@ rentRouter.put("/updateById/:id", async (req: Request, res: Response, next: Next
  *      delete:    
  *          security:
  *              - bearerAuth: []
- *          summary: Delete user with the given id
+ *          summary: Delete rent with the given id
  *          parameters: 
  *              - name: id
  *                in: path 
@@ -292,9 +274,10 @@ rentRouter.put("/updateById/:id", async (req: Request, res: Response, next: Next
  *                schema: 
  *                  type: integer
  *                  format: int64
+ *                  description: Id of the rent you want to delete
  *          responses: 
  *              '200':
- *                  description: The deleted user is returned
+ *                  description: The deleted rent
  *                  content: 
  *                      application/json:
  *                          schema: 
@@ -316,16 +299,17 @@ rentRouter.delete("/byId/:id", async (req: Request, res: Response, next: NextFun
  *   get:
  *       security:
  *        - bearerAuth: [] 
- *       summary: Get a list of all rents.
+ *       summary: get rents with user that hase the given username
  *       parameters: 
  *            - name: name
  *              in: path 
  *              required: true
  *              schema: 
  *                type: string
+ *                description: The name of the logged-in User
  *       responses:
  *        200:
- *         description: A list of rents.
+ *         description: A list of rents of the user
  *         content:
  *           application/json:
  *             schema:
