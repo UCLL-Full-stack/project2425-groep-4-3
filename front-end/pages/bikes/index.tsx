@@ -7,6 +7,7 @@ import BikeOverviewTable from '@components/bikes/BikeOverviewTable';
 import RentService from '@services/RentService';
 import UserService from '@services/UserService';
 import AccessoryService from '@services/AccessoryService';
+import BikeCreateForm from '@components/bikes/BikeCreateForm';
 
 const Bikes: React.FC = () => {
   
@@ -14,6 +15,7 @@ const Bikes: React.FC = () => {
   const [rents, setRents] = useState<Array<Rent>>();
   const [error, setError] = useState<string>();
   const [accessories, setAccessories] = useState<Array<Accessory>>();
+  const [CreateForm, setCreateForm] = useState<boolean>(false);
 
   const getaccessories = async () => {
     setError("");
@@ -70,6 +72,7 @@ const Bikes: React.FC = () => {
     getaccessories();
   }, []);
 
+
   return (
     <>
       <Head>
@@ -79,8 +82,11 @@ const Bikes: React.FC = () => {
       <main className="flex flex-col items-center py-8">
         <h1 className="text-3xl font-semibold mb-8">Bikes Overview</h1>
         <section className="w-full max-w-7xl px-4">
-          <h2 className="text-2xl font-semibold mb-4">Bikes Overview</h2>
-          {bikes && rents && accessories ?(
+          <button className='mb-2 py-2 px-4 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500' onClick={() => setCreateForm(!CreateForm)}>Create Bike</button>
+          {CreateForm && (
+            <BikeCreateForm></BikeCreateForm>
+          )}
+          {bikes && rents && accessories ? (
             <BikeOverviewTable bikes={bikes} rents={rents} accessories={accessories} />
           ) : (
             <p className="text-red-500">Error loading data: {error}</p>
