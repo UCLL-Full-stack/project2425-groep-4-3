@@ -6,6 +6,8 @@ import RentService from '@services/RentService';
 import RentOverviewTable from '@components/rents/RentOverviewTable';
 import AccessoryOverviewTable from '@components/accessories/AccessoryOverviewTable';
 import AccessoryService from '@services/AccessoryService';
+import useSWR, { mutate } from 'swr';
+import useInterval from 'use-interval';
 
 const Rents: React.FC = () => {
   const [rents, setRents] = useState<Array<Rent>>();
@@ -13,20 +15,7 @@ const Rents: React.FC = () => {
   const [error, setError] = useState<string>();
   const [name, setName] = useState<string>();
 
-  const getaccessories = async () => {
-    setError("");
-    const response = await AccessoryService.getAllAccessories();
-    if (!response.ok) {
-      if (response.status === 401) {
-        setError("You are not authorized.");
-      } else {
-        setError(response.statusText);
-      }
-    } else {
-      const accessories = await response.json();
-      setAccessories(accessories);
-    }
-  };
+
 
   const getrents = async () => {
     setError("");
@@ -44,22 +33,25 @@ const Rents: React.FC = () => {
         }
       } else {
         const rents = await response.json();
-        setRents(rents);
+        return rents;
       }
-    // }
-    // else{
-    //   setError("You are not authorized.")
-    // }
     console.log(rents + "rents");
 
   };
 
-  useEffect(() => {
-    getrents();
-    getaccessories();
-    
-  }, []);
+  const {data: responseRents, error:errorRents} = useSWR('/rents/user/{name}', getrents);
 
+
+
+
+  useInterval(()=> {
+      mutate('/rents/user/{name}',getrents());
+  },5000);
+
+ 
+  const errorMerge =  errorRents || error;
+
+  
   return (
     <>
       <Head>
@@ -71,8 +63,11 @@ const Rents: React.FC = () => {
         
         <section className="w-full max-w-6xl p-4">
           <h2 className="text-2xl font-semibold mb-4">Rents</h2>
-          {rents ? (
-            <RentOverviewTable rents={rents} />
+          {errorMerge && (
+            <div>{errorMerge}</div>
+          )}
+          {responseRents ? (
+            <RentOverviewTable rents={responseRents} />
           ) : (
             <p className="text-red-500">Error loading rents: {error}</p>
           )}
