@@ -36,6 +36,9 @@ const Users: React.FC = () => {
         <h1>Users</h1>
         <section>
           <h2>User overview</h2>
+          {errorMerge && (
+            <div>{errorMerge}</div>
+          )}
           {responseUsers &&(
             <UserOverviewTable users={responseUsers}></UserOverviewTable>
           )}

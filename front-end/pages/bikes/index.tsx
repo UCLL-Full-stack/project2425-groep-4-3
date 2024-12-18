@@ -75,11 +75,7 @@ const Bikes: React.FC = () => {
   const {data: responseBikes, error:errorBike} = useSWR('/bikes', getbikes);
   const {data: responseAcc, error:errorAcc} = useSWR('/acceories', getaccessories);
   const {data: responseRents, error:errorRents} = useSWR('/rents', getrents);
-  useEffect(() => {
-    getrents(); 
-    getbikes();
-    getaccessories();   
-  }, []);
+
 
   useInterval(()=> {
       mutate('/bikes', getbikes());

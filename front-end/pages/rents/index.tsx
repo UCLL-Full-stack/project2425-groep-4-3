@@ -42,9 +42,7 @@ const Rents: React.FC = () => {
   const {data: responseRents, error:errorRents} = useSWR('/rents/user/{name}', getrents);
 
 
-  useEffect(() => {
-    getrents();    
-  }, []);
+
 
   useInterval(()=> {
       mutate('/rents/user/{name}',getrents());
@@ -65,6 +63,9 @@ const Rents: React.FC = () => {
         
         <section className="w-full max-w-6xl p-4">
           <h2 className="text-2xl font-semibold mb-4">Rents</h2>
+          {errorMerge && (
+            <div>{errorMerge}</div>
+          )}
           {responseRents ? (
             <RentOverviewTable rents={responseRents} />
           ) : (
