@@ -27,8 +27,22 @@ export class Bike{
             throw new Error("Size is required and must be one of: S, M, L, XL.");
         }
         if (bike.cost < 0) {
-          throw new Error("Cost is required.");
+          throw new Error("Cost can't be negative.");
         }
+        if (!bike.cost) {
+            throw new Error("Cost is required.");
+        }
+        if (!bike.brand) {
+          throw new Error("Brand is required.");
+        }
+        if (!bike.model) {
+          throw new Error("Model is required.");
+        }
+        if (!bike.location) {
+          throw new Error("Location is required.");
+        }
+
+
     }
     public getId(): number | undefined {
         return this.id;
