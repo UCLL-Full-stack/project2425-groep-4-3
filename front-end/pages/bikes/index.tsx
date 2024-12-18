@@ -103,7 +103,7 @@ const Bikes: React.FC = () => {
 
           {formVisible && (
             <div className="my-4">
-              <AddBikeForm />
+              <AddBikeForm onCancel={() => setFormVisible(false)} />
             </div>
           )}
         </section>

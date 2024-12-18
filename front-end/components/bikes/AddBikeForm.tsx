@@ -2,7 +2,11 @@ import BikeService from "@services/BikeService";
 import { size } from "@types";
 import React, { useState } from "react";
 
-const AddBikeForm: React.FC = () => {
+type Props = {
+    onCancel: () => void;
+};
+
+const AddBikeForm: React.FC<Props> = ({onCancel}) => {
     const [brand, setBrand] = useState('');
     const [model, setModel] = useState('');
     const [location, setLocation] = useState('');
@@ -65,6 +69,7 @@ const AddBikeForm: React.FC = () => {
                 const response = await BikeService.createBike(bike);
                 if (response.ok) {
                     console.log('Form submitted successfully');
+                    onCancel();
                 } else {
                     setGeneralError('Error submitting form');
                 }
@@ -72,6 +77,7 @@ const AddBikeForm: React.FC = () => {
                 setGeneralError('Error submitting form');
             }
         }
+        
     };
 
     return (

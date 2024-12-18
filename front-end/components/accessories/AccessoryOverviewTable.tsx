@@ -120,7 +120,6 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
         </table>
         
       )}
-      <p className="pt-2 text-lg">Selected accessories: {selectedAccessories.map((accessory) => accessory.name).join(", ")}</p>
       
     </>
   );
