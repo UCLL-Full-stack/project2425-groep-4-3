@@ -20,7 +20,7 @@ const generateJwtToken = ({name, role}: UserPayload): string => {
     try {
         return jwt.sign({name,role}, secret, options);
     } catch (error) {
-        console.log(error);
+        console.log(error); 
         throw new Error("Error generating JWT token.")
     }
 };

@@ -9,6 +9,7 @@ import UserService from '@services/UserService';
 import AccessoryService from '@services/AccessoryService';
 import useSWR, { mutate } from 'swr';
 import useInterval from 'use-interval';
+import AddBikeForm from '@components/bikes/AddBikeForm';
 
 const Bikes: React.FC = () => {
   
@@ -16,6 +17,7 @@ const Bikes: React.FC = () => {
   // const [rents, setRents] = useState<Array<Rent>>();
   const [error, setError] = useState<string>();
   // const [accessories, setAccessories] = useState<Array<Accessory>>();
+  const [formVisible, setFormVisible] = useState(false);
 
   const getaccessories = async () => {
     setError("");
@@ -70,8 +72,6 @@ const Bikes: React.FC = () => {
     
   };
 
-
-
   const {data: responseBikes, error:errorBike} = useSWR('/bikes', getbikes);
   const {data: responseAcc, error:errorAcc} = useSWR('/acceories', getaccessories);
   const {data: responseRents, error:errorRents} = useSWR('/rents', getrents);
@@ -85,7 +85,9 @@ const Bikes: React.FC = () => {
  
   const errorMerge = errorBike || errorAcc || errorRents || error;
 
-
+  const toggleForm = () => {
+    setFormVisible(!formVisible);
+  };
   return (
     <>
       <Head>
@@ -104,6 +106,21 @@ const Bikes: React.FC = () => {
             <BikeOverviewTable bikes={responseBikes} rents={responseRents} accessories={responseAcc} />
           ) : (
             <p className="text-red-500">Error loading data: {error}</p>
+          )}
+
+          <div className="flex justify-center my-6">
+            <button 
+              onClick={toggleForm} 
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              {formVisible ? 'Hide Form' : 'Add New Bike'}
+            </button>
+          </div>
+
+          {formVisible && (
+            <div className="my-4">
+              <AddBikeForm onCancel={() => setFormVisible(false)} />
+            </div>
           )}
         </section>
       </main>
