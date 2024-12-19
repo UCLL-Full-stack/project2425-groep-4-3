@@ -57,6 +57,16 @@ test('given: bike with specific ID exists, when: getBikeById is called, then: it
     expect(mockBikeDbGetBikeById).toHaveBeenCalledWith({ id: bikeId });
 });
 
+test('given: bike with specific ID does not exist, when: getBikeById is called, then: it throws an error', async () => {
+    const bikeId = 999;
+    mockBikeDbGetBikeById.mockResolvedValue(null);
+
+    await expect(bikeService.getBikeById(bikeId))
+        .rejects
+        .toThrow(`Bike with id: ${bikeId} does not exist.`);
+    expect(mockBikeDbGetBikeById).toHaveBeenCalledWith({ id: bikeId });
+});
+
 
 test('given: valid bike input, when: createBike is called, then: it creates and returns the bike', async () => {
     const input = { brand: "Giant", model: "Road", location: "Berlin", size: "L" as size, cost: 200 };
@@ -85,6 +95,17 @@ test('given: valid bike ID and update input, when: updateBikeById is called, the
     expect(mockBikeDbUpdateBikeById).toHaveBeenCalledWith(updatedBikeInput, bikeId);
 });
 
+test('given: non-existent bike ID, when: updateBikeById is called, then: it throws an error', async () => {
+    const bikeId = 999;
+    const updatedBikeInput = { brand: "Cannondale", model: "Hybrid", location: "Hamburg", size: "M" as size, cost: 150 };
+
+    mockBikeDbGetBikeById.mockResolvedValue(null);
+
+    await expect(bikeService.updateBikeById(updatedBikeInput, bikeId))
+        .rejects
+        .toThrow(`Bike with id: ${bikeId} does not exist.`);
+    expect(mockBikeDbGetBikeById).toHaveBeenCalledWith({ id: bikeId });
+});
 
 test('given: bike with specific ID exists, when: deleteBikeById is called, then: it deletes and returns the bike', async () => {
     const bikeId = 1;

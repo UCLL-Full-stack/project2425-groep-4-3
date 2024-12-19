@@ -6,7 +6,7 @@ import userDb from "../repository/user.db";
 const getAllBikes = async (): Promise<Bike[]> => bikeDb.getAllBikes();
 
 const getBikeById = async (id: number): Promise<Bike | null> => {
-    const bike = bikeDb.getBikeById({ id });
+    const bike = await bikeDb.getBikeById({ id });
     if (!bike) throw new Error(`Bike with id: ${id} does not exist.`);
     return bike;
 };

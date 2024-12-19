@@ -5,11 +5,16 @@ import { AccessoryInput } from "../types";
 
 const getAllAccessories = async (): Promise<Accessory[]> => accessoryDb.getAllAccessories();
 
+
+
 const getAccessoryById = async (id: number): Promise<Accessory | null> => {
-    const accessory = accessoryDb.getAccessoryById({ id });
-    if (!accessory) throw new Error(`Accessory with id: ${id} does not exist.`);
+    const accessory = await accessoryDb.getAccessoryById({ id });
+    if (!accessory) {
+        throw new Error(`Accessory with id: ${id} does not exist.`);
+    }
     return accessory;
 };
+
 
 const createAccessory = async ({
     name,
