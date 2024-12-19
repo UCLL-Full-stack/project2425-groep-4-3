@@ -29,6 +29,7 @@ const RentOverviewTable: React.FC<Props> = ({ rents }: Props) => {
   useEffect(() => {
     setUpdatedRents(rents)
   }, [rents]);
+  
 
 
   return (
@@ -45,6 +46,9 @@ const RentOverviewTable: React.FC<Props> = ({ rents }: Props) => {
             <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">
               Bike
             </th>
+            <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600">
+              Accessories
+            </th>
             <th scope="col" className="py-3 px-4 text-left text-sm font-medium text-gray-600"></th>
           </tr>
         </thead>
@@ -58,6 +62,11 @@ const RentOverviewTable: React.FC<Props> = ({ rents }: Props) => {
               <td className="py-3 px-4 text-sm text-gray-800">{rent.cost}</td>
               <td className="py-3 px-4 text-sm text-gray-800">
                 {rent.bike ? rent.bike.brand + " " + rent.bike.model : ""}
+              </td>
+              <td className="py-3 px-4 text-sm text-gray-800">
+                {Array.isArray(rent.accessories) && rent.accessories.length > 0
+                  ? rent.accessories.map((acc) => acc.name).join(", ")
+                  : "No accessories"}
               </td>
               <td className="py-3 px-4">
                 <button

@@ -73,6 +73,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
 import { UserInput, AuthenticationRequest } from '../types';
 import { error } from 'console';
+import { User } from '../model/User';
 
 const userRouter = express.Router();
 
@@ -80,6 +81,8 @@ const userRouter = express.Router();
  * @swagger
  * /users:
  *   get:
+ *     security:
+ *      - bearerAuth: []
  *     summary: Get a list of all users
  *     responses:
  *       200:
@@ -129,6 +132,45 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         res.status(200).json(user);
     } catch (error) {
         next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /users/makeAdmin/{name}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Change a user to admin
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         description: Username of the user to change to admin
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User successfully changed to admin
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: change was successful
+ *                 message:
+ *                   type: string
+ */
+userRouter.put('/makeAdmin/:name', async (req: Request , res: Response, next: NextFunction) => {
+    try {
+        const username = req.params.name;
+        console.log(username)
+        const result = await userService.makeUserAdmin(username)
+        res.status(200).json(result)
+    } catch (error) {
+        next(error)
     }
 });
 

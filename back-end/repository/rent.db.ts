@@ -121,9 +121,8 @@ const getRentByUserId = async ({ userId }: { userId: number }): Promise<Rent[]> 
                     id:userId
                 }
             },
-            include: { bike: true, user: true },
+            include: { bike: true, user: true, accessories: true },
         });
-        // console.log(userId)
         console.log(rentsPrisma)
         return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
     } catch (error) {
