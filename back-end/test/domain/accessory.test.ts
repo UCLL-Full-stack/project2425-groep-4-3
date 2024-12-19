@@ -33,6 +33,13 @@ test('given no amount, when Accessory is created, then throws an error', () => {
     expect(createAccessory).toThrow("Amount is required.");
 });
 
+test('given negative amount, when Accessory is created, then throws an error', () => {
+    const invalidAccessory = { ...validAccessory, amount: -2 };
+    const createAccessory = () => new Accessory(invalidAccessory);
+
+    expect(createAccessory).toThrow("Amount must be greater than 0.");
+});
+
 test('given no cost, when Accessory is created, then throws an error', () => {
     const invalidAccessory = { ...validAccessory, cost: 0 };
     const createAccessory = () => new Accessory(invalidAccessory);
@@ -40,6 +47,12 @@ test('given no cost, when Accessory is created, then throws an error', () => {
     expect(createAccessory).toThrow("Cost is required.");
 });
 
+test('given negatvive cost, when Accessory is created, then throws an error', () => {
+    const invalidAccessory = { ...validAccessory, cost: -2 };
+    const createAccessory = () => new Accessory(invalidAccessory);
+
+    expect(createAccessory).toThrow("Cost must be greater than 0.");
+});
 
 test('when id is set, then getId returns the correct value', () => {
     const accessory = new Accessory(validAccessory);
