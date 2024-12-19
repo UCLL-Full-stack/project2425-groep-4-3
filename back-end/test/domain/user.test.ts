@@ -10,7 +10,7 @@ const validUser = {
     email: "john.doe@example.com",
     age: 25,
     role: "ADMIN" as Role,
-    password: "securePassword",
+    password: "Password1",
 };
 
 // Tests
@@ -24,7 +24,7 @@ test('given valid values for User, when User is created, then User is created wi
     expect(user.getEmail()).toEqual("john.doe@example.com");
     expect(user.getAge()).toEqual(25);
     expect(user.getRole()).toEqual("ADMIN");
-    expect(user.getPassword()).toEqual("securePassword");
+    expect(user.getPassword()).toEqual("Password1");
 });
 
 test('given a missing name, when User is created, then throws an error', () => {
@@ -38,7 +38,7 @@ test('given an invalid email, when User is created, then throws an error', () =>
     const invalidUser = { ...validUser, email: "invalidEmail" };
     const createUser = () => new User(invalidUser);
 
-    expect(createUser).toThrow('Email must contain an @.');
+    expect(createUser).toThrow('Email must be valid.');
 });
 
 test('given an age less than 16, when User is created, then throws an error', () => {
@@ -52,7 +52,7 @@ test('given a password shorter than 6 characters, when User is created, then thr
     const invalidUser = { ...validUser, password: "12345" };
     const createUser = () => new User(invalidUser);
 
-    expect(createUser).toThrow('Password must be at least 6 characters long.');
+    expect(createUser).toThrow('Password must be at least 7 characters long.');
 });
 
 test('given two User objects with the same values, when equals is called, then returns true', () => {

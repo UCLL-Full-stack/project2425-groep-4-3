@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
 
 const getUserById = async (id: number): Promise<User | null> => {
-    const user = userDb.getUserById({ id });
+    const user = await userDb.getUserById({ id });
     if (!user) throw new Error(`User with id: ${id} does not exist.`);
     return user;
 };
@@ -22,7 +22,7 @@ const createUser = async ({
 }: UserInput): Promise<User> =>{
     const userCheck = await userDb.getUserByUsername(name);
     
-    if(userCheck != null){
+    if(userCheck != null || userCheck != undefined){
         throw new Error(`User with name: ${name} already exist.`);
     }
     const hashedPassword = await bcrypt.hash(password, 12)
@@ -30,6 +30,15 @@ const createUser = async ({
     const user = new User({name,email,age,role,password:hashedPassword});
     return await userDb.createUser(user)
 }
+
+const makeUserAdmin = async (username : string) : Promise<User>  => {
+    const user = await userDb.getUserByUsername(username);
+    if (!user) {
+        throw new Error(`User with name: ${username} does not exist.`);
+    }
+    const result = await userDb.makeUserCoach(user);
+    return result;
+    } 
 
 const getUserByUsername = async ({ name }: { name: string }): Promise<User> => {
     if(name === undefined){
@@ -46,12 +55,9 @@ const getUserByUsername = async ({ name }: { name: string }): Promise<User> => {
 const authenticate = async ({name, password}: AuthenticationRequest): Promise<AuthenticationResponse> => {
     
     const user = await getUserByUsername({name});
-    // console.log(user)
-    if ((user == null)) {
+    if ((user === null || user === undefined)) {
         throw new Error(`Authanticate Error.`)
     };
-
-    console.log(user.getPassword())
 
     const isValidPassword = await bcrypt.compare(password, user.getPassword())
     if (!isValidPassword) {
@@ -66,4 +72,4 @@ const authenticate = async ({name, password}: AuthenticationRequest): Promise<Au
 };
 
 
-export default { getAllUsers, getUserById, createUser, authenticate,getUserByUsername};
+export default { getAllUsers, getUserById, createUser, authenticate,getUserByUsername, makeUserAdmin };

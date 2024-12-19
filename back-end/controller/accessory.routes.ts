@@ -13,6 +13,7 @@
  *            id:
  *              type: number
  *              format: int64
+ *              description: Id of the accessory
  *            name:
  *              type: string
  *              description: Name of the accessory
@@ -22,8 +23,8 @@
  *              format: int64
  *            cost:
  *              type: number
- *              description: Cost of the accessory.
  *              format: int64
+ *              description: Cost of the accessory.
  */
 import express, { NextFunction, Request, Response } from 'express';
 import accessoryService from '../service/accessory.service';

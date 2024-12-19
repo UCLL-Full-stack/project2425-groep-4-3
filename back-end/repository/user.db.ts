@@ -25,6 +25,33 @@ const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
     }
 }
 
+const makeUserCoach = async (user: User): Promise<User> => {
+    try {
+        const userPrisma = await database.user.update({
+            where: {
+                id: user.getId(),
+            },
+            data: {
+                name: user.getName(),
+                email: user.getEmail(),
+                age: user.getAge(),
+                password: user.getPassword(),
+                role: 'Admin',
+                rents: {
+                    connect: (user.getRents() || []).map(rent => ({ id: rent.getId() })),
+                },
+            },
+        
+        })
+
+        return User.from(userPrisma)
+
+    } catch (error) {
+        console.log(error)
+        throw new Error("Database error, see server log for more info.")
+    }
+}
+
 const createUser = async (user: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
@@ -62,5 +89,6 @@ export default {
     getAllUsers,
     getUserById,
     createUser,
-    getUserByUsername
+    getUserByUsername,
+    makeUserCoach
 };

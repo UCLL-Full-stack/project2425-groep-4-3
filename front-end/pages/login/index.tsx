@@ -4,6 +4,7 @@ import UserLoginForm from "@components/users/UserLoginForm";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import UserLoginInfo from "@components/users/UserLoginInfo";
 
 const Login: React.FC = () => {
     const { t } = useTranslation();
@@ -17,8 +18,12 @@ const Login: React.FC = () => {
             <main>
                 <section className="p-6 min-h-screen flex flex-col items-center">
                     <UserLoginForm />
+                    <UserLoginInfo/>
                 </section>
+                
+                
             </main>
+            
         </>
     );
 };

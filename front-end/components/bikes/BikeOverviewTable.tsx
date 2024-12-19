@@ -18,15 +18,15 @@ const BikeOverviewTable: React.FC<Props> = ({ bikes, rents, accessories }: Props
     setShowForm(true);
   };
 
-  const submitForm = () => {
-    setShowForm(false);
-    setSelectedBike(null);
-  };
+ 
 
   const isBikeRented = (bike: Bike): boolean => {
-    return rents.some(rent => rent.bike.id === bike.id);
+    if (!rents || rents.length === 0) {
+      return false;
+    }
+    return rents.some(rent => rent.bike && rent.bike.id === bike.id);
   };
-
+  
   return (
     <>
       {bikes && (

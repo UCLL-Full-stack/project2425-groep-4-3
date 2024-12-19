@@ -23,7 +23,7 @@ export type Rent = {
     cost: number;
     bike: Bike;
     user: User;
-    accessoriesIdList: number[];
+    accessories: Accessory[];
 };
 
 export type RentInputCreate = {
@@ -47,3 +47,4 @@ export type Accessory = {
     cost: number;
 };
   
+export type size = "S" | "M" | "L" | "XL"

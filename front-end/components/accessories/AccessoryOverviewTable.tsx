@@ -6,7 +6,7 @@ type Props = {
   onAccessorySelectionChange: (selectedAccessories: Accessory[]) => void;
 };
 
-const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelectionChange  }: Props) => {
+const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelectionChange  }) => {
   
   const [selectedAccessories, setSelectedAccessories] = useState<Accessory[]>([]);
   
@@ -24,9 +24,7 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
   // };
   
   const isAccessorySelected = (accessory: Accessory ) => {
-    if(selectedAccessories.includes(accessory))
-      return accessory;
-    return null;
+    return selectedAccessories.includes(accessory);
   };
 
 
@@ -38,15 +36,20 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
   //   });
   // };
   
-  const accessorySelection = (event: React.MouseEvent<HTMLButtonElement>,accessory: Accessory) => {
+  const accessorySelection = (event: React.MouseEvent<HTMLButtonElement>, accessory: Accessory) => {
     event.preventDefault();
     setSelectedAccessories((prevAccessories) => {
       const isSelected = prevAccessories.includes(accessory);
-      const updatedAccessories = isSelected? prevAccessories.filter((item) => item !== accessory): [...prevAccessories, accessory];
-      onAccessorySelectionChange(updatedAccessories);
+      const updatedAccessories = isSelected
+        ? prevAccessories.filter((item) => item !== accessory)
+        : [...prevAccessories, accessory];
       return updatedAccessories;
     });
+  };
 
+  const handleSendSelection = () => {
+    // Send the selected accessories to the parent when the button is clicked
+    onAccessorySelectionChange(selectedAccessories);
   };
   
   
@@ -118,9 +121,20 @@ const AccessoryOverviewTable: React.FC<Props> = ({ accessories, onAccessorySelec
             ))}
           </tbody>
         </table>
+
+        
         
       )}
-      <p className="pt-2 text-lg">Selected accessories: {selectedAccessories.map((accessory) => accessory.name).join(", ")}</p>
+
+      <div className="mt-4">
+        <button
+          onClick={handleSendSelection}
+          className="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Submit
+        </button>
+      </div>
+
       
     </>
   );

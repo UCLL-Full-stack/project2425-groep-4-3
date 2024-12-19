@@ -1,6 +1,6 @@
 import { Bike } from "../model/Bike";
 import { Rent } from "../model/Rent";
-import { RentInput, RentInputCreate, RentInputUpdate } from "../types";
+import { RentInputUpdate } from "../types";
 import database from "../util/database";
 
 const getAllRents = async (): Promise<Rent[]> => {
@@ -121,9 +121,8 @@ const getRentByUserId = async ({ userId }: { userId: number }): Promise<Rent[]> 
                     id:userId
                 }
             },
-            include: { bike: true, user: true },
+            include: { bike: true, user: true, accessories: true },
         });
-        // console.log(userId)
         console.log(rentsPrisma)
         return rentsPrisma.map((rentPrisma) => Rent.from(rentPrisma));
     } catch (error) {

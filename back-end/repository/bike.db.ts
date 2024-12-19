@@ -1,6 +1,7 @@
 import { run } from "node:test";
 import { Bike } from "../model/Bike";
 import database from "../util/database";
+import { BikeInput } from "../types";
 
 
 const getAllBikes = async (): Promise<Bike[]> => {
@@ -44,10 +45,44 @@ const createBike = async (bike: Bike): Promise<Bike> => {
   }
 };
 
+const updateBikeById = async(bike : BikeInput,id : number): Promise<Bike> =>{
+    try{
+        const bikePrisma = await database.bike.update({
+            where:{
+                id:id
+            },
+            data:{
+                brand: bike.brand,
+                model: bike.model,
+                location: bike.location,
+                size:bike.size,
+                cost:bike.cost
+            }
+        })
+        return Bike.from(bikePrisma);
+    }catch(error){
+        throw error
+    }
+}
+
+const deleteBikeById = async (id : number) : Promise<Bike> => {
+    try {
+        const bikeToDelete = await database.bike.delete({
+            where: {
+                id: id,
+            }
+        });
+        return Bike.from(bikeToDelete);
+    } catch (error) {
+        console.log("Error occurred while deleting bike by id.")
+        throw error;
+    };
+};
 
 export default {
     getAllBikes,
     getBikeById,
-    createBike
-    // updateBike
+    createBike,
+    updateBikeById,
+    deleteBikeById
 };

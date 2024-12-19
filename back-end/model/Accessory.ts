@@ -21,8 +21,14 @@ export class Accessory{
         if (!accessory.amount) {
           throw new Error("Amount is required.");
         }
+        if(accessory.amount < 0){
+            throw new Error("Amount must be greater than 0.");
+        }
         if (!accessory.cost) {
           throw new Error("Cost is required.");
+        }
+        if(accessory.cost < 0){
+            throw new Error("Cost must be greater than 0.");
         }
     }
 

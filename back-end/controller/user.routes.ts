@@ -13,6 +13,7 @@
  *            id:
  *              type: number
  *              format: int64
+ *              description: Id of the user
  *            name:
  *              type: string
  *              description: Name of the user
@@ -29,13 +30,13 @@
  *              type: string
  *              description: Password of the user
  *      AuthenticationResponse:
- *              type: object   
+ *              type: object
  *              properties:
  *                message:
  *                   type: string
  *                   format: byte
  *                token:
- *                  type: string    
+ *                  type: string
  *                  format: byte
  *                username:
  *                  type: string
@@ -72,6 +73,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
 import { UserInput, AuthenticationRequest } from '../types';
 import { error } from 'console';
+import { User } from '../model/User';
 
 const userRouter = express.Router();
 
@@ -79,10 +81,12 @@ const userRouter = express.Router();
  * @swagger
  * /users:
  *   get:
- *     summary: Get a list of all users.
+ *     security:
+ *      - bearerAuth: []
+ *     summary: Get a list of all users
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: A list of users
  *         content:
  *           application/json:
  *             schema:
@@ -105,17 +109,17 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *  get:
  *      security:
  *       - bearerAuth: [] 
- *      summary: Get a user by ID.
+ *      summary: Get a user by Id
  *      parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the user to return.
+ *         description: Id of the user to return
  *         schema:
  *          type: integer
  *      responses:
  *       200:
- *        description: A user object.
+ *        description: A user object
  *        content:
  *          application/json:
  *            schema:
@@ -128,6 +132,45 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         res.status(200).json(user);
     } catch (error) {
         next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /users/makeAdmin/{name}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Change a user to admin
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         description: Username of the user to change to admin
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User successfully changed to admin
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: change was successful
+ *                 message:
+ *                   type: string
+ */
+userRouter.put('/makeAdmin/:name', async (req: Request , res: Response, next: NextFunction) => {
+    try {
+        const username = req.params.name;
+        console.log(username)
+        const result = await userService.makeUserAdmin(username)
+        res.status(200).json(result)
+    } catch (error) {
+        next(error)
     }
 });
 
@@ -181,7 +224,6 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  *                          schema: 
  *                              $ref:  "#/components/schemas/User"                        
  */ 
-
 userRouter.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
