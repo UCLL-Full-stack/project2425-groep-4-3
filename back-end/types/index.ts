@@ -5,7 +5,6 @@ type size = "S" | "M" | "L" | "XL"
 type Role = "admin" | "renter" | "owner"
 
 type BikeInput = {
-    id?: number;
     brand: string;
     model: string;
     location: string;

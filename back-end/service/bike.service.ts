@@ -3,6 +3,7 @@ import { Bike } from "../model/Bike";
 import bikeDb from "../repository/bike.db";
 import { BikeInput, Role } from "../types";
 import userDb from "../repository/user.db";
+import { UnauthorizedError } from "express-jwt";
 const getAllBikes = async (): Promise<Bike[]> => bikeDb.getAllBikes();
 
 const getBikeById = async (id: number): Promise<Bike | null> => {
@@ -17,14 +18,15 @@ const createBike = async ({
     location,
     size,
     cost
-}: BikeInput): Promise<Bike> =>{//role : string
-    // if(role === "owner" || role === "admin"){
+}: BikeInput, role : string): Promise<Bike> =>{//role : string
+    console.log(role)
+    if(role == "Owner" || role == "Admin" ){
         const bike = new Bike({brand,model,location,size,cost});
         return await bikeDb.createBike(bike)
-    // }
-    // else{
-    //     throw new Error("You don't have permission to do this.")
-    // }
+    }
+    else{
+        throw new UnauthorizedError("credentials_required",{message:"Unauthorized"})
+    }
 }
 
 const updateBikeById = async(bike : BikeInput,id:number): Promise<Bike> =>{

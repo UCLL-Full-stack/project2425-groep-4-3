@@ -33,9 +33,6 @@
  *      BikeInput:
  *          type: object
  *          properties:
- *            id:
- *              type: number
- *              format: int64
  *            brand:
  *              type: string
  *              description: Brand Bike
@@ -141,13 +138,13 @@ bikeRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  */
 bikeRouter.post("/",async (req : Request , res:Response, next: NextFunction) =>{
     try{
-        // const {name, role} = req.auth;
+        const request = req as Request & {auth: {role : Role}}
         const bike = <BikeInput>req.body;
-        const result = bikeService.createBike(bike)//,role)
+        const result = bikeService.createBike(bike,request.auth.role)//,role)
         return res.status(200).json(result);
     }
     catch(error){
-        next(error);
+        next(error)
     }
 });
 
