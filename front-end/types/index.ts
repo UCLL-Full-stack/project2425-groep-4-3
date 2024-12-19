@@ -23,7 +23,7 @@ export type Rent = {
     cost: number;
     bike: Bike;
     user: User;
-    accessoriesIdList: number[];
+    accessories: Accessory[];
 };
 
 export type RentInputCreate = {

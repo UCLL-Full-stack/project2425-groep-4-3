@@ -125,8 +125,7 @@ const RentForm: React.FC<RentFormProps> = ({selectedBike, accessories,onCancel}:
               </div>
               <AccessoryOverviewTable accessories={accessories} onAccessorySelectionChange={setSelectedAccessories}/>
 
-              <button type="submit" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];"> Submit </button>
-              <button type="button" className="cursor-pointer text-[white] bg-[rgb(0,128,255)] w-3/12 mt-4 p-2 rounded-lg border-[solid] border-[128,255)];" onClick={onCancel}>Cancel </button>
+              <button type="button" className="mt-3 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={onCancel}>Cancel </button>
           </form>
       </main>
     );

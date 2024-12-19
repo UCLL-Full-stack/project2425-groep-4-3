@@ -51,7 +51,7 @@ const Rents: React.FC = () => {
  
   const errorMerge =  errorRents || error;
 
-  
+  console.log(responseRents);
   return (
     <>
       <Head>
