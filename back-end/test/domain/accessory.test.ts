@@ -73,3 +73,35 @@ test('when cost is set, then getCost returns the correct value', () => {
     expect(accessory.getCost()).toEqual(20);
 });
 
+test('when amount is set negative, then throws an error', () => {
+    const accessory = new Accessory(validAccessory);
+    const setAmount = () => accessory.setAmount(-1);
+
+    expect(setAmount).toThrow("Amount must be greater than 0.");
+});
+
+test('when amount is set empty, then throws an error', () => {
+    const accessory = new Accessory(validAccessory);
+    const setAmount = () => accessory.setAmount(null as any);
+
+    expect(setAmount).toThrow("Amount is required.");
+});
+
+test('when cost is set negative, then throws an error', () => {
+    const accessory = new Accessory(validAccessory);
+    const setCost = () => accessory.setCost(-1);
+
+    expect(setCost).toThrow("Cost must be greater than 0.");
+});
+
+test('when cost is set empty, then throws an error', () => {
+    const accessory = new Accessory(validAccessory);
+    const setCost = () => accessory.setCost(null as any);
+
+    expect(setCost).toThrow("Cost is required.");
+});
+
+
+
+
+
