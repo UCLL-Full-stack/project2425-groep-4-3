@@ -13,6 +13,7 @@
             "username":"Username:",
             "password":"Password:"
         },
+        "general.error":"Failed to login, try again.",
         "button":"Login",
         "succes":"succes",
         "error":"Something went wrong with login, try again.",

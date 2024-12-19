@@ -12,6 +12,7 @@
             "username": "Gebruikersnaam:",
             "password": "Wachtwoord:"
         },
+        "general.error":"Inloggen mislukt, probeer opnieuw.",
         "button": "Inloggen",
         "success": "succes",
         "error": "Er is iets misgegaan met inloggen, probeer het opnieuw.",
