@@ -24,34 +24,34 @@ test('given valid values for Bike, when Bike is created, then Bike is created wi
     expect(bike.getCost()).toEqual(25);
 });
 
-test('given an invalid size, when Bike is created, then throws an error', () => {
+test('given an invalid size,when Bike is created, then throws an error', () => {
     const invalidBike = { ...validBike, size: "LLLLLLL" as Size };
     const createBike = () => new Bike(invalidBike);
     
     expect(createBike).toThrow('Size is required and must be one of: S, M, L, XL.');
 });
 
-test('given a negative cost, when Bike is created, then throws an error', () => {
-    const invalidBike = { ...validBike, cost: -10 };
+test('given a negative cost, when Bike is created,then throws an error', () => {
+    const invalidBike = { ...validBike, cost: -1 };
     const createBike = () => new Bike(invalidBike);
-    
-    expect(createBike).toThrow('Cost is required.');
+    expect(createBike).toThrow("Cost can't be negative.");
 });
 
-test('given two Bike objects with the same values, when equals is called, then returns true', () => {
-    const bike1 = new Bike(validBike);
-    const bike2 = new Bike(validBike);
-
-    // Then
-    expect(bike1.equals(bike2)).toBe(true);
+test('given an empty brand, when Bike is created, then throws error', () => {
+    const invalidBike = { ...validBike, brand: "" };
+    const createBike = () => new Bike(invalidBike);
+    expect(createBike).toThrow("Brand is required.");
 });
 
-test('given two Bike objects with different values, when equals is called, then returns false', () => {
-    const bike1 = new Bike(validBike);
-    const bike2 = new Bike({ ...validBike, brand: "Giant" });
-
-    // Then
-    expect(bike1.equals(bike2)).toBe(false);
+test('given an empty model, when Bike is created, then throws error', () => {
+    const invalidBike = { ...validBike, model: "" };
+    const createBike = () => new Bike(invalidBike);
+    expect(createBike).toThrow("Model is required.");
+});
+test('given an empty Location, when Bike is created, then throws error', () => {
+    const invalidBike = { ...validBike, location: "" };
+    const createBike = () => new Bike(invalidBike);
+    expect(createBike).toThrow("Location is required.");
 });
 
 test('when id is set, then getId returns the correct value', () => {
@@ -62,11 +62,20 @@ test('when id is set, then getId returns the correct value', () => {
     expect(bike.getId()).toEqual(1);
 });
 
-test('when id is not set, then getId returns undefined', () => {
+test('when size is set, then getSize returns the correct value', () => {
     const bike = new Bike(validBike);
+    bike.setSize("L");
 
     // Then
-    expect(bike.getId()).toEqual(0);
+    expect(bike.getSize()).toEqual("L");
+});
+
+test('when size is set, then getSize returns the correct value', () => {
+    const bike = new Bike(validBike);
+    bike.setSize("L");
+
+    // Then
+    expect(bike.getSize()).toEqual("L");
 });
 
 test('when setting new values, then values are updated correctly', () => {

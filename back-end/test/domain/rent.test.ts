@@ -20,7 +20,7 @@ const validUser = {
     email: "john.doe@example.com",
     age: 25,
     role: "USER" as Role,
-    password: "securePassword",
+    password: "securePassword1",
 };
 
 const validAccessory = {

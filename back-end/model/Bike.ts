@@ -32,13 +32,13 @@ export class Bike{
         if (!bike.cost) {
             throw new Error("Cost is required.");
         }
-        if (!bike.brand) {
+        if (!bike.brand || bike.brand.trim() === '') {
           throw new Error("Brand is required.");
         }
-        if (!bike.model) {
+        if (!bike.model || bike.model.trim() === '') {
           throw new Error("Model is required.");
         }
-        if (!bike.location) {
+        if (!bike.location || bike.location.trim() === '') {
           throw new Error("Location is required.");
         }
 

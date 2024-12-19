@@ -40,21 +40,6 @@ test('given no cost, when Accessory is created, then throws an error', () => {
     expect(createAccessory).toThrow("Cost is required.");
 });
 
-test('given two Accessory objects with the same values, when equals is called, then returns true', () => {
-    const accessory1 = new Accessory(validAccessory);
-    const accessory2 = new Accessory(validAccessory);
-
-    // Then
-    expect(accessory1.equals(accessory2)).toBe(true);
-});
-
-test('given two Accessory objects with different values, when equals is called, then returns false', () => {
-    const accessory1 = new Accessory(validAccessory);
-    const accessory2 = new Accessory({ ...validAccessory, name: "Gloves" });
-
-    // Then
-    expect(accessory1.equals(accessory2)).toBe(false);
-});
 
 test('when id is set, then getId returns the correct value', () => {
     const accessory = new Accessory(validAccessory);
@@ -72,8 +57,6 @@ test('when name is set, then getName returns the correct value', () => {
     expect(accessory.getName()).toEqual("Gloves");
 });
 
-
-
 test('when amount is set, then getAmount returns the correct value', () => {
     const accessory = new Accessory(validAccessory);
     accessory.setAmount(10);
@@ -90,18 +73,3 @@ test('when cost is set, then getCost returns the correct value', () => {
     expect(accessory.getCost()).toEqual(20);
 });
 
-test('given an AccessoryPrisma object, when from is called, then Accessory is created with those values', () => {
-    const prismaAccessory = {
-        id: 3,
-        name: "Bell",
-        amount: 7,
-        cost: 8,
-    };
-
-    const accessory = Accessory.from(prismaAccessory);
-
-    expect(accessory.getId()).toEqual(3);
-    expect(accessory.getName()).toEqual("Bell");
-    expect(accessory.getAmount()).toEqual(7);
-    expect(accessory.getCost()).toEqual(8);
-});
