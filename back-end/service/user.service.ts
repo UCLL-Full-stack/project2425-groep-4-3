@@ -31,6 +31,15 @@ const createUser = async ({
     return await userDb.createUser(user)
 }
 
+const makeUserAdmin = async (username : string) : Promise<User>  => {
+    const user = await userDb.getUserByUsername(username);
+    if (!user) {
+        throw new Error(`User with name: ${username} does not exist.`);
+    }
+    const result = await userDb.makeUserCoach(user);
+    return result;
+    } 
+
 const getUserByUsername = async ({ name }: { name: string }): Promise<User> => {
     if(name === undefined){
         throw new Error(`Username:${name} is not correct.`)
@@ -66,4 +75,4 @@ const authenticate = async ({name, password}: AuthenticationRequest): Promise<Au
 };
 
 
-export default { getAllUsers, getUserById, createUser, authenticate,getUserByUsername};
+export default { getAllUsers, getUserById, createUser, authenticate,getUserByUsername, makeUserAdmin };
