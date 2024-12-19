@@ -59,7 +59,7 @@ const UserSignupForm: React.FC = () => {
     if (!role || role.trim() === "") {
       setRoleError(t("signup.validate.role"));
       result = false;
-    } else if (role !== "owner" && role !== "renter") {
+    } else if (role !== "Owner" && role !== "Renter") {
       setRoleError(t("signup.validate.roleFormat"));
       result = false;
     }
@@ -178,8 +178,8 @@ const UserSignupForm: React.FC = () => {
           <option value="" disabled>
             -- Select a role --
           </option>
-          <option value="owner">owner</option>
-          <option value="renter">renter</option>
+          <option value="Owner">owner</option>
+          <option value="Renter">renter</option>
         </select>
         {roleError && <div className="text-red-800">{roleError}</div>}
 

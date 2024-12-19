@@ -75,7 +75,7 @@ const UserLoginForm: React.FC = () => {
     } else {
       setStatusMessages([
         {
-          message: t("general.error"),
+          message: t("login.general.error"),
           type: "error",
         },
       ]);

@@ -12,7 +12,18 @@ import useInterval from 'use-interval';
 import AddBikeForm from '@components/bikes/AddBikeForm';
 
 const Bikes: React.FC = () => {
+
+  const [loggedInUser, setLoggedInUser] = useState<User | undefined>(undefined);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("loggedInUser");
   
+    if (!loggedInUser) {
+      return;
+    }
+    setLoggedInUser(JSON.parse(loggedInUser));
+  }, []);
+
   // const [bikes, setBikes] = useState<Array<Bike>>();
   // const [rents, setRents] = useState<Array<Rent>>();
   const [error, setError] = useState<string>();
@@ -108,14 +119,16 @@ const Bikes: React.FC = () => {
             <p className="text-red-500">Error loading data: {error}</p>
           )}
 
-          <div className="flex justify-center my-6">
-            <button 
-              onClick={toggleForm} 
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-            >
-              {formVisible ? 'Hide Form' : 'Add New Bike'}
-            </button>
-          </div>
+          {loggedInUser && (loggedInUser.role === 'Admin' || loggedInUser.role === 'Owner') && (
+            <div className="flex justify-center my-6">
+              <button
+                onClick={toggleForm}
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              >
+                {formVisible ? 'Hide Form' : 'Add New Bike'}
+              </button>
+            </div>
+          )}
 
           {formVisible && (
             <div className="my-4">

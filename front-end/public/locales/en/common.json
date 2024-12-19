@@ -2,8 +2,8 @@
 
     "app.title": "PedaLenen",
     "home": {
-        "title": "Welcome",
-        "info": "PedaLenen is a Bike renting application."
+        "title": "Welcome to Pedalenen – The platform for renting and sharing bikes",
+        "info": "At Pedalenen, we believe that cycling is more than just a mode of transportation, it’s freedom, adventure, and sustainability all in one. Whether you’re looking for a bike to tour for a day, need a quick city ride, or want to share your own bike with others, you’ve come to the right place."
         
     },
     "login":{
@@ -13,6 +13,7 @@
             "username":"Username:",
             "password":"Password:"
         },
+        "general.error":"Failed to login, try again.",
         "button":"Login",
         "succes":"succes",
         "error":"Something went wrong with login, try again.",

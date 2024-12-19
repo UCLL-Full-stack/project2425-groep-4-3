@@ -45,6 +45,9 @@ export class Accessory{
     }
 
     public setName(name: string): void {
+        if (!name) {
+            throw new Error("Name is required.");
+        }
         this.name = name;
     }
 
@@ -53,6 +56,11 @@ export class Accessory{
     }
 
     public setAmount(amount: number): void {
+        if (!amount) {
+            throw new Error("Amount is required.");
+        } else if(amount < 0){
+            throw new Error("Amount must be greater than 0.");
+        }
         this.amount = amount;
     }
 
@@ -61,6 +69,11 @@ export class Accessory{
     }
 
     public setCost(cost: number): void {
+        if (!cost) {
+            throw new Error("Cost is required.");
+        } else if(cost < 0){
+            throw new Error("Cost must be greater than 0.");
+        }
         this.cost = cost;
     }
 
