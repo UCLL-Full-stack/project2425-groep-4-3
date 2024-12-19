@@ -72,6 +72,8 @@ test('when name is set, then getName returns the correct value', () => {
     expect(accessory.getName()).toEqual("Gloves");
 });
 
+
+
 test('when amount is set, then getAmount returns the correct value', () => {
     const accessory = new Accessory(validAccessory);
     accessory.setAmount(10);

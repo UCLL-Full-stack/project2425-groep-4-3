@@ -44,6 +44,7 @@ export class Rent{
             throw new Error('User is required.');
         }
 
+
     }
 
     getId(): number | undefined{

@@ -55,7 +55,7 @@ type RentInputCreate = {
     startDate: Date;
     returned: boolean;
     cost: number;
-    bike: Bike;
+    bikeId: number;
     name: string;
     accessoriesIdList: number[];
 };
