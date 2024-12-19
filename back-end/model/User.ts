@@ -94,22 +94,49 @@ export class User{
     }
 
     setName(name: string): void {
+        if(!name.trim()){
+            throw new Error('Name is required.');
+        }
         this.name = name;
     }
 
     setEmail(email: string): void {
+        if(!email.trim()){
+            throw new Error('Email is required.');
+        }
+        if(!email.includes('@') || !email.includes('.')){
+            throw new Error('Email must be valid.');
+        }
         this.email = email;
     }
 
     setAge(age: number): void {
+        if(!age){
+            throw new Error('Age is required.');
+        }
+        if(age < 16){
+            throw new Error('Minimum age is 16 years.');
+        }
         this.age = age;
     }
 
     setRole(role: Role): void {
+        if(!role){
+            throw new Error('Role is required.');
+        }
         this.role = role;
     }
 
     setPassword(password: string): void {
+        if(!password?.trim()){
+            throw new Error('Password is required.');
+        }
+        if(password.length < 7){
+            throw new Error('Password must be at least 7 characters long.');
+        }
+        if (!/[A-Z]/.test(password)) {
+            throw new Error('Password must contain at least one number and one uppercase letter.');
+        }
         this.password = password;
     }
 

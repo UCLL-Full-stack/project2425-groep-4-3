@@ -1,163 +1,182 @@
-// import { set } from "date-fns";
-// import { Bike } from "../../model/Bike";
-// import { Rent } from "../../model/Rent";
-// import bikeDb from "../../repository/bike.db";
-// import rentDb from "../../repository/rent.db";
-// import rentService from "../../service/rent.service";
-// import { BikeInput, RentInputCreate, size } from "../../types";
-// import { Accessory } from "../../model/Accessory";
-// import { User } from "../../model/User";
-// import userDb from "../../repository/user.db";
-// import AccessoryDb from "../../repository/accessory.db";
+import rentService from "../../service/rent.service";
+import rentDb from "../../repository/rent.db";
+import bikeDb from "../../repository/bike.db";
+import accessoryDb from "../../repository/accessory.db";
+import userDb from "../../repository/user.db";
+import { Rent } from "../../model/Rent";
+import { Bike } from "../../model/Bike";
+import { Accessory } from "../../model/Accessory";
+import { User } from "../../model/User";
+import { add } from "date-fns";
 
-// const currentDate = new Date();
-// const startDate = set(currentDate, { hours: currentDate.getHours() + 1, minutes: currentDate.getMinutes() });
-// const returned = true;
+const validRenter = new User({ id: 1, name: 'John', email: 'John@gmail.com', age: 30, role: 'renter', password: 'Password1' });
+const validBike = new Bike({ id: 1, brand: 'Trek', model: 'Mountain', location: 'Halle', size: 'M', cost: 100 });
+const validAccessory1 = new Accessory({ id: 1, name: 'Helmet', amount: 1, cost: 10 });
+const validAccessory2 = new Accessory({ id: 2, name: 'Lock', amount: 1, cost: 5 });
+const mockRent = new Rent({ id: 1, startDate: new Date(), returned: false, cost: 100, bike: validBike, user: validRenter, accessories: [validAccessory1, validAccessory2] });
 
-// const mockUser1 = new User({ id: 1, name: 'Alice', email: 'alice@example.com', age: 30, role: 'renter', password: 'Password1' });
+let mockRentDbGetAllRents: jest.Mock;
+let mockRentDbGetRentById: jest.Mock;
+let mockRentDbCreateRent: jest.Mock;
+let mockRentDbDeleteRentById: jest.Mock;
+let mockRentDbUpdateRentById: jest.Mock;
+let mockBikeDbGetBikeById: jest.Mock;
+let mockAccessoryDbGetAccessoryById: jest.Mock;
+let mockUserDbGetUserByUsername: jest.Mock;
 
-// const validBike = new Bike({
-//     id: 1,
-//     brand: "Trek",
-//     model: "Domane AL 2",
-//     location: "Brussels",
-//     size: "M",
-//     cost: 25,
-// });
+beforeEach(() => {
+    mockRentDbGetAllRents = jest.fn();
+    mockRentDbGetRentById = jest.fn();
+    mockRentDbCreateRent = jest.fn();
+    mockRentDbDeleteRentById = jest.fn();
+    mockRentDbUpdateRentById = jest.fn();
+    mockBikeDbGetBikeById = jest.fn();
+    mockAccessoryDbGetAccessoryById = jest.fn();
+    mockUserDbGetUserByUsername = jest.fn();
 
-// const validAccessory = new Accessory({
-//     id: 1,
-//     name: "Helmet",
-//     amount : 1,
-//     cost: 5,
-// });
+    rentDb.getAllRents = mockRentDbGetAllRents;
+    rentDb.getRentById = mockRentDbGetRentById;
+    rentDb.createRent = mockRentDbCreateRent;
+    rentDb.deleteRentById = mockRentDbDeleteRentById;
+    rentDb.updateRentById = mockRentDbUpdateRentById;
+    bikeDb.getBikeById = mockBikeDbGetBikeById;
+    accessoryDb.getAccessoryById = mockAccessoryDbGetAccessoryById;
+    userDb.getUserByUsername = mockUserDbGetUserByUsername;
+});
 
-// const cost = validBike.getCost() + 20
+afterEach(() => {
+    jest.clearAllMocks();
+});
 
-// let getAllRentsDbMock: jest.Mock;
-// let getRentByIdDbMock: jest.Mock;
-// let createRentDbMock: jest.Mock;
-// let getBikeByIdDbMock: jest.Mock;
-// let getAccessoryByIdDbMock: jest.Mock;
-// let getAllAccessoriesDbMock: jest.Mock;
-// let getAllUsersDbMock: jest.Mock;
-// let getUserByIdDbMock: jest.Mock;
-
-
-// const validRent = new Rent({startDate,returned,cost,bike: validBike, user: mockUser1, accessories: [validAccessory]});
-
-// const BikeID = validBike.getId();
-// if (!BikeID) {
-//     throw new Error('Bike ID is required.');
-// }
-
-// const rentInput: RentInputCreate = {
+test('given: rents exist in database, when: getAllRents is called, then: it returns a list of rents', async () => {
     
-//     startDate,
-//     returned,
-//     cost,
-//     bikeId: BikeID,
-//     name: mockUser1.getName(),
-//     accessoriesIdList: [1,2]
-// }
-// beforeEach(() => {
-//     getAllRentsDbMock = jest.fn();
-//     getRentByIdDbMock = jest.fn();
-//     createRentDbMock = jest.fn();
-//     getBikeByIdDbMock = jest.fn();
-//     getAccessoryByIdDbMock = jest.fn();
-//     getAllAccessoriesDbMock = jest.fn();
-//     getAllUsersDbMock = jest.fn();
-//     getUserByIdDbMock = jest.fn();
-// });
+    mockRentDbGetAllRents.mockReturnValue([mockRent]);
 
-// afterEach(() => {
-//     jest.clearAllMocks();
-// });
+    const result = await rentService.getAllRents();
 
-// test("when getting all rents, then all rents should be returned", async () => {
-//     // given
-//     const rents: Rent[] = [validRent];
-//     rentDb.getAllRents = getAllRentsDbMock.mockResolvedValue(rents);
+    expect(result).toEqual([mockRent]);
+    expect(mockRentDbGetAllRents).toHaveBeenCalledTimes(1);
+});
 
-//     // when
-//     const allRents = await rentService.getAllRents();
+test('given: no rents in database, when: getAllRents is called, then: it returns an empty array', async () => {
+    mockRentDbGetAllRents.mockReturnValue([]);
 
-//     // then
-//     expect(getAllRentsDbMock).toHaveBeenCalledTimes(1);
-//     expect(allRents).toEqual(rents);
-// });
+    const result = await rentService.getAllRents();
 
-// test("given a valid rent ID, when retrieving the rent, then the correct rent should be returned", async () => {
-//     // given
-//     // const rent = new Rent({startDate,returned,cost,bike:validBbike});
-//     rentDb.getRentById = getRentByIdDbMock.mockResolvedValue(validRent);
+    expect(result).toEqual([]);
+    expect(mockRentDbGetAllRents).toHaveBeenCalledTimes(1);
+});
 
-//     // when
-//     const retrievedRent = await rentService.getRentById(1);
+test('given: rent with specific ID exists, when: getRentById is called, then: it returns the rent', async () => {
+    const rentId = 1;
+    mockRentDbGetRentById.mockReturnValue(mockRent);
 
-//     // then
-//     expect(getRentByIdDbMock).toHaveBeenCalledTimes(1);
-//     expect(getRentByIdDbMock).toHaveBeenCalledWith({ id: 1 });
-//     expect(retrievedRent).toEqual(validRent);
-// });
+    const result = await rentService.getRentById(rentId);
 
-// test("given an invalid rent ID, when retrieving the rent, then an exception should be thrown", async () => {
-//     // given
-//     const id = 99;
-//     rentDb.getRentById = getRentByIdDbMock.mockResolvedValue(null);
+    expect(result).toEqual(mockRent);
+    expect(mockRentDbGetRentById).toHaveBeenCalledWith({ id: rentId });
+});
 
-//     // when
-//     await expect(rentService.getRentById(id)).rejects.toThrow(`rent with id: ${id} does not exist.`);
-// });
+test('given: rent with specific ID does not exist, when: getRentById is called, then: it throws an error', async () => {
+    const rentId = 3;
+    mockRentDbGetRentById.mockReturnValue(null);
 
-// test("given a valid rent input, when renting a bike, then the rent should be created", async () => {
-//     // given
-//     bikeDb.getBikeById = getBikeByIdDbMock.mockResolvedValue(BikeID);
-//     userDb.getUserById = getUserByIdDbMock.mockResolvedValue(mockUser1);
-//     AccessoryDb.getAccessoryById = getAccessoryByIdDbMock.mockResolvedValue(validAccessory);
-//     rentDb.createRent = createRentDbMock.mockResolvedValue(validRent);
+    await expect(rentService.getRentById(rentId))
+        .rejects
+        .toThrow(`rent with id: ${rentId} does not exist.`);
+    expect(mockRentDbGetRentById).toHaveBeenCalledWith({ id: rentId });
+});
 
-
-//     // when
-//     const rent = await rentService.rentAbike(rentInput);
-
-//     // then
-//     expect(getBikeByIdDbMock).toHaveBeenCalledTimes(1);
-//     expect(getBikeByIdDbMock).toHaveBeenCalledWith({ id : rentInput.bikeId});
-//     expect(createRentDbMock).toHaveBeenCalledTimes(1);
-//     expect(createRentDbMock).toHaveBeenCalledWith(rentInput);
-//     expect(rent).toEqual(rentInput);
-// });
-
-// test("when renting a bike without bike input, then an exception should be thrown", async () => {
-//     // given
-//     const rentInput: RentInputCreate = { startDate: new Date(), returned: true, cost: 50, bikeId: BikeID, name: mockUser1.getName(), accessoriesIdList: [1,2] };
-
-//     // when
-//     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`No bike input.`);
-// });
-
-// test("when renting a bike without an ID, then an exception should be thrown", async () => {
-//     // given
-//     const bikeInputWithoutId : BikeInput = {
-//         brand: "Trek",
-//         model: "Domane AL 2",
-//         location: "Brussels",
-//         size: "M",
-//         cost: 25,
-//     }
-
-//     const rentInput: RentInputCreate = { startDate: new Date(), returned: true, cost: 50, bikeId: null };
-
-//     // when
-//     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`Id is required. undefined`);
-// });
-
-// test("when renting a bike with a non-existent bike ID, then an exception should be thrown", async () => {
-//     // given
-//     bikeDb.getBikeById = getBikeByIdDbMock.mockResolvedValue(null);
+test('given: valid Rent object, when: rentAbike is called, then: it creates and returns the rent', async () => {
     
-//     // when
-//     await expect(rentService.rentAbike(rentInput)).rejects.toThrow(`Bike with given Id not found.`);
-// });
+    mockBikeDbGetBikeById.mockResolvedValue(validBike);
+    mockUserDbGetUserByUsername.mockResolvedValue(validRenter);
+    mockAccessoryDbGetAccessoryById.mockResolvedValue(validAccessory1);
+    mockRentDbGetAllRents.mockResolvedValue([]);
+    mockRentDbCreateRent.mockResolvedValue(mockRent);
+
+    const accessoryIds = [validAccessory1.getId(), validAccessory2.getId()];
+    const currentdate = new Date();
+    const start = add(currentdate, { days: 1 });
+
+
+    const input = {
+        startDate: start,
+        returned: false,
+        cost: 100,
+        bike: {
+            id: validBike.getId() ?? 0, // Use a default value if `getId()` might return undefined
+            brand: validBike.getBrand(), // Extract other properties similarly
+            model: validBike.getModel(),
+            location: validBike.getLocation(),
+            size: validBike.getSize(),
+            cost: validBike.getCost(),
+        },
+        name: validRenter.getName(),
+        accessoriesIdList: accessoryIds.map(id => id ?? 0), // Ensure no `undefined` values
+    };
+    
+
+    const result = await rentService.rentAbike(input);
+
+    expect(result).toEqual(mockRent);
+    expect(mockBikeDbGetBikeById).toHaveBeenCalledWith({ id: input.bike.id });
+    expect(mockUserDbGetUserByUsername).toHaveBeenCalledWith(input.name);
+    expect(mockAccessoryDbGetAccessoryById).toHaveBeenCalledWith({ id: 1 });
+    expect(mockRentDbCreateRent).toHaveBeenCalledWith(expect.any(Rent));
+});
+
+test('given: start date in the past, when: rentAbike is called, then: it throws an error', async () => {
+    const accessoryIds = [validAccessory1.getId(), validAccessory2.getId()];
+
+    // Mocking to return valid accessories
+    mockAccessoryDbGetAccessoryById.mockImplementation(({ id }) => {
+        if (id === validAccessory1.getId()) return validAccessory1;
+        if (id === validAccessory2.getId()) return validAccessory2;
+        return null; // Simulate "not found" for other IDs
+    });
+
+    const input = {
+        startDate: new Date('2000-01-01'),
+        returned: false,
+        cost: 100,
+        bike: {
+            id: validBike.getId() ?? 0,
+            brand: validBike.getBrand(),
+            model: validBike.getModel(),
+            location: validBike.getLocation(),
+            size: validBike.getSize(),
+            cost: validBike.getCost(),
+        },
+        name: validRenter.getName(),
+        accessoriesIdList: accessoryIds.map(id => id ?? 0),
+    };
+
+    await expect(rentService.rentAbike(input))
+        .rejects
+        .toThrow('Start date cannot be in the past.');
+
+
+});
+
+
+test('given: rent exists, when: deleteRentById is called, then: it deletes and returns the rent', async () => {
+    const rentId = 1;
+    
+    mockRentDbGetRentById.mockResolvedValue(mockRent);
+    mockRentDbDeleteRentById.mockResolvedValue(mockRent);
+
+    const result = await rentService.deleteRentById(rentId);
+
+    expect(result).toEqual(mockRent);
+    expect(mockRentDbDeleteRentById).toHaveBeenCalledWith(rentId);
+});
+
+test('given: rent does not exist, when: deleteRentById is called, then: it throws an error', async () => {
+    const rentId = 2;
+    mockRentDbGetRentById.mockResolvedValue(null);
+
+    await expect(rentService.deleteRentById(rentId))
+        .rejects
+        .toThrow(`No rent with id ${rentId} found.`);
+});

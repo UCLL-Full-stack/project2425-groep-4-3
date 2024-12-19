@@ -68,6 +68,12 @@ export class Rent{
     }
 
     setStartDate(startDate: Date): void {
+        if(!startDate){
+            throw new Error('Start date is required.');
+        }
+        if(startDate < new Date()){
+            throw new Error('Start date cannot be in the past.');
+        }
         this.startDate = startDate;
     }
 
@@ -76,6 +82,12 @@ export class Rent{
     }
 
     setCost(cost: number): void {
+        if(cost < 0){
+            throw new Error('Cost cannot go under 0.');
+        }
+        if(!cost){
+            throw new Error('Cost is required.');
+        }
         this.cost = cost;
     }
     
@@ -84,6 +96,9 @@ export class Rent{
     }
 
     public setBike(bike: Bike): void {
+        if (!bike) {
+            throw new Error("Bike is required.");
+        }
         this.bike = bike;
     }
 
@@ -92,6 +107,9 @@ export class Rent{
     }
     
     setUser(user: User): void {
+        if (!user) {
+            throw new Error("User is required.");
+        }
         this.user = user;
     }
 

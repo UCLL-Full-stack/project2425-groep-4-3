@@ -99,4 +99,51 @@ test('when setting new values, then values are updated correctly', () => {
     expect(user.getPassword()).toEqual("newSecurePassword");
 });
 
+test('when setting a new name as an empty string, then throws an error', () => {
+    const user = new User(validUser);
+    const setName = () => user.setName("");
+
+    expect(setName).toThrow('Name is required.');
+});
+
+test('when setting a new email as an invalid email, then throws an error', () => {
+    const user = new User(validUser);
+    const setEmail = () => user.setEmail("invalidEmail");
+
+    expect(setEmail).toThrow('Email must be valid.');
+});
+
+test('when setting a new age less than 16, then throws an error', () => {
+    const user = new User(validUser);
+    const setAge = () => user.setAge(15);
+
+    expect(setAge).toThrow('Minimum age is 16 years.');
+});
+
+test('when setting a new password shorter than 6 characters, then throws an error', () => {
+
+    const user = new User(validUser);
+    const setPassword = () => user.setPassword("G12345");
+
+    expect(setPassword).toThrow('Password must be at least 7 characters long.');
+});
+
+test('when setting a new password with no numbers or caps, then throws an error', () => {
+
+    const user = new User(validUser);
+    const setPassword = () => user.setPassword("lololoaz");
+
+    expect(setPassword).toThrow('Password must contain at least one number and one uppercase letter.');
+});
+
+test('when setting a new role as an empty string, then throws an error', () => {
+    const user = new User(validUser);
+    const setRole = () => user.setRole("" as Role);
+
+    expect(setRole).toThrow('Role is required.');
+});
+
+
+
+
 

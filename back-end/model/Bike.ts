@@ -57,6 +57,9 @@ export class Bike{
     }
 
     public setBrand(brand: string): void {
+        if (!brand || brand.trim() === '') {
+            throw new Error("Brand is required.");
+        }
         this.brand = brand;
     }
 
@@ -65,6 +68,9 @@ export class Bike{
     }
 
     public setModel(model: string): void {
+        if (!model || model.trim() === '') {
+            throw new Error("Model is required.");
+        }
         this.model = model;
     }
 
@@ -73,6 +79,9 @@ export class Bike{
     }
 
     public setLocation(location: string): void {
+        if (!location || location.trim() === '') {
+            throw new Error("Location is required.");
+        }
         this.location = location;
     }
 
@@ -81,6 +90,12 @@ export class Bike{
     }
 
     public setSize(size: size): void {
+        if (!size) {
+            throw new Error("Size is required.");
+        }
+        if (!['S', 'M', 'L', 'XL'].includes(size)) {
+            throw new Error("Size must be one of: S, M, L, XL.");
+        }
         this.size = size;
     }
 
@@ -89,6 +104,12 @@ export class Bike{
     }
 
     public setCost(cost: number): void {
+        if (cost < 0) {
+            throw new Error("Cost can't be negative.");
+        }
+        if (!cost) {
+            throw new Error("Cost is required.");
+        }
         this.cost = cost;
     }
 

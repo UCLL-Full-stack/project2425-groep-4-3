@@ -1,4 +1,4 @@
-import { set } from "date-fns";
+import { add, set } from "date-fns";
 import { Rent } from "../../model/Rent";
 import { Bike } from "../../model/Bike";
 import { User } from "../../model/User";
@@ -84,7 +84,8 @@ test('when setting new values, then values are updated correctly', () => {
     const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
 
     // Update values
-    const newStartDate = set(new Date(), { hours: 6, minutes: 0 });
+    const currentDate = new Date();
+    const newStartDate = add(currentDate, { hours: 6});
     rent.setStartDate(newStartDate);
     rent.setReturned(true);
     rent.setCost(20);
@@ -111,6 +112,49 @@ test('when setting new bike, accessories and user, then values are updated corre
     expect(rent.getUser()).toEqual(newUser);
     expect(rent.getAccessories()).toEqual([newAccessory]);
 });
+
+test('when cost is set negative, then throws an error', () => {
+    const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
+    const setCost = () => rent.setCost(-1);
+
+    expect(setCost).toThrow('Cost cannot go under 0.');
+});
+
+test('when cost is set to null, then throws an error', () => {
+    const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
+    const setCost = () => rent.setCost(null as any);
+
+    expect(setCost).toThrow('Cost is required.');
+});
+
+test('when startDate is set to null, then throws an error', () => {
+    const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
+    const setStartDate = () => rent.setStartDate(null as any);
+
+    expect(setStartDate).toThrow('Start date is required.');
+});
+
+test('when startDate is set in the past, then throws an error', () => {
+    const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
+    const setStartDate = () => rent.setStartDate(set(new Date(), { hours: -1 }));
+
+    expect(setStartDate).toThrow('Start date cannot be in the past.');
+});
+
+test('when bike is set to null, then throws an error', () => {
+    const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
+    const setBike = () => rent.setBike(null as any);
+
+    expect(setBike).toThrow('Bike is required.');
+});
+
+test('when user is set to null, then throws an error', () => {
+    const rent = new Rent({ startDate, returned, cost: 12, bike, user, accessories: [accessory] });
+    const setUser = () => rent.setUser(null as any);
+
+    expect(setUser).toThrow('User is required.');
+});
+
 
 
 

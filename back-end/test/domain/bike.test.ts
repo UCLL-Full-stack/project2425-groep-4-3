@@ -31,10 +31,36 @@ test('given an invalid size,when Bike is created, then throws an error', () => {
     expect(createBike).toThrow('Size is required and must be one of: S, M, L, XL.');
 });
 
+test('when size is set to null, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setSize = () => bike.setSize(null as any)
+    expect(setSize).toThrow("Size is required.");
+});
+
+test('when size is set to SM, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setSize = () => bike.setSize('SM' as Size)
+    expect(setSize).toThrow("Size must be one of: S, M, L, XL.");
+});
+
 test('given a negative cost, when Bike is created,then throws an error', () => {
     const invalidBike = { ...validBike, cost: -1 };
     const createBike = () => new Bike(invalidBike);
     expect(createBike).toThrow("Cost can't be negative.");
+});
+
+
+
+test('when cost is set negative, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setCost = () => bike.setCost(-1)
+    expect(setCost).toThrow("Cost can't be negative.");
+});
+
+test('when cost is set to null, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setCost = () => bike.setCost(null as any)
+    expect(setCost).toThrow("Cost is required.");
 });
 
 test('given an empty brand, when Bike is created, then throws error', () => {
@@ -43,15 +69,34 @@ test('given an empty brand, when Bike is created, then throws error', () => {
     expect(createBike).toThrow("Brand is required.");
 });
 
+test('when brand is set to null, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setBrand = () => bike.setBrand(null as any)
+    expect(setBrand).toThrow("Brand is required.");
+});
+
 test('given an empty model, when Bike is created, then throws error', () => {
     const invalidBike = { ...validBike, model: "" };
     const createBike = () => new Bike(invalidBike);
     expect(createBike).toThrow("Model is required.");
 });
+
+test('when model is set to null, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setModel = () => bike.setModel(null as any)
+    expect(setModel).toThrow("Model is required.");
+});
+
 test('given an empty Location, when Bike is created, then throws error', () => {
     const invalidBike = { ...validBike, location: "" };
     const createBike = () => new Bike(invalidBike);
     expect(createBike).toThrow("Location is required.");
+});
+
+test('when location is set to null, then throws an error', () => {
+    const bike = new Bike(validBike);
+    const setLocation = () => bike.setLocation(null as any)
+    expect(setLocation).toThrow("Location is required.");
 });
 
 test('when id is set, then getId returns the correct value', () => {
